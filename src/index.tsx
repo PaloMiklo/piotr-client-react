@@ -1,15 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import http from './service/http.service';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+let config: unknown;
+
+(async () => {
+  const response = await http.get('/config.json');
+  console.log('response', response);
+  config = response;
+})();
+
+export const ConfigContext = React.createContext(config);
+
 root.render(
   <React.StrictMode>
-    <App />
+    <ConfigContext.Provider value={config}>
+      <App />
+    </ConfigContext.Provider>,
   </React.StrictMode>
 );
 
