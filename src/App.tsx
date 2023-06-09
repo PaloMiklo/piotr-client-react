@@ -1,5 +1,4 @@
-import './styles/App.scss';
-import MainWrapper from './components/main';
+import { MainWrapper } from './components/main';
 
 function App() {
   return (

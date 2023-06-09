@@ -1,4 +1,4 @@
 export const GENERAL_CONSTANTS = {
-    MOCK: '/dev',
-    BACKEND: '/api'
+    API: '/api',
+    RESPONSE_KEY: 'data'
 }
