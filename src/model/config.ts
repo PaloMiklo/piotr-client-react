@@ -10,6 +10,8 @@ export interface IDeliveryOption {
 }
 
 export interface IConfig {
+    apiPrefix: string,
+    apiKey: string,
     protocol: string;
     freeShipping: number;
     port: number;

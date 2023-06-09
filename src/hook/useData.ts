@@ -5,6 +5,8 @@ import http from '../service/http';
 export const useData = <T>(url: string) => {
     const [state, setState] = useState<T | undefined>();
 
+    console.log(process.env.REACT_APP_SERVER_URL)
+
     useEffect(() => {
         (async () => {
             const { data } = await http.get<T>(url);
