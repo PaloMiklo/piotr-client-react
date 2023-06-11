@@ -18,7 +18,7 @@ export interface IConfig {
     apiVersion: string;
     delivery: IDeliveryOption[];
     doMock: boolean;
-    mocks: IMocks[];
+    mocks: IMocks;
     mockSendOrder: IOrder;
     perPageDefault: number;
     pageOptions: IPageOption[];

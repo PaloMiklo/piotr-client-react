@@ -1,0 +1,23 @@
+import { IConfig } from "../model/config";
+
+export const configInitial: IConfig = {
+    apiPrefix: "",
+    apiKey: "",
+    freeShipping: 0,
+    protocol: "",
+    port: 0,
+    doMock: false,
+    apiVersion: "",
+    delivery: [],
+    mocks: {
+        products: [],
+        deletedProducts: [],
+        product: {},
+        orders: []
+    },
+    mockSendOrder: {},
+    perPageDefault: 0,
+    pageOptions: [],
+    storageExpiration: "",
+    countries: []
+};

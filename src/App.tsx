@@ -1,9 +1,9 @@
-import { MainWrapper } from './components/main';
+import MainWrapper from "./components/main"
 
 function App() {
   return (
     <div>
-      <MainWrapper></MainWrapper>
+      <MainWrapper />
     </div>
   );
 }
