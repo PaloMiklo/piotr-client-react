@@ -1,0 +1,45 @@
+$color-header-link: rgb(182, 182, 182);
+$color-header-link-hover: rgba(161, 161, 161, 0.474);
+$color-header-link-active: #696969;
+
+.navbar-nav {
+  ::selection {
+    color: none;
+    background: none;
+  }
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
+  line-height: 4rem;
+  margin-bottom: 0;
+
+  .nav-item {
+    letter-spacing: 0.2rem;
+    margin-right: 6rem;
+  }
+
+  li {
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  a {
+    color: $color-header-link;
+    text-transform: uppercase;
+    font-size: 1rem;
+    letter-spacing: 1rem;
+    text-decoration: none;
+
+    &:hover {
+      color: $color-header-link-hover;
+    }
+  }
+
+  .active {
+    color: $color-header-link-active;
+  }
+
+  .disabled {
+    pointer-events: none;
+  }
+}
