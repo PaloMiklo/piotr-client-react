@@ -9,21 +9,29 @@ const Cart = lazy(() => import('./components/cart/Cart'));
 
 const AppRoutes = () => (
     <Routes>
-        <Route path="/" element={<Suspense fallback={<Loading />}>
-            <Products />
-        </Suspense>} />
+        <Route path="/" element={
+            <Suspense fallback={<Loading />}>
+                <Products />
+            </Suspense>
+        } />
 
-        <Route path="/about" element={<Suspense fallback={<Loading />}>
-            <About />
-        </Suspense>} />
+        <Route path="/about" element={
+            <Suspense fallback={<Loading />}>
+                <About />
+            </Suspense>
+        } />
 
-        <Route path="/contact" element={<Suspense fallback={<Loading />}>
-            <Contact />
-        </Suspense>} />
+        <Route path="/contact" element={
+            <Suspense fallback={<Loading />}>
+                <Contact />
+            </Suspense>
+        } />
 
-        <Route path="/cart" element={<Suspense fallback={<Loading />}>
-            <Cart />
-        </Suspense>} />
+        <Route path="/cart" element={
+            <Suspense fallback={<Loading />}>
+                <Cart />
+            </Suspense>
+        } />
     </Routes>
 )
 
