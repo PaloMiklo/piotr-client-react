@@ -1,4 +1,4 @@
-import { IConfig } from "../model/config";
+import { IConfig } from "../../model/config";
 
 export const configInitial: IConfig = {
     apiPrefix: "",

@@ -1,14 +1,14 @@
 import { ReactElement, useEffect } from "react";
 import { Provider } from "react-redux";
-import ConfigContext from "../../context/config-ctx";
-import { ActionTypes } from "../../core/action";
-import { useAppDispatch } from "../../hook/app";
-import { useHttpGet } from "../../hook/useHttpGet";
+import ConfigContext from "../../store/context/config-ctx";
+import { useAppDispatch } from "../../store/hook/hook";
 import { IConfig } from "../../model/config";
-import { handleError } from "../../service/error";
+import { handleError } from "../../common/error";
 import { store } from "../../store/store";
 import Loading from "../loading/Loading";
 import Navbar from "../navbar/Navbar";
+import { ActionTypes } from "../../store/constant/action";
+import { useHttpGet } from "../../common/hook/http-get";
 
 const Header = (): ReactElement<Element, string> => {
     const dispatch = useAppDispatch();

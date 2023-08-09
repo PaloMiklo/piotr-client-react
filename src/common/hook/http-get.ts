@@ -1,9 +1,9 @@
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
-import { IHttpResponse } from '../model/httpResponse';
-import http from '../service/http';
+import { IHttpResponse } from '../../model/httpResponse';
+import http from '../http';
 
-export const useHttpPost = <T = unknown, C = unknown>(url: string, payload: T, config?: AxiosRequestConfig<C>): IHttpResponse<T | null, AxiosError<T> | null> => {
+export const useHttpGet = <T = unknown, C = unknown>(url: string, config?: AxiosRequestConfig<C>): IHttpResponse<T | null, AxiosError<T> | null> => {
     const [response, setResponse] = useState<T | null>(null);
     const [error, setError] = useState<AxiosError<T> | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
@@ -11,7 +11,7 @@ export const useHttpPost = <T = unknown, C = unknown>(url: string, payload: T, c
     useEffect(() => {
         (async () => {
             try {
-                const { data } = await http.post<T>(url, payload, config);
+                const { data } = await http.get<T>(url, config);
                 setResponse(data);
                 setLoading(false);
             } catch (error: unknown) {
@@ -19,7 +19,7 @@ export const useHttpPost = <T = unknown, C = unknown>(url: string, payload: T, c
                 setLoading(false);
             }
         })();
-    }, [url, payload, config]);
+    }, [url, config]);
 
     return { response, error, loading };
 };
