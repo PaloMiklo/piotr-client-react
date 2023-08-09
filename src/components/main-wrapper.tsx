@@ -6,23 +6,23 @@ import { ReactElement } from 'react';
 import { ActionTypes } from '../core/action';
 import { useAppDispatch } from '../hook/app';
 import { RootState, store } from '../store/store';
-import { IMainProps } from './main.props';
 import { selectConfig } from '../selector/selector';
 
-const MainWrapper = (props: IMainProps): ReactElement<Element, string> => {
-    const { config } = props;
+const MainWrapper = (): ReactElement<Element, string> => {
     const dispatch = useAppDispatch();
     const { data } = useData<IConfig>('/config.json');
+    const config = selectConfig(store.getState())
 
     useEffect(() => {
-        dispatch({
-            type: ActionTypes.CONFIG_INITIALIZE,
-            payload: data,
-        });
-    }, [data]);
+        if (data) {
+            dispatch({
+                type: ActionTypes.CONFIG_INITIALIZE,
+                payload: data,
+            });
+        }
+    });
 
-    console.log('props', config);
-    console.log(selectConfig(store.getState()))
+    console.log(config)
 
     return !data ? <p>Loading...</p> : <p>Loaded</p>
 };

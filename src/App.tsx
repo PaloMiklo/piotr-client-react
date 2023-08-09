@@ -1,4 +1,4 @@
-import MainWrapper from "./components/main"
+import MainWrapper from "./components/main-wrapper"
 
 function App() {
   return (

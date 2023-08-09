@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
 import { IConfig } from '../model/config'
 import { configInitial } from '../initial/config'
 import { SLICE_NAMES } from '../core/slice'
+import type { PayloadAction } from '@reduxjs/toolkit'
 
 export interface IConfigStateWrapper { value: IConfig }
 
