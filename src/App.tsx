@@ -1,10 +1,13 @@
-import MainWrapper from "./components/main-wrapper/MainWrapper";
+import { BrowserRouter } from "react-router-dom";
+import AppRoutes from "./AppRoutes";
+import Header from "./components/header/Header";
 
 const App = () => {
   return (
-    <div className='mainWrapper-wrapper'>
-      <MainWrapper></MainWrapper>
-    </div>
+    <BrowserRouter>
+      <Header />
+      <AppRoutes />
+    </BrowserRouter >
   );
 }
 

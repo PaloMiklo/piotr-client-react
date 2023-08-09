@@ -1,18 +1,16 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import About from "./components/about/About";
 import Cart from "./components/cart/Cart";
-import Home from "./components/home/Home";
-import Products from "./components/products/Products";
+import Contact from "./components/contact/Contact";
+import Product from "./components/product/Product";
 
 const AppRoutes = () => (
-    <BrowserRouter>
-        <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/cart" element={<Cart />} />
-        </Routes>
-    </BrowserRouter>
+    <Routes>
+        <Route path="/" element={<Product />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/cart" element={<Cart />} />
+    </Routes>
 )
 
 export default AppRoutes;

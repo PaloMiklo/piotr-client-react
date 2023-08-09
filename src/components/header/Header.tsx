@@ -7,12 +7,13 @@ import { useHttpGet } from "../../hook/useHttpGet";
 import { IConfig } from "../../model/config";
 import { handleError } from "../../service/error";
 import { store } from "../../store/store";
-import Main from "../main/Main";
+import Navbar from "../navbar/Navbar";
 
-const MainWrapper = (): ReactElement<Element, string> => {
+const Header = (): ReactElement<Element, string> => {
     const dispatch = useAppDispatch();
     const { response: data, error, loading } = useHttpGet<IConfig>('/config.json');
     const configFromRedux = store.getState().config.value;
+
 
     useEffect(() => {
         if (data) {
@@ -34,12 +35,10 @@ const MainWrapper = (): ReactElement<Element, string> => {
     return (
         <Provider store={store}>
             <ConfigContext.Provider value={configFromRedux}>
-                <div className="main-wrapper">
-                    <Main></Main>
-                </div>
+                <Navbar />
             </ConfigContext.Provider>
         </Provider>
     )
 };
 
-export default MainWrapper;
+export default Header;
