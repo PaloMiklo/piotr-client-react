@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 import './Contact.scss';
 
-const Contact = (): ReactElement<Element, string> => {
+const Contact = (): ReactElement => {
     return (
         <h1>Contact Page</h1>
     )

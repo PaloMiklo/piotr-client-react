@@ -1,6 +1,13 @@
 export interface IOrder { }
 
-export interface IProduct { }
+export interface IProduct {
+    id: number,
+    name: string,
+    imagePath: string,
+    quantity: number,
+    price: number,
+    description: string
+}
 
 export interface IDeliveryOption {
     id: number;

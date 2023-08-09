@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 import { CircleLoader } from 'react-spinners';
 import './Loading.scss';
 
-const Loading = (): ReactElement<Element, string> => {
+const Loading = (): ReactElement => {
 
     return (
         <div className="loading-container">

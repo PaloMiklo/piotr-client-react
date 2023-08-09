@@ -1,4 +1,4 @@
-import { ReactElement, useEffect } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import ConfigContext from "../../store/context/config-ctx";
 import { useAppDispatch } from "../../store/hook/hook";
@@ -9,12 +9,17 @@ import Loading from "../loading/Loading";
 import Navbar from "../navbar/Navbar";
 import { ActionTypes } from "../../store/constant/action";
 import { useHttpGet } from "../../common/hook/http-get";
+import { configInitial } from "../../store/initial/config";
 
-const Header = (): ReactElement<Element, string> => {
+const Header = (): ReactElement => {
     const dispatch = useAppDispatch();
     const { response: data, error, loading } = useHttpGet<IConfig>('/config.json');
-    const configFromRedux = store.getState().config.value;
+    const [configFromRedux, setConfigFromRedux] = useState<IConfig>(configInitial);
 
+    useEffect(() => {
+        const { value: config } = store.getState().config;
+        setConfigFromRedux(config)
+    })
 
     useEffect(() => {
         if (data) {
