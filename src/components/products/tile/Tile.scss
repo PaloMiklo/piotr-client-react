@@ -1,0 +1,102 @@
+$color-pure-white: rgb(255, 255, 255);
+$color-pure-black: rgb(0, 0, 0);
+$color-products-hover: rgba(0, 0, 0, 0.61);
+
+.product {
+    &-tile {
+        ::selection {
+            color: none;
+            background: none;
+        }
+
+        position: relative;
+        padding: 0rem;
+        display: inline-block;
+        margin: .5rem;
+
+        img {
+            display: block;
+            height: auto;
+            background-size: cover;
+            overflow: hidden;
+            position: relative;
+        }
+
+
+        .overlay:hover {
+            opacity: 0.7;
+        }
+
+        .overlay:active {
+            opacity: 1;
+        }
+
+        .overlay {
+            background-color: $color-products-hover;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            opacity: 0;
+            transition: 0.5s ease-in;
+            margin: 0;
+            margin-bottom: 0 !important;
+        }
+
+        .info {
+            text-transform: uppercase;
+            color: $color-pure-white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+
+            .dash {
+                width: 2rem;
+                padding: 0.1rem;
+                margin: 1.1rem auto;
+                display: flex;
+                background-color: $color-pure-white;
+            }
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            position: relative;
+
+            .btn {
+                ::selection {
+                    color: none;
+                    background: none;
+                }
+
+                border-radius: 0px;
+                text-transform: uppercase;
+                width: 100%;
+                background-color: $color-pure-black;
+                color: $color-pure-white;
+
+                &:focus {
+                    outline: none !important;
+                    box-shadow: none;
+                }
+
+                &:hover {
+                    background-color: $color-products-hover;
+                    opacity: 0.7;
+                }
+
+                &:active {
+                    background-color: $color-products-hover;
+                    opacity: 1;
+                    outline: none !important;
+                    box-shadow: none;
+                }
+            }
+        }
+    }
+}
