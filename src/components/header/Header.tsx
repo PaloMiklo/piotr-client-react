@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import ConfigContext from "../../store/context/config-ctx";
 import { useAppDispatch } from "../../store/hook/hook";
 import { IConfig } from "../../model/config";
-import { handleError } from "../../common/error";
+import { handleHttpError } from "../../common/error";
 import { store } from "../../store/store";
 import Loading from "../loading/Loading";
 import Navbar from "../navbar/Navbar";
@@ -35,7 +35,7 @@ const Header = (): ReactElement => {
     }
 
     if (!loading && error) {
-        handleError<IConfig>(error)
+        handleHttpError<IConfig>(error)
     }
 
     return (

@@ -3,7 +3,9 @@ import './Contact.scss';
 
 const Contact = (): ReactElement => {
     return (
-        <h1>Contact Page</h1>
+        <div className="container">
+            <h1>Contact Page</h1>
+        </div>
     )
 }
 

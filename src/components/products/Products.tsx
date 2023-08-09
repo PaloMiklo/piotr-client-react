@@ -9,8 +9,8 @@ const Products = (): ReactElement => {
     const [products, setProducts] = useState<IProduct[]>([]);
 
     useEffect(() => {
-        const productsFromRedux = selectConfig(store.getState());
-        setProducts(productsFromRedux.mocks.products);
+        const productsFromRedux = selectConfig(store.getState()).mocks.products;
+        setProducts(productsFromRedux);
     }, []);
 
     return (

@@ -1,4 +1,5 @@
 import { ReactElement } from 'react';
+import { Link } from 'react-router-dom';
 import { TProductProps } from '../product/Product.config';
 import './Tile.scss';
 
@@ -10,7 +11,7 @@ const Tile = ({ product }: TProductProps): ReactElement => {
                 src={product.imagePath}
                 alt=""
             />
-            <a href="#">
+            <Link to={`/products/${product.id}`}>
                 <div className="overlay">
                     <div className="info">
                         <span className="product-info-name">{product.name}</span>
@@ -20,7 +21,7 @@ const Tile = ({ product }: TProductProps): ReactElement => {
                         </p>
                     </div>
                 </div>
-            </a>
+            </Link>
             <div className="buttons">
                 <button className="btn mw-100">
                     <i className="fa fa-shopping-basket" aria-hidden="true"></i>

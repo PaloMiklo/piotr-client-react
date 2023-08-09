@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
+import Product from "./components/products/product/Product";
 
 const Loading = lazy(() => import('./components/loading/Loading'));
 const Products = lazy(() => import('./components/products/Products'));
@@ -12,6 +13,12 @@ const AppRoutes = () => (
         <Route path="/" element={
             <Suspense fallback={<Loading />}>
                 <Products />
+            </Suspense>
+        } />
+
+        <Route path="/products/:id" element={
+            <Suspense fallback={<Loading />}>
+                <Product />
             </Suspense>
         } />
 
