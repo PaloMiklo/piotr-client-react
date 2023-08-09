@@ -19,9 +19,9 @@ const Navbar = (): ReactElement<Element, string> => {
 
             <div className="collapse navbar-collapse" id="navbarToggler">
                 <ul className="navbar-nav mx-auto">
-                    <li className="nav-item"><Link to="/">Home</Link></li>
+                    <li className="nav-item"><Link to="/">Products</Link></li>
                     <li className="nav-item"><Link to="/about">About</Link></li>
-                    <li className="nav-item"><Link to="/products">Products</Link></li>
+                    <li className="nav-item"><Link to="/contact">Contact</Link></li>
                     <li className="nav-item"><Link to="/cart">Cart</Link></li>
                 </ul>
             </div>
