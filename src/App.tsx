@@ -1,9 +1,9 @@
-import MainWrapper from "./components/main-wrapper/main-wrapper";
+import MainWrapper from "./components/main-wrapper/MainWrapper";
 
-function App() {
+const App = () => {
   return (
-    <div>
-      <MainWrapper />
+    <div className='mainWrapper-wrapper'>
+      <MainWrapper></MainWrapper>
     </div>
   );
 }

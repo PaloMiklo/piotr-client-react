@@ -1,14 +1,13 @@
-import { useEffect } from 'react';
-import { useHttpGet } from '../../hook/useHttpGet';
-import { IConfig } from '../../model/config';
-import { ReactElement } from 'react';
-import { ActionTypes } from '../../core/action';
-import { useAppDispatch } from '../../hook/app';
-import Main from '../main/main';
-import { Provider } from 'react-redux';
-import ConfigContext from '../../context/config-ctx';
-import { store } from '../../store/store';
-import { handleError } from '../../service/error';
+import { ReactElement, useEffect } from "react";
+import { Provider } from "react-redux";
+import ConfigContext from "../../context/config-ctx";
+import { ActionTypes } from "../../core/action";
+import { useAppDispatch } from "../../hook/app";
+import { useHttpGet } from "../../hook/useHttpGet";
+import { IConfig } from "../../model/config";
+import { handleError } from "../../service/error";
+import { store } from "../../store/store";
+import Main from "../main/Main";
 
 const MainWrapper = (): ReactElement<Element, string> => {
     const dispatch = useAppDispatch();
@@ -35,7 +34,9 @@ const MainWrapper = (): ReactElement<Element, string> => {
     return (
         <Provider store={store}>
             <ConfigContext.Provider value={configFromRedux}>
-                <Main></Main>
+                <div className="main-wrapper">
+                    <Main></Main>
+                </div>
             </ConfigContext.Provider>
         </Provider>
     )
