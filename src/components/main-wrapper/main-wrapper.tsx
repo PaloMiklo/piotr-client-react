@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
-import { useData } from '../../hook/useData';
-import { connect } from 'react-redux';
+import { useHttpGet } from '../../hook/useHttpGet';
 import { IConfig } from '../../model/config';
 import { ReactElement } from 'react';
 import { ActionTypes } from '../../core/action';
@@ -9,10 +8,11 @@ import Main from '../main/main';
 import { Provider } from 'react-redux';
 import ConfigContext from '../../context/config-ctx';
 import { store } from '../../store/store';
+import { handleError } from '../../service/error';
 
 const MainWrapper = (): ReactElement<Element, string> => {
     const dispatch = useAppDispatch();
-    const { data } = useData<IConfig>('/config.json');
+    const { response: data, error, loading } = useHttpGet<IConfig>('/config.json');
     const configFromRedux = store.getState().config.value;
 
     useEffect(() => {
@@ -24,7 +24,15 @@ const MainWrapper = (): ReactElement<Element, string> => {
         }
     });
 
-    return !data ? <p>Loading...</p> : (
+    if (loading) {
+        return <p>Loading...</p>
+    }
+
+    if (!loading && error) {
+        handleError<IConfig>(error)
+    }
+
+    return (
         <Provider store={store}>
             <ConfigContext.Provider value={configFromRedux}>
                 <Main></Main>

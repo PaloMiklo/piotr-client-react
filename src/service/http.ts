@@ -1,4 +1,5 @@
-import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from "axios";
+
 
 const http = axios.create({
   baseURL: window.location.origin,
@@ -10,12 +11,12 @@ http.interceptors.request.use(
     // config.headers['Authorization'] = 'Bearer <token>';
     return config;
   },
-  (error: unknown) =>  Promise.reject(error)
+  (error: AxiosError<unknown>) => Promise.reject(error)
 );
 
 http.interceptors.response.use(
-  (response:  AxiosResponse<any, any>) => response,
-  (error: unknown) => Promise.reject(error)
+  (response: AxiosResponse<unknown, unknown>) => response,
+  (error: AxiosError<unknown>) => Promise.reject(error)
 );
 
 export default http;
