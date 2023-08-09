@@ -7,6 +7,7 @@ import { useHttpGet } from "../../hook/useHttpGet";
 import { IConfig } from "../../model/config";
 import { handleError } from "../../service/error";
 import { store } from "../../store/store";
+import Loading from "../loading/Loading";
 import Navbar from "../navbar/Navbar";
 
 const Header = (): ReactElement<Element, string> => {
@@ -25,7 +26,7 @@ const Header = (): ReactElement<Element, string> => {
     });
 
     if (loading) {
-        return <p>Loading...</p>
+        return <Loading />
     }
 
     if (!loading && error) {

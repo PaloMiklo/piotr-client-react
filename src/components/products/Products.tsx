@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import './Product.scss';
+import './Products.scss';
 
 const Products = (): ReactElement<Element, string> => {
     return (
