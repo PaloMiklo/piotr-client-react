@@ -1,5 +1,5 @@
-import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { EffectCallback, MutableRefObject, useEffect, useRef, useState } from 'react';
+import { AxiosError, AxiosRequestConfig } from 'axios';
+import { useEffect, useState } from 'react';
 import { IHttpResponse } from '../../model/httpResponse';
 import http from '../http';
 

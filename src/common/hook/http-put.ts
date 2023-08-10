@@ -1,4 +1,4 @@
-import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosError, AxiosRequestConfig } from 'axios';
 import { useEffect, useState } from 'react';
 import { IHttpResponse } from '../../model/httpResponse';
 import http from '../http';
