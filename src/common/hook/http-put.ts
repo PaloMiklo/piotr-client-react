@@ -8,8 +8,8 @@ export const useHttpPut = <T = unknown, C = unknown>(url: string, payload: T, co
     const [error, setError] = useState<AxiosError<T> | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 
-    useEffect(() => {
-        (async () => {
+    useEffect((): void => {
+        (async (): Promise<void> => {
             try {
                 const { data } = await http.put<T>(url, payload, config);
                 setResponse(data);

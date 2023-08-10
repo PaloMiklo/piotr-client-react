@@ -8,8 +8,8 @@ export const useHttpPost = <T = unknown, C = unknown>(url: string, payload: T, c
     const [error, setError] = useState<AxiosError<T> | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 
-    useEffect(() => {
-        (async () => {
+    useEffect((): void => {
+        (async (): Promise<void> => {
             try {
                 const { data } = await http.post<T>(url, payload, config);
                 setResponse(data);

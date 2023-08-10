@@ -4,7 +4,7 @@ import { IConfig } from '../../model/config';
 
 const ConfigContext = createContext<IConfig>(configInitial);
 
-export const useConfig = () => {
+export const useConfig = (): IConfig => {
     return useContext(ConfigContext);
 };
 

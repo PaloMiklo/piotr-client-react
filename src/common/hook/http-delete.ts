@@ -8,8 +8,8 @@ export const useHttpDelete = <T = unknown, C = unknown>(url: string, config?: Ax
     const [error, setError] = useState<AxiosError<T> | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 
-    useEffect(() => {
-        (async () => {
+    useEffect((): void => {
+        (async (): Promise<void> => {
             try {
                 const { data } = await http.delete<T>(url, config);
                 setResponse(data);

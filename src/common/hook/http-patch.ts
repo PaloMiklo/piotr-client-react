@@ -8,8 +8,8 @@ export const useHttpPatch = <T = unknown, C = unknown>(url: string, payload: T, 
     const [error, setError] = useState<AxiosError<T> | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 
-    useEffect(() => {
-        (async () => {
+    useEffect((): void => {
+        (async (): Promise<void> => {
             try {
                 const { data } = await http.patch<T>(url, payload, config);
                 setResponse(data);

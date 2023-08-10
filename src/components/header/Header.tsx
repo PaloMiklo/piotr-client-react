@@ -16,12 +16,12 @@ const Header = (): ReactElement => {
     const { response: data, error, loading } = useHttpGet<IConfig>('/config.json');
     const [configFromRedux, setConfigFromRedux] = useState<IConfig>(configInitial);
 
-    useEffect(() => {
+    useEffect((): void => {
         const { value: config } = store.getState().config;
         setConfigFromRedux(config)
     })
 
-    useEffect(() => {
+    useEffect((): void => {
         if (data) {
             dispatch({
                 type: ActionTypes.CONFIG_INITIALIZE,
