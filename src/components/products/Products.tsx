@@ -1,4 +1,5 @@
 import { ReactElement, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { handleHttpError } from "../../common/error";
 import { useHttpGetPostponedExecution } from "../../common/hook/http-get";
 import { IProduct } from "../../model/config";
@@ -10,6 +11,7 @@ import Tile from "./tile/Tile";
 const Products = (): ReactElement => {
     const [products, setProducts] = useState<IProduct[]>([]);
     const { response: productsFromServer, error, loading, fetchData } = useHttpGetPostponedExecution<IProduct[]>('/products');
+    const navigate = useNavigate();
 
     useEffect((): void => {
         const doMockFromRedux = selectConfig(store.getState()).doMock;
@@ -19,7 +21,7 @@ const Products = (): ReactElement => {
         } else {
             fetchData();
             if (!loading && productsFromServer) { setProducts(productsFromServer) }
-            else if (!loading && error) { handleHttpError<IProduct[]>(error!) };
+            else if (!loading && error) { handleHttpError<IProduct[]>(error!, navigate) };
         }
     }, []);
 

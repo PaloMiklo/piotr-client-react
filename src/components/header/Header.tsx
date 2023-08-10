@@ -1,15 +1,15 @@
 import { ReactElement, useEffect, useState } from "react";
 import { Provider } from "react-redux";
+import { handleHttpError } from "../../common/error";
+import { useHttpGet } from "../../common/hook/http-get";
+import { IConfig } from "../../model/config";
+import { ActionTypes } from "../../store/constant/action";
 import ConfigContext from "../../store/context/config-ctx";
 import { useAppDispatch } from "../../store/hook/hook";
-import { IConfig } from "../../model/config";
-import { handleHttpError } from "../../common/error";
+import { configInitial } from "../../store/initial/config";
 import { store } from "../../store/store";
 import Loading from "../loading/Loading";
 import Navbar from "../navbar/Navbar";
-import { ActionTypes } from "../../store/constant/action";
-import { useHttpGet } from "../../common/hook/http-get";
-import { configInitial } from "../../store/initial/config";
 
 const Header = (): ReactElement => {
     const dispatch = useAppDispatch();
@@ -34,9 +34,7 @@ const Header = (): ReactElement => {
         return <Loading />
     }
 
-    if (!loading && error) {
-        handleHttpError<IConfig>(error)
-    }
+    (!loading && error) && handleHttpError<IConfig>(error)
 
     return (
         <Provider store={store}>
