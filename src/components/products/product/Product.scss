@@ -1,0 +1,120 @@
+$color-product-detail-btn-hover: rgba(161, 161, 161, 0.474);
+$color-product-detail-btn-hover-shadow: rgb(182, 182, 182);
+$color-product-detail-link-social: rgb(182, 182, 182);
+$color-social-facebook: hsl(221, 44%, 41%);
+$color-product-detail-black-line: #333333;
+
+.product-detail {
+    &-content {
+        padding: 2rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+
+        &-image {
+            text-align: center;
+
+            img {
+                margin-top: 1rem;
+                width: 100%;
+                height: auto;
+                max-height: 62rem;
+            }
+
+            .product-img {
+                cursor: pointer;
+            }
+        }
+
+        &-description {
+            background-color: center;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
+
+            .dash {
+                width: 5rem;
+                padding: 0.2rem;
+                margin: 1.1rem auto;
+                display: table;
+                background-color: $color-product-detail-link-social;
+            }
+        }
+
+        &-price {
+            font-weight: bold;
+            font-size: 1.5rem;
+
+            .currency {
+                position: relative;
+                top: -2.5px;
+            }
+
+            .price {
+                font-weight: bold;
+                font-size: 2rem;
+            }
+        }
+
+        .product-about {
+            text-align: justify;
+            padding: 1rem;
+        }
+
+        .btn {
+            &-dark {
+                width: 18rem;
+            }
+
+            /* BUTTONS SHARE */
+            &-social {
+                margin-top: 2rem;
+                align-items: center;
+
+                &-share {
+                    width: 18rem;
+                    padding: 0.7rem 0;
+                    font-size: 14px;
+                    letter-spacing: 2px;
+                    text-transform: uppercase;
+                    background: transparent;
+                    border: 1px solid $color-product-detail-link-social;
+                    border-radius: 0px;
+
+                    &.btn:hover {
+                        i {
+                            color: $color-product-detail-btn-hover;
+                        }
+                    }
+
+                    &:last-child {
+                        margin-bottom: 2rem;
+                    }
+
+                    &:hover {
+                        outline: 0;
+                    }
+
+                    i {
+                        color: $color-social-facebook;
+                    }
+
+                    a {
+                        color: $color-product-detail-link-social;
+                    }
+                }
+            }
+        }
+
+        .modal-content {
+            img {
+                border-right: none !important;
+            }
+
+            button {
+                border: none !important;
+                width: 100%;
+            }
+        }
+    }
+}

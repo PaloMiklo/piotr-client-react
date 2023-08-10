@@ -8,8 +8,9 @@ const Tile = ({ product }: TProductProps): ReactElement => {
         <div className="col-sm-12 col-lg-3 product-tile">
             <img
                 className="img-fluid mx-auto"
-                src={product.imagePath}
+                src={'images/' + product.imagePath}
                 alt=""
+                loading="lazy"
             />
             <Link to={`/products/${product.id}`}>
                 <div className="overlay">

@@ -1,3 +1,4 @@
-import { RootState } from "../store";
+import { store } from "../store";
 
-export const selectConfig = (state: RootState) => state.config.value;
+// use with useSelector
+export const selectConfig = () => store.getState().config.value;

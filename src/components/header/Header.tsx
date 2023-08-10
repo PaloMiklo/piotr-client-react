@@ -8,7 +8,6 @@ import ConfigContext from "../../store/context/config-ctx";
 import { useAppDispatch } from "../../store/hook/hook";
 import { configInitial } from "../../store/initial/config";
 import { store } from "../../store/store";
-import Loading from "../loading/Loading";
 import Navbar from "../navbar/Navbar";
 
 const Header = (): ReactElement => {
@@ -17,22 +16,20 @@ const Header = (): ReactElement => {
     const [configFromRedux, setConfigFromRedux] = useState<IConfig>(configInitial);
 
     useEffect((): void => {
-        const { value: config } = store.getState().config;
-        setConfigFromRedux(config)
-    })
-
-    useEffect((): void => {
         if (data) {
             dispatch({
                 type: ActionTypes.CONFIG_INITIALIZE,
                 payload: data,
             });
         }
-    });
+    }, [data]);
 
-    if (loading) {
-        return <Loading />
-    }
+    useEffect((): void => {
+        const { value: config } = store.getState().config;
+        setConfigFromRedux(config)
+    }, [configFromRedux]);
+
+    // if (loading) { return <Loading /> }
 
     (!loading && error) && handleHttpError<IConfig>(error)
 
