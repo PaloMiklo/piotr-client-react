@@ -8,13 +8,12 @@ import Loading from '../../loading/Loading';
 
 const Product = (): ReactElement => {
     const { id } = useParams();
-
     const [product, setProduct] = useState<IProduct | null>(null);
 
     useEffect((): void => {
         const productsFromRedux = selectConfig(store.getState()).mocks.products;
         const product = id ? productsFromRedux.find((product) => product.id === +id) : null;
-        product ? setProduct(product) : handleOtherError<string>(`Product with id ${id} not found!`, 'not-found'); // todo: not-found fallbackpage
+        product ? setProduct(product) : handleOtherError<string>(`Product with id ${id} not found!`, 'not-found');
     }, [id]);
 
     if (product) {

@@ -1,6 +1,5 @@
-import { IProduce } from "immer/dist/internal";
 import { ComponentType, lazy, ReactElement, Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { TProductProps } from "./components/products/product/Product.config";
 import { IProduct } from "./model/config";
 
@@ -10,6 +9,7 @@ const Product = lazy((): Promise<{ default: ComponentType<TProductProps>; }> => 
 const About = lazy((): Promise<{ default: ComponentType<{}>; }> => import('./components/about/About'));
 const Contact = lazy((): Promise<{ default: ComponentType<{}>; }> => import('./components/contact/Contact'));
 const Cart = lazy((): Promise<{ default: ComponentType<{}>; }> => import('./components/cart/Cart'));
+const NotFound = lazy((): Promise<{ default: ComponentType<{}>; }> => import('./components/not-found/NotFound'));
 
 const AppRoutes = (): ReactElement => (
     <Routes>
@@ -40,6 +40,12 @@ const AppRoutes = (): ReactElement => (
         <Route path="/cart" element={
             <Suspense fallback={<Loading />}>
                 <Cart />
+            </Suspense>
+        } />
+
+        <Route path="/*" element={
+            <Suspense fallback={<Loading />}>
+                <NotFound />
             </Suspense>
         } />
     </Routes>
