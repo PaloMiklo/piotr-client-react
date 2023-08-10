@@ -1,45 +1,60 @@
 import { ReactElement, useEffect, useState } from "react";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { handleHttpError } from "../../common/error";
-import { useHttpGet } from "../../common/hook/http-get";
-import { IConfig } from "../../model/config";
+import { useHttpGet, useHttpGetPostponedExecution } from "../../common/hook/http-get";
+import { IConfig, IProduct } from "../../model/config";
 import { ActionTypes } from "../../store/constant/action";
 import ConfigContext from "../../store/context/config-ctx";
 import { useAppDispatch } from "../../store/hook/hook";
 import { configInitial } from "../../store/initial/config";
+import { selectDoMock } from "../../store/selector/config";
 import { store } from "../../store/store";
 import Navbar from "../navbar/Navbar";
 
 const Header = (): ReactElement => {
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const { response: data, error, loading } = useHttpGet<IConfig>('/config.json');
+    const { response: config, error: configError, loading: loadingConfig } = useHttpGet<IConfig>('/config.json');
+    const { response: productsFromServer, error: productsError, loading: loadingProducts, fetchData: fetchProducts } = useHttpGetPostponedExecution<IProduct[]>('/api/products');
     const [configFromRedux, setConfigFromRedux] = useState<IConfig>(configInitial);
+    const doMockFromRedux = useSelector(selectDoMock);
+    const [products, setProducts] = useState<IProduct[]>([]);
 
-    useEffect((): void => {
-        if (data) {
-            dispatch({
-                type: ActionTypes.CONFIG_INITIALIZE,
-                payload: data,
-            });
+    const initStore = (): void => { config && dispatch({ type: ActionTypes.CONFIG_INITIALIZE, payload: config, }); }
+
+    const loadConfigFromStore = (): void => { config && setConfigFromRedux(config) }
+
+    const loadProducts = (): void => {
+        if (configFromRedux) {
+            if (doMockFromRedux) {
+                setProducts(configFromRedux.mocks.products);
+            } else {
+                fetchProducts();
+                (!loadingProducts && productsFromServer) && setProducts(productsFromServer);
+                (!loadingProducts && productsError) && handleHttpError<IProduct[]>(productsError!, navigate)
+            };
         }
-    }, [data]);
+    }
 
-    useEffect((): void => {
-        const { value: config } = store.getState().config;
-        setConfigFromRedux(config)
-    }, [configFromRedux]);
+    const initProductStore = (): void => { products && dispatch({ type: ActionTypes.PRODUCTS_INITIALIZE, payload: products, }); }
 
-    // if (loading) { return <Loading /> }
+    useEffect((): void => initStore(), [config]);
+    useEffect((): void => loadConfigFromStore(), [config]);
+    useEffect((): void => loadProducts(), [configFromRedux]);
+    useEffect((): void => initProductStore(), [products]);
 
-    (!loading && error) && handleHttpError<IConfig>(error)
+    (!loadingConfig && configError) && handleHttpError<IConfig>(configError)
 
     return (
         <Provider store={store}>
             <ConfigContext.Provider value={configFromRedux}>
-                <Navbar />
+                <ConfigContext.Provider value={configFromRedux}>
+                    <Navbar />
+                </ConfigContext.Provider>
             </ConfigContext.Provider>
         </Provider>
     )
-};
+}
 
 export default Header;

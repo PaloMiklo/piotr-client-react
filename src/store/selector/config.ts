@@ -1,4 +1,4 @@
 import { store } from "../store";
 
-// use with useSelector
 export const selectConfig = () => store.getState().config.value;
+export const selectDoMock = () => store.getState().config.value.doMock;
