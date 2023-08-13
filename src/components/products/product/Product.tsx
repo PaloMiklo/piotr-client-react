@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { handleOtherError } from '../../../common/error';
 import { IProduct } from '../../../model/config';
 import { selectProducts } from '../../../store/selector/products';
+import ProductModal from './Product-Modal';
 import './Product.scss';
 
 const Product = (): ReactElement => {
@@ -11,30 +12,40 @@ const Product = (): ReactElement => {
     const navigate = useNavigate();
     const loadedProducts = useSelector(selectProducts);
     const [products, setProducts] = useState<IProduct[]>();
-    const [product, setProduct] = useState<IProduct | null>(null);
+    const [activatedProduct, setActivatedProduct] = useState<IProduct | null>(null);
+    const [openModal, setOpenModal] = useState<boolean>(false);
 
     useEffect((): void => { setProducts(loadedProducts); }, [loadedProducts]);
 
     useEffect((): void => {
         if (products && products.length) {
             const foundProduct = id ? products.find((product: IProduct) => product.id === +id) : null;
-            foundProduct ? setProduct(foundProduct) : handleOtherError<string>(`Product with id ${id} not found!`, navigate);
+            foundProduct ? setActivatedProduct(foundProduct) : handleOtherError<string>(`Product with id ${id} not found!`, navigate);
         }
     }, [id, products]);
 
-    return product ? (
+    const onOpenModal = () => setOpenModal(!openModal);
+
+    const addProductToCart = (): void => {
+        const product = products!.find((product: IProduct) => product.id === activatedProduct!.id);
+        console.log('Add to basket -> ', product);
+        // TODO: Add product to cart
+        navigate('/cart'); // TODO: cart coponent
+    };
+
+    return activatedProduct ? (
         <div className="product-detail-content">
             <div className="row">
                 <div className="col-lg-4 col-md-12">
                     <div className="product-detail-content-description">
-                        <h3 className="display-4">{product.name}</h3>
+                        <h3 className="display-4">{activatedProduct.name}</h3>
                         <span className="dash"></span>
                         <p className="product-detail-content-price">
-                            <span className="price">{product.price} EUR</span>
+                            <span className="price">{activatedProduct.price} EUR</span>
                         </p>
-                        <p className="product-about">{product.description}</p>
+                        <p className="product-about">{activatedProduct.description}</p>
 
-                        <button className="btn btn-dark btn-lg">
+                        <button className="btn btn-dark btn-lg" onClick={addProductToCart}>
                             <span><i className="fa fa-shopping-basket" aria-hidden="true"></i> Add to Cart!</span>
                         </button>
 
@@ -53,9 +64,15 @@ const Product = (): ReactElement => {
                     </div>
                 </div>
 
+                {openModal && <ProductModal doShow={openModal} activatedProduct={activatedProduct} />}
+
                 <div className="col-lg-8 col-md-12">
                     <div className="product-detail-content-image">
-                        <img className="img-fluid product-img" src={`/images/${product.imagePath}`} data-toggle="modal" alt="Product" loading="lazy" />
+                        <img className="img-fluid product-img" src={`/images/${activatedProduct.imagePath}`}
+                            onClick={onOpenModal}
+                            data-toggle="modal"
+                            alt="Product"
+                            loading="lazy" />
                     </div>
                 </div>
 
