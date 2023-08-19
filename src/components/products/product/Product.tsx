@@ -1,7 +1,11 @@
+import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { faCopy } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ReactElement, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { handleOtherError } from '../../../common/error';
+import { copyToClipboard } from '../../../core/util';
 import { IProduct } from '../../../model/config';
 import { selectProducts } from '../../../store/selector/products';
 import ProductModal from './Product-Modal';
@@ -14,6 +18,7 @@ const Product = (): ReactElement => {
     const [products, setProducts] = useState<IProduct[]>();
     const [activatedProduct, setActivatedProduct] = useState<IProduct | null>(null);
     const [openModal, setOpenModal] = useState<boolean>(false);
+    const [copied, setCopied] = useState(false);
 
     useEffect((): void => { setProducts(loadedProducts); }, [loadedProducts]);
 
@@ -30,8 +35,10 @@ const Product = (): ReactElement => {
         const product = products!.find((product: IProduct) => product.id === activatedProduct!.id);
         console.log('Add to basket -> ', product);
         // TODO: Add product to cart
-        navigate('/cart'); // TODO: cart coponent
+        navigate('/cart');
     };
+
+    const onCopyToClipboard = () => copyToClipboard(document.URL, setCopied);
 
     return activatedProduct ? (
         <div className="product-detail-content">
@@ -51,13 +58,17 @@ const Product = (): ReactElement => {
 
                         <div className="row">
                             <div className="btn-social btn-group-vertical mx-auto">
-                                <button className="btn-social-share btn btn-light">
-                                    <i className="fa fa-facebook-square"></i>
+                                <button className="btn-social-share btn btn-light facebook">
+                                    <FontAwesomeIcon icon={faFacebook} />
                                     <a href="#"> Share</a>
                                 </button>
-                                <button className="btn-social-share btn btn-light">
-                                    <i className="fa fa-facebook-square"></i>
+                                <button className="btn-social-share btn btn-light twitter">
+                                    <FontAwesomeIcon icon={faTwitter} />
                                     <a href="#"> Share</a>
+                                </button>
+                                <button className="btn-social-share btn btn-light others" onClick={onCopyToClipboard}>
+                                    <FontAwesomeIcon icon={faCopy} />
+                                    {copied ? ' Copied' : ' Copy'}
                                 </button>
                             </div>
                         </div>
@@ -77,7 +88,7 @@ const Product = (): ReactElement => {
                 </div>
 
             </div>
-        </div>
+        </div >
     ) : <></>
 }
 
