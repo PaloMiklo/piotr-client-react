@@ -16,6 +16,20 @@ export interface IDeliveryOption {
     price: number;
 }
 
+export interface ICart {
+    lines: ICartLine[];
+    deliveryOption: IDeliveryOption | null;
+    deliveryPrice: number;
+    freeShipping: boolean;
+    itemCount: number;
+    cartPrice: number;
+}
+
+export interface ICartLine {
+    product: IProduct,
+    amount: number
+}
+
 export interface IConfig {
     apiPrefix: string,
     apiKey: string,
@@ -32,6 +46,7 @@ export interface IConfig {
     countries: string[];
     storageExpiration: string;
 }
+
 
 export interface IMocks {
     products: IProduct[];

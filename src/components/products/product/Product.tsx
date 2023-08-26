@@ -7,6 +7,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { handleOtherError } from '../../../common/error';
 import { copyToClipboard } from '../../../core/util';
 import { IProduct } from '../../../model/config';
+import { ActionTypes } from '../../../store/constant/action';
+import { useAppDispatch } from '../../../store/hook/hook';
+import { selectConfig, selectDoMock } from '../../../store/selector/config';
 import { selectProducts } from '../../../store/selector/products';
 import ProductModal from './Product-Modal';
 import './Product.scss';
@@ -14,13 +17,17 @@ import './Product.scss';
 const Product = (): ReactElement => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const loadedProducts = useSelector(selectProducts);
+    const dispatch = useAppDispatch();
+    const products_rdx = useSelector(selectProducts);
+    const config_rdx = useSelector(selectConfig);
+    const doMock_rdx = useSelector(selectDoMock);
+
     const [products, setProducts] = useState<IProduct[]>();
     const [activatedProduct, setActivatedProduct] = useState<IProduct | null>(null);
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [copied, setCopied] = useState(false);
 
-    useEffect((): void => { setProducts(loadedProducts); }, [loadedProducts]);
+    useEffect((): void => { setProducts(products_rdx); }, [products_rdx]);
 
     useEffect((): void => {
         if (products && products.length) {
@@ -33,8 +40,7 @@ const Product = (): ReactElement => {
 
     const addProductToCart = (): void => {
         const product = products!.find((product: IProduct) => product.id === activatedProduct!.id);
-        console.log('Add to basket -> ', product);
-        // TODO: Add product to cart
+        product && dispatch({ type: ActionTypes.CART_UPDATE_LINES, payload: { product: product, amount: 1, freeShipping: config_rdx.freeShipping, doMock: doMock_rdx } });
         navigate('/cart');
     };
 

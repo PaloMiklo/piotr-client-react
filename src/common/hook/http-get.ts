@@ -24,7 +24,13 @@ export const useHttpGet = <T = unknown, C = unknown>(url: string, config?: Axios
     return { response, error, loading };
 };
 
-export const useHttpGetPostponedExecution = <T = unknown, C = unknown>(url: string, config?: AxiosRequestConfig<C>): IHttpResponse<T | null, AxiosError<T> | null> & { fetchData: () => Promise<void> } => {
+export const useHttpGetPostponedExecution = <T = unknown, C = unknown>(
+    url: string,
+    config?: AxiosRequestConfig<C>
+): IHttpResponse<
+    T | null,
+    AxiosError<T> | null
+> & { fetchData: () => Promise<void> } => {
     const [response, setResponse] = useState<T | null>(null);
     const [error, setError] = useState<AxiosError<T> | null>(null);
     const [loading, setLoading] = useState<boolean>(true);

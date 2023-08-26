@@ -7,10 +7,11 @@ import './Products.scss';
 import Tile from "./tile/Tile";
 
 const Products = (): ReactElement => {
-    const [products, setProducts] = useState<IProduct[]>([]);
-    const productsFromRedux = useSelector(selectProducts);
+    const products_rdx = useSelector(selectProducts);
 
-    useEffect((): void => setProducts(productsFromRedux), [productsFromRedux]);
+    const [products, setProducts] = useState<IProduct[]>([]);
+
+    useEffect((): void => setProducts(products_rdx), [products_rdx]);
 
     return products.length ? (
         <ul>

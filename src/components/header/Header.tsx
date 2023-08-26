@@ -7,6 +7,7 @@ import { IConfig, IProduct } from "../../model/config";
 import { ActionTypes } from "../../store/constant/action";
 import ConfigContext from "../../store/context/config-ctx";
 import { useAppDispatch } from "../../store/hook/hook";
+import { cartInitial } from "../../store/initial/cart";
 import { configInitial } from "../../store/initial/config";
 import { selectDoMock } from "../../store/selector/config";
 import { store } from "../../store/store";
@@ -15,20 +16,22 @@ import Navbar from "../navbar/Navbar";
 const Header = (): ReactElement => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+
+    const doMock_rdx = useSelector(selectDoMock);
+
     const { response: config, error: configError, loading: loadingConfig } = useHttpGet<IConfig>('/config.json');
     const { response: productsFromServer, error: productsError, loading: loadingProducts, fetchData: fetchProducts } = useHttpGetPostponedExecution<IProduct[]>('/api/products');
-    const [configFromRedux, setConfigFromRedux] = useState<IConfig>(configInitial);
-    const doMockFromRedux = useSelector(selectDoMock);
+
+    const [conf, setConf] = useState<IConfig>(configInitial);
     const [products, setProducts] = useState<IProduct[]>([]);
 
-    const initStore = (): void => { config && dispatch({ type: ActionTypes.CONFIG_INITIALIZE, payload: config, }); }
 
-    const loadConfigFromStore = (): void => { config && setConfigFromRedux(config) }
-
+    const initConfig = (): void => { config && dispatch({ type: ActionTypes.CONFIG_INITIALIZE, payload: config, }); }
+    const loadConfig = (): void => { config && setConf(config) }
     const loadProducts = (): void => {
-        if (configFromRedux) {
-            if (doMockFromRedux) {
-                setProducts(configFromRedux.mocks.products);
+        if (conf) {
+            if (doMock_rdx) {
+                setProducts(conf.mocks.products);
             } else {
                 fetchProducts();
                 (!loadingProducts && productsFromServer) && setProducts(productsFromServer);
@@ -36,24 +39,23 @@ const Header = (): ReactElement => {
             };
         }
     }
+    const initCart = (): void => { conf && dispatch({ type: ActionTypes.CART_INITIALIZE, payload: cartInitial, }); }
+    const initProduct = (): void => { products && dispatch({ type: ActionTypes.PRODUCTS_INITIALIZE, payload: products, }); }
 
-    const initProductStore = (): void => { products && dispatch({ type: ActionTypes.PRODUCTS_INITIALIZE, payload: products, }); }
-
-    useEffect((): void => initStore(), [config]);
-    useEffect((): void => loadConfigFromStore(), [config]);
-    useEffect((): void => loadProducts(), [configFromRedux]);
-    useEffect((): void => initProductStore(), [products]);
+    useEffect((): void => initConfig(), [config]);
+    useEffect((): void => loadConfig(), [config]);
+    useEffect((): void => loadProducts(), [conf]);
+    useEffect((): void => initCart(), [conf]);
+    useEffect((): void => initProduct(), [products]);
 
     (!loadingConfig && configError) && handleHttpError<IConfig>(configError)
 
     return (
         <Provider store={store}>
-            <ConfigContext.Provider value={configFromRedux}>
-                <ConfigContext.Provider value={configFromRedux}>
-                    <Navbar />
-                </ConfigContext.Provider>
+            <ConfigContext.Provider value={conf}>
+                <Navbar />
             </ConfigContext.Provider>
-        </Provider>
+        </Provider >
     )
 }
 
