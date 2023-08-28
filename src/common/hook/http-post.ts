@@ -3,26 +3,23 @@ import { useEffect, useState } from 'react';
 import { IHttpResponse } from '../../model/httpResponse';
 import http from '../http';
 
-export const useHttpPost = <T = unknown, C = unknown>(
+export const useHttpPost = <P = unknown, R = unknown, E = unknown, C = unknown>(
     url: string,
-    payload: T,
+    payload: P,
     config?: AxiosRequestConfig<C>
-): IHttpResponse<
-    T | null,
-    AxiosError<T> | null
-> => {
-    const [response, setResponse] = useState<T | null>(null);
-    const [error, setError] = useState<AxiosError<T> | null>(null);
+): IHttpResponse<R | null, AxiosError<E> | null> => {
+    const [response, setResponse] = useState<R | null>(null);
+    const [error, setError] = useState<AxiosError<E> | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect((): void => {
         (async (): Promise<void> => {
             try {
-                const { data } = await http.post<T>(url, payload, config);
+                const { data } = await http.post<R>(url, payload, config);
                 setResponse(data);
                 setLoading(false);
             } catch (error: unknown) {
-                setError(error as AxiosError<T>);
+                setError(error as AxiosError<E>);
                 setLoading(false);
             }
         })();

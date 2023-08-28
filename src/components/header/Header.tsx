@@ -35,7 +35,7 @@ const Header = (): ReactElement => {
             } else {
                 fetchProducts();
                 (!loadingProducts && productsFromServer) && setProducts(productsFromServer);
-                (!loadingProducts && productsError) && handleHttpError<IProduct[]>(productsError!, navigate)
+                (!loadingProducts && productsError) && handleHttpError(productsError!, navigate)
             };
         }
     }
@@ -48,7 +48,7 @@ const Header = (): ReactElement => {
     useEffect((): void => initCart(), [conf]);
     useEffect((): void => initProduct(), [products]);
 
-    (!loadingConfig && configError) && handleHttpError<IConfig>(configError)
+    (!loadingConfig && configError) && handleHttpError(configError)
 
     return (
         <Provider store={store}>
