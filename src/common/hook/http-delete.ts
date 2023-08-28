@@ -27,4 +27,30 @@ export const useHttpDelete = <R = unknown, E = unknown, C = unknown>(
     return { response, error, loading };
 };
 
+export const useHttpDeletePostponedExecution = <R = unknown, E = unknown, C = unknown>(
+    url: string,
+    config?: AxiosRequestConfig<C>
+): IHttpResponse<R | null, AxiosError<E> | null> & TDeleteExecutable<void> => {
+    const [response, setResponse] = useState<R | null>(null);
+    const [error, setError] = useState<AxiosError<E> | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
 
+    const deleteData = async (): Promise<void> => {
+        setLoading(true);
+
+        try {
+            const { data } = await http.delete<R>(url, config);
+            setResponse(data);
+            setError(null);
+        } catch (error: unknown) {
+            setError(error as AxiosError<E>);
+            setResponse(null);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return { response, error, loading, deleteData };
+};
+
+type TDeleteExecutable<T = void> = { deleteData: () => Promise<T> };

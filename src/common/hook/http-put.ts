@@ -27,4 +27,31 @@ export const useHttpPut = <P = unknown, R = unknown, E = unknown, C = unknown>(
     return { response, error, loading };
 };
 
+export const useHttpPutPostponedExecution = <P = unknown, R = unknown, E = unknown, C = unknown>(
+    url: string,
+    payload: P,
+    config?: AxiosRequestConfig<C>
+): IHttpResponse<R | null, AxiosError<E> | null> & TPutExecutable<void> => {
+    const [response, setResponse] = useState<R | null>(null);
+    const [error, setError] = useState<AxiosError<E> | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
 
+    const putData = async (): Promise<void> => {
+        setLoading(true);
+
+        try {
+            const { data } = await http.put<R>(url, payload, config);
+            setResponse(data);
+            setError(null);
+        } catch (error: unknown) {
+            setError(error as AxiosError<E>);
+            setResponse(null);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return { response, error, loading, putData };
+};
+
+type TPutExecutable<T = void> = { putData: () => Promise<T> };

@@ -53,9 +53,3 @@ export const useHttpGetPostponedExecution = <R = unknown, E = unknown, C = unkno
 };
 
 type TGetExecutable<T = void> = { fetchData: () => Promise<T> };
-
-
-
-
-
-
