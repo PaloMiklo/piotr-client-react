@@ -2,7 +2,7 @@ import { ActionReducerMapBuilder, createAsyncThunk, createSlice, PayloadAction }
 import { AxiosError } from "axios";
 import { handleHttpError } from "../../common/error";
 import http from "../../common/http";
-import { ICart, ICartLine, IDeliveryOption, IProduct } from "../../model/config";
+import { ICart, ICartLine, IDeliveryOption } from "../../model/config";
 import { ActionTypes } from "../constant/action";
 import { SLICE_NAMES } from "../constant/slice";
 import { cartInitial } from "../initial/cart";
@@ -19,23 +19,13 @@ export const cartSlice = createSlice({
         initialize: (state: ICartStateWrapper, action: PayloadAction<ICart>): void => {
             state.value = action.payload;
         },
-        updateLines: (state: ICartStateWrapper, action: PayloadAction<{ product: IProduct, amount: number, freeShipping: number }>): void => {
+        updateLines: (state: ICartStateWrapper, action: PayloadAction<ICartLine>): void => {
             const { lines } = state.value;
-            const presentLineIndex = lines.findIndex((line: ICartLine) => line.product.id === action.payload.product.id);
-            if (presentLineIndex === -1) {
-                state.value.lines = [...lines, action.payload];
-            }
-            else {
-                const updatedLines = lines.map((line: ICartLine, index: number) => {
-                    return index === presentLineIndex ?
-                        {
-                            ...line,
-                            amount: line.amount + action.payload.amount
-                        }
-                        : line;
-                });
-                state.value.lines = updatedLines;
-            }
+            const { product, amount } = action.payload;
+
+            state.value.lines = lines.some((line: ICartLine) => line.product.id === product.id) ?
+                lines.map((line: ICartLine) => line.product.id === product.id ? { ...line, amount: line.amount + amount } : line) :
+                [...lines, { product, amount }];
         },
         updateDelivery: (state: ICartStateWrapper, action: PayloadAction<IDeliveryOption>): void => {
             state.value.deliveryOption = action.payload;
@@ -50,10 +40,11 @@ export const cartSlice = createSlice({
             .addCase(recalculateCart.pending, (state: ICartStateWrapper, action: PayloadAction<unknown>) => { })
             .addCase(recalculateCart.fulfilled, (state: ICartStateWrapper, action: PayloadAction<TRecalculateCartResult>) => {
                 const result = action.payload as TRecalculateCartPayload;
+                const { lines } = state.value;
                 state.value = {
                     ...state.value,
-                    freeShipping: hasFreeShippingClaim(state.value.lines, result.freeShippingFrom),
-                    itemCount: state.value.lines.length,
+                    freeShipping: hasFreeShippingClaim(lines, result.freeShipping),
+                    itemCount: lines.length,
                     cartPrice: result.calculatedCartPrice,
                 };
                 console.log('CURRENT STATE OF CART -> ', state.value)
@@ -65,7 +56,7 @@ export const cartSlice = createSlice({
 });
 
 type TRecalculateCartArgs = {};
-type TRecalculateCartPayload = { calculatedCartPrice: number; freeShippingFrom: number };
+type TRecalculateCartPayload = { calculatedCartPrice: number; freeShipping: number };
 type TRecalculateError = AxiosError<unknown>;
 type TRecalculateCartResult = TRecalculateCartPayload | TRecalculateError;
 
@@ -75,7 +66,7 @@ export const recalculateCart = createAsyncThunk<TRecalculateCartResult | TRecalc
         let calculatedCartPrice = 0;
         const state = getState() as RootState;
         const { lines } = state.cart.present.value;
-        const { freeShipping: freeShippingFrom } = state.config.value;
+        const { freeShipping } = state.config.value;
         const { doMock } = state.config.value;
 
         if (doMock) {
@@ -91,7 +82,7 @@ export const recalculateCart = createAsyncThunk<TRecalculateCartResult | TRecalc
             }
         }
 
-        return { calculatedCartPrice, freeShippingFrom };
+        return { calculatedCartPrice, freeShipping };
     }
 );
 
