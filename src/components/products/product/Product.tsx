@@ -12,7 +12,7 @@ import { ActionTypes } from '../../../store/constant/action';
 import { useAppDispatch } from '../../../store/hook/hook';
 import { selectConfig } from '../../../store/selector/config';
 import { selectProducts } from '../../../store/selector/products';
-import { recalculateCart } from '../../../store/slice/cart';
+import { recalculateCart } from '../../../store/slice/thunk/cart';
 import { action } from '../../../store/util';
 import ProductModal from './Product-Modal';
 import './Product.scss';

@@ -4,9 +4,8 @@ import { IProduct } from '../../model/config'
 import { SLICE_NAMES } from '../constant/slice'
 import { productsInitial } from '../initial/products'
 
-export interface IProductsStateWrapper { value: IProduct[] }
-
-const initialState: IProductsStateWrapper = { value: productsInitial }
+export interface IProductsStateWrapper { value: IProduct[] };
+const initialState: IProductsStateWrapper = { value: productsInitial };
 
 export const productsSlice = createSlice({
     name: SLICE_NAMES.PRODUCTS,

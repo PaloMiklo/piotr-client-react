@@ -1,12 +1,11 @@
+import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from '@reduxjs/toolkit'
 import { IConfig } from '../../model/config'
-import { configInitial } from '../initial/config'
 import { SLICE_NAMES } from '../constant/slice'
-import type { PayloadAction } from '@reduxjs/toolkit'
+import { configInitial } from '../initial/config'
 
-export interface IConfigStateWrapper { value: IConfig }
-
-const initialState: IConfigStateWrapper = { value: configInitial }
+export interface IConfigStateWrapper { value: IConfig };
+const initialState: IConfigStateWrapper = { value: configInitial };
 
 export const configSlice = createSlice({
     name: SLICE_NAMES.CONFIG,
