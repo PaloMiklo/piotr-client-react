@@ -4,13 +4,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ReactElement, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Action } from 'redux';
 import { handleOtherError } from '../../../common/error';
 import { copyToClipboard } from '../../../core/util';
 import { IProduct } from '../../../model/config';
 import { ActionTypes } from '../../../store/constant/action';
 import { useAppDispatch } from '../../../store/hook/hook';
-import { selectConfig, selectDoMock } from '../../../store/selector/config';
+import { selectConfig } from '../../../store/selector/config';
 import { selectProducts } from '../../../store/selector/products';
+import { recalculateCart } from '../../../store/slice/cart';
+import { action } from '../../../store/util';
 import ProductModal from './Product-Modal';
 import './Product.scss';
 
@@ -20,7 +23,6 @@ const Product = (): ReactElement => {
     const dispatch = useAppDispatch();
     const products_rdx = useSelector(selectProducts);
     const config_rdx = useSelector(selectConfig);
-    const doMock_rdx = useSelector(selectDoMock);
 
     const [products, setProducts] = useState<IProduct[]>();
     const [activatedProduct, setActivatedProduct] = useState<IProduct | null>(null);
@@ -40,8 +42,8 @@ const Product = (): ReactElement => {
 
     const addProductToCart = (): void => {
         const product = products!.find((product: IProduct) => product.id === activatedProduct!.id);
-        product && dispatch({ type: ActionTypes.CART_UPDATE_LINES, payload: { product: product, amount: 1, freeShipping: config_rdx.freeShipping, doMock: doMock_rdx } });
-        navigate('/cart');
+        product && dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1, freeShipping: config_rdx.freeShipping }));
+        dispatch(recalculateCart({}) as unknown as Action);
     };
 
     const onCopyToClipboard = () => copyToClipboard(document.URL, setCopied);

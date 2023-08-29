@@ -3,7 +3,7 @@ import { Provider, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { handleHttpError } from "../../common/error";
 import { useHttpGet, useHttpGetPostponedExecution } from "../../common/hook/http-get";
-import { IConfig, IProduct } from "../../model/config";
+import { ICart, IConfig, IProduct } from "../../model/config";
 import { ActionTypes } from "../../store/constant/action";
 import ConfigContext from "../../store/context/config-ctx";
 import { useAppDispatch } from "../../store/hook/hook";
@@ -11,6 +11,7 @@ import { cartInitial } from "../../store/initial/cart";
 import { configInitial } from "../../store/initial/config";
 import { selectDoMock } from "../../store/selector/config";
 import { store } from "../../store/store";
+import { action } from "../../store/util";
 import Navbar from "../navbar/Navbar";
 
 const Header = (): ReactElement => {
@@ -19,19 +20,19 @@ const Header = (): ReactElement => {
 
     const doMock_rdx = useSelector(selectDoMock);
 
-    const { response: config, error: configError, loading: loadingConfig } = useHttpGet<IConfig>('/config.json');
+    const { response: configuration, error: configurationError, loading: loadingConfiguration } = useHttpGet<IConfig>('/config.json');
     const { response: productsFromServer, error: productsError, loading: loadingProducts, fetchData: fetchProducts } = useHttpGetPostponedExecution<IProduct[]>('/api/products');
 
-    const [conf, setConf] = useState<IConfig>(configInitial);
+    const [config, setConfig] = useState<IConfig>(configInitial);
     const [products, setProducts] = useState<IProduct[]>([]);
 
 
-    const initConfig = (): void => { config && dispatch({ type: ActionTypes.CONFIG_INITIALIZE, payload: config, }); }
-    const loadConfig = (): void => { config && setConf(config) }
+    const initConfig = (): void => { configuration && dispatch(action(ActionTypes.CONFIG_INITIALIZE, configuration)); }
+    const loadConfig = (): void => { configuration && setConfig(configuration) }
     const loadProducts = (): void => {
-        if (conf) {
+        if (config) {
             if (doMock_rdx) {
-                setProducts(conf.mocks.products);
+                setProducts(config.mocks.products);
             } else {
                 fetchProducts();
                 (!loadingProducts && productsFromServer) && setProducts(productsFromServer);
@@ -39,20 +40,20 @@ const Header = (): ReactElement => {
             };
         }
     }
-    const initCart = (): void => { conf && dispatch({ type: ActionTypes.CART_INITIALIZE, payload: cartInitial, }); }
-    const initProduct = (): void => { products && dispatch({ type: ActionTypes.PRODUCTS_INITIALIZE, payload: products, }); }
+    const initCart = (): void => { config && dispatch(action<ICart>(ActionTypes.CART_INITIALIZE, cartInitial)); }
+    const initProduct = (): void => { products && dispatch(action<IProduct[]>(ActionTypes.PRODUCTS_INITIALIZE, products)); }
 
-    useEffect((): void => initConfig(), [config]);
-    useEffect((): void => loadConfig(), [config]);
-    useEffect((): void => loadProducts(), [conf]);
-    useEffect((): void => initCart(), [conf]);
+    useEffect((): void => initConfig(), [configuration]);
+    useEffect((): void => loadConfig(), [configuration]);
+    useEffect((): void => loadProducts(), [config]);
+    useEffect((): void => initCart(), [config]);
     useEffect((): void => initProduct(), [products]);
 
-    (!loadingConfig && configError) && handleHttpError(configError)
+    (!loadingConfiguration && configurationError) && handleHttpError(configurationError)
 
     return (
         <Provider store={store}>
-            <ConfigContext.Provider value={conf}>
+            <ConfigContext.Provider value={config}>
                 <Navbar />
             </ConfigContext.Provider>
         </Provider >

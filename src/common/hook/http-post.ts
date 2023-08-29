@@ -55,4 +55,5 @@ export const useHttpPostPostponedExecution = <P = unknown, R = unknown, E = unkn
     return { response, error, loading, postData };
 };
 
-type TPostExecutable<T = void> = { postData: () => Promise<T> };
+export const TPostExecutableKey = 'postData';
+type TPostExecutable<T = void> = { [TPostExecutableKey]: () => Promise<T> };

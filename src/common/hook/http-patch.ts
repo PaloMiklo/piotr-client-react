@@ -55,4 +55,5 @@ export const useHttpPatchPostponedExecution = <P = unknown, R = unknown, E = unk
     return { response, error, loading, patchData };
 };
 
-type TPatchExecutable<T = void> = { patchData: () => Promise<T> };
+export const TPatchExecutableKey = 'patchData';
+type TPatchExecutable<T = void> = { [TPatchExecutableKey]: () => Promise<T> };

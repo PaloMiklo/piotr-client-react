@@ -11,6 +11,7 @@ type ActionTypes = {
 
     CART_INITIALIZE: `${typeof SLICE_NAMES.CART}/initialize`,
     CART_UPDATE_LINES: `${typeof SLICE_NAMES.CART}/updateLines`,
+    CART_RECALCULATE: `${typeof SLICE_NAMES.CART}/recalculate`,
     CART_UPDATE_DELIVERY: `${typeof SLICE_NAMES.CART}/updateDelivery`,
     CART_RESET: `${typeof SLICE_NAMES.CART}/reset`,
 };
@@ -26,6 +27,7 @@ export const ActionTypes: ActionTypes = {
 
     CART_INITIALIZE: `${SLICE_NAMES.CART}/initialize`,
     CART_UPDATE_LINES: `${SLICE_NAMES.CART}/updateLines`,
+    CART_RECALCULATE: `${SLICE_NAMES.CART}/recalculate`,
     CART_UPDATE_DELIVERY: `${SLICE_NAMES.CART}/updateDelivery`,
     CART_RESET: `${SLICE_NAMES.CART}/reset`,
 };

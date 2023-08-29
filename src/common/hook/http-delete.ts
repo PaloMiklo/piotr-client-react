@@ -53,4 +53,5 @@ export const useHttpDeletePostponedExecution = <R = unknown, E = unknown, C = un
     return { response, error, loading, deleteData };
 };
 
-type TDeleteExecutable<T = void> = { deleteData: () => Promise<T> };
+export const TDeleteExecutableKey = 'deleteData';
+type TDeleteExecutable<T = void> = { [TDeleteExecutableKey]: () => Promise<T> };

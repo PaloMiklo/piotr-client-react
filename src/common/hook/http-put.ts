@@ -54,4 +54,5 @@ export const useHttpPutPostponedExecution = <P = unknown, R = unknown, E = unkno
     return { response, error, loading, putData };
 };
 
-type TPutExecutable<T = void> = { putData: () => Promise<T> };
+export const TPutExecutableKey = 'putData';
+type TPutExecutable<T = void> = { [TPutExecutableKey]: () => Promise<T> };
