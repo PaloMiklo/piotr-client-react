@@ -9,6 +9,7 @@ const Product = lazy((): Promise<{ default: ComponentType<TProductProps>; }> => 
 const About = lazy((): Promise<{ default: ComponentType<{}>; }> => import('./components/about/About'));
 const Contact = lazy((): Promise<{ default: ComponentType<{}>; }> => import('./components/contact/Contact'));
 const Cart = lazy((): Promise<{ default: ComponentType<{}>; }> => import('./components/cart/Cart'));
+const Checkout = lazy((): Promise<{ default: ComponentType<{}>; }> => import('./components/checkout/Checkout'));
 const NotFound = lazy((): Promise<{ default: ComponentType<{}>; }> => import('./components/not-found/NotFound'));
 
 const AppRoutes = (): ReactElement => (
@@ -40,6 +41,12 @@ const AppRoutes = (): ReactElement => (
         <Route path="/cart" element={
             <Suspense fallback={<Loading />}>
                 <Cart />
+            </Suspense>
+        } />
+
+        <Route path="/cart/checkout" element={
+            <Suspense fallback={<Loading />}>
+                <Checkout />
             </Suspense>
         } />
 

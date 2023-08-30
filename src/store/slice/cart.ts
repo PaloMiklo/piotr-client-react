@@ -26,6 +26,10 @@ export const cartSlice = createSlice({
             state.value.deliveryOption = action.payload;
             state.value.deliveryPrice = action.payload.price;
         },
+        removeLine: (state: ICartStateWrapper, action: PayloadAction<{ line: ICartLine }>): void => {
+            const { lines } = state.value;
+            state.value.lines = lines.filter((line: ICartLine) => line.product.id !== action.payload.line.product.id);
+        },
         reset: (state: ICartStateWrapper): void => {
             state.value = initialState.value;
         }

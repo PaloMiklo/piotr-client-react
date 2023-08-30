@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Action } from 'redux';
 import { handleOtherError } from '../../../common/error';
+import { CURRENCY } from '../../../core/constant';
 import { copyToClipboard } from '../../../core/util';
 import { IProduct } from '../../../model/config';
 import { ActionTypes } from '../../../store/constant/action';
@@ -42,7 +43,7 @@ const Product = (): ReactElement => {
 
     const addProductToCart = (): void => {
         const product = products!.find((product: IProduct) => product.id === activatedProduct!.id);
-        product && dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1, freeShipping: config_rdx.freeShipping }));
+        product && dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1 }));
         dispatch(recalculateCart({}) as unknown as Action);
     };
 
@@ -56,7 +57,7 @@ const Product = (): ReactElement => {
                         <h3 className="display-4">{activatedProduct.name}</h3>
                         <span className="dash"></span>
                         <p className="product-detail-content-price">
-                            <span className="price">{activatedProduct.price} EUR</span>
+                            <span className="price">{activatedProduct.price} {CURRENCY.EURO}</span>
                         </p>
                         <p className="product-about">{activatedProduct.description}</p>
 

@@ -1,9 +1,9 @@
-import { BrowserRouter as Router } from "react-router-dom";
-import AppRoutes from "./AppRoutes";
-import Header from "./components/header/Header";
-import './App.scss';
-import Brand from "./components/brand/Brand";
 import { ReactElement } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import './App.scss';
+import AppRoutes from "./AppRoutes";
+import Brand from "./components/brand/Brand";
+import Header from "./components/header/Header";
 
 const App = (): ReactElement => {
   return (
