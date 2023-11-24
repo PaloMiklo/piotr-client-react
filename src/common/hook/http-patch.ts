@@ -17,9 +17,9 @@ export const useHttpPatch = <P = unknown, R = unknown, E = unknown, C = unknown>
             try {
                 const { data } = await http.patch<R>(url, payload, config);
                 setResponse(data);
-                setLoading(false);
             } catch (error: unknown) {
                 setError(error as AxiosError<E>);
+            } finally {
                 setLoading(false);
             }
         })();

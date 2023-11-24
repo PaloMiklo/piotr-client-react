@@ -10,7 +10,7 @@ const ModalDialog = ({ doShow, activatedProduct }: TProductModalProps): ReactEle
     const [product, setProduct] = useState<boolean | null>(null);
     const [zoomLevel, setZoomLevel] = useState<number>(100);
 
-    const initModal = () => setIsShow(!isShow);
+    const initModal = (): void => setIsShow(!isShow);
 
     useEffect((): void => {
         if (doShow) {

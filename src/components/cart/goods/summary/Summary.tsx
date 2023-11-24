@@ -5,8 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { ActionTypes } from "../../../../store/constant/action";
 import { useAppDispatch } from "../../../../store/hook/hook";
 import { action } from "../../../../store/util";
-import Counter from "./counter/Counter";
 import './Summary.scss';
+import Counter from "./counter/Counter";
 
 const Summary = (): ReactElement => {
     const dispatch = useAppDispatch();
@@ -24,7 +24,7 @@ const Summary = (): ReactElement => {
                     <button className="btn" onClick={clear}>
                         <FontAwesomeIcon icon={faTrash} />
                     </button>
-                    <button className="btn" onClick={() => navigate('checkout')}>
+                    <button className="btn" onClick={(): void => navigate('checkout')}>
                         <FontAwesomeIcon icon={faBasketShopping} />
                     </button>
                 </li>

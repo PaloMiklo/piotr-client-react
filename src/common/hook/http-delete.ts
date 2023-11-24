@@ -16,9 +16,9 @@ export const useHttpDelete = <R = unknown, E = unknown, C = unknown>(
             try {
                 const { data } = await http.delete<R>(url, config);
                 setResponse(data);
-                setLoading(false);
             } catch (error: unknown) {
                 setError(error as AxiosError<E>);
+            } finally {
                 setLoading(false);
             }
         })();

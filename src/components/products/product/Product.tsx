@@ -39,7 +39,7 @@ const Product = (): ReactElement => {
         }
     }, [id, products]);
 
-    const onOpenModal = () => setOpenModal(!openModal);
+    const onOpenModal = (): void => setOpenModal(!openModal);
 
     const addProductToCart = (): void => {
         const product = products!.find((product: IProduct) => product.id === activatedProduct!.id);
@@ -47,7 +47,7 @@ const Product = (): ReactElement => {
         dispatch(recalculateCart({}) as unknown as Action);
     };
 
-    const onCopyToClipboard = () => copyToClipboard(document.URL, setCopied);
+    const onCopyToClipboard = (): void => copyToClipboard(document.URL, setCopied);
 
     return activatedProduct ? (
         <div className="product-detail-content">
