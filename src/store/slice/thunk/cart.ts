@@ -9,7 +9,7 @@ import { ICartStateWrapper } from "../cart";
 import { hasFreeShippingClaim, recalculateCartPrice } from "../util/cart";
 
 type TRecalculateCartArgs = {};
-type TRecalculateCartPayload = { calculatedCartPrice: number; freeShipping: number };
+type TRecalculateCartPayload = { calculatedCartPrice: number; freeShipping: number, doMock: boolean };
 type TRecalculateError = AxiosError<unknown>;
 type TRecalculateCartResult = TRecalculateCartPayload | TRecalculateError;
 
@@ -35,7 +35,7 @@ export const recalculateCart = createAsyncThunk<TRecalculateCartResult | TRecalc
             }
         }
 
-        return { calculatedCartPrice, freeShipping };
+        return { calculatedCartPrice, freeShipping, doMock };
     }
 );
 
@@ -47,7 +47,7 @@ export const recalculateCartReducer = (builder: ActionReducerMapBuilder<ICartSta
             const { lines } = state.value;
             state.value = {
                 ...state.value,
-                freeShipping: hasFreeShippingClaim(lines, result.freeShipping),
+                freeShipping: result.doMock ? hasFreeShippingClaim(lines, result.freeShipping) : result.calculatedCartPrice > result.freeShipping,
                 itemCount: lines.length,
                 cartPrice: result.calculatedCartPrice,
             };

@@ -21,11 +21,10 @@ const Header = (): ReactElement => {
     const doMock_rdx = useSelector(selectDoMock);
 
     const { response: configuration, error: configurationError, loading: loadingConfiguration } = useHttpGet<IConfig>('/config.json');
-    const { response: productsFromServer, error: productsError, loading: loadingProducts, fetchData: fetchProducts } = useHttpGetPostponedExecution<IProduct[]>('/api/products');
+    const { response: productsFromApi, error: productsError, loading: loadingProducts, fetchData: fetchProducts } = useHttpGetPostponedExecution<IProduct[]>('/api/product/list');
 
     const [config, setConfig] = useState<IConfig>(configInitial);
     const [products, setProducts] = useState<IProduct[]>([]);
-
 
     const initConfig = (): void => { configuration && dispatch(action(ActionTypes.CONFIG_INITIALIZE, configuration)); }
     const loadConfig = (): void => { configuration && setConfig(configuration) }
@@ -35,13 +34,16 @@ const Header = (): ReactElement => {
                 setProducts(config.mocks.products);
             } else {
                 fetchProducts();
-                (!loadingProducts && productsFromServer) && setProducts(productsFromServer);
-                (!loadingProducts && productsError) && handleHttpError(productsError!, navigate)
             };
         }
     }
     const initCart = (): void => { config && dispatch(action<ICart>(ActionTypes.CART_INITIALIZE, cartInitial)); }
     const initProduct = (): void => { products && dispatch(action<IProduct[]>(ActionTypes.PRODUCTS_INITIALIZE, products)); }
+
+    useEffect((): void => {
+        (!loadingProducts && productsFromApi) && setProducts(productsFromApi);
+        (!loadingProducts && productsError) && handleHttpError(productsError!, navigate)
+    }, [productsFromApi]);
 
     useEffect((): void => initConfig(), [configuration]);
     useEffect((): void => loadConfig(), [configuration]);

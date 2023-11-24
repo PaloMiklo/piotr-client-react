@@ -1,6 +1,6 @@
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import { useEffect, useState } from 'react';
-import { IHttpResponse } from '../../model/httpResponse';
+import { IHttpResponse, IHttpResponseWrapper } from '../../model/httpResponse';
 import http from '../http';
 
 export const useHttpGet = <R = unknown, E = unknown, C = unknown>(
@@ -38,8 +38,8 @@ export const useHttpGetPostponedExecution = <R = unknown, E = unknown, C = unkno
         setLoading(true);
 
         try {
-            const { data } = await http.get<R>(url, config);
-            setResponse(data);
+            const { data } = await http.get<IHttpResponseWrapper<R>>(url, config);
+            setResponse(data.content);
             setError(null);
         } catch (error: unknown) {
             setError(error as AxiosError<E>);
