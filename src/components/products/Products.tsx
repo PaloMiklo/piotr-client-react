@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { IProduct } from "../../model/config";
+import { TProductRow, TProductRowDto } from "../../model/config";
 import { selectProducts } from "../../store/selector/products";
 import Loading from "../loading/Loading";
 import './Products.scss';
@@ -9,7 +9,7 @@ import Tile from "./tile/Tile";
 const Products = (): ReactElement => {
     const products_rdx = useSelector(selectProducts);
 
-    const [products, setProducts] = useState<IProduct[]>([]);
+    const [products, setProducts] = useState<TProductRowDto[]>([]);
 
     useEffect((): void => {
         products_rdx.length && setProducts(products_rdx)
@@ -19,7 +19,7 @@ const Products = (): ReactElement => {
         <ul>
             <li>
                 <div className="products">
-                    {products.map((product: IProduct) =>
+                    {products.map((product: TProductRow) =>
                         <Tile key={product.id} product={product} />
                     )}
                 </div>

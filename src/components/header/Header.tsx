@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { handleHttpError } from "../../common/error";
 import { useHttpGet, useHttpGetPostponedExecution } from "../../common/hook/http-get";
 import { API, ENDPOINTS } from "../../common/rest";
-import { ICart, IConfig, ProductRowDto } from "../../model/config";
+import { ICart, IConfig, TProductRowDto } from "../../model/config";
 import { ActionTypes } from "../../store/constant/action";
 import ConfigContext from "../../store/context/config-ctx";
 import { useAppDispatch } from "../../store/hook/hook";
@@ -22,10 +22,10 @@ const Header = (): ReactElement => {
     const doMock_rdx = useSelector(selectDoMock);
 
     const { response: configuration, error: configurationError, loading: loadingConfiguration } = useHttpGet<IConfig>(ENDPOINTS[API.CONFIG]());
-    const { response: productsFromApi, error: productsError, loading: loadingProducts, fetchData: fetchProducts } = useHttpGetPostponedExecution<ProductRowDto[]>(ENDPOINTS[API.PRODUCTS]());
+    const { response: productsFromApi, error: productsError, loading: loadingProducts, fetchData: fetchProducts } = useHttpGetPostponedExecution<TProductRowDto[]>(ENDPOINTS[API.PRODUCTS]());
 
     const [config, setConfig] = useState<IConfig>(configInitial);
-    const [products, setProducts] = useState<ProductRowDto[]>([]);
+    const [products, setProducts] = useState<TProductRowDto[]>([]);
 
     const initConfig = (): void => { configuration && dispatch(action(ActionTypes.CONFIG_INITIALIZE, configuration)); }
     const loadConfig = (): void => { configuration && setConfig(configuration) }
@@ -39,7 +39,7 @@ const Header = (): ReactElement => {
         }
     }
     const initCart = (): void => { config && dispatch(action<ICart>(ActionTypes.CART_INITIALIZE, cartInitial)); }
-    const initProduct = (): void => { products && dispatch(action<ProductRowDto[]>(ActionTypes.PRODUCTS_INITIALIZE, products)); }
+    const initProduct = (): void => { products && dispatch(action<TProductRowDto[]>(ActionTypes.PRODUCTS_INITIALIZE, products)); }
 
     useEffect((): void => {
         (!loadingProducts && productsFromApi) && setProducts(productsFromApi);

@@ -1,28 +1,32 @@
-export interface IOrder { }
+export interface IOrder { };
 
-export interface ProductRowDto {
-    id: number,
-    name: string,
-    price: number,
-    valid: boolean
-}
+// ProductRowDto
+export type TProductRow = TProductRowDto;
+export type TProductRowDto = Omit<IProduct, 'quantity' | 'description'> & { valid: boolean };
 
-
-
+// ProductDetDto
 export interface IProduct {
     id: number,
     name: string,
     quantity: number,
     price: number,
-    description: string
-}
+    description: string,
+    valid: boolean
+};
+
+// CartRecalculateDto
+export type TCartRecalculateDto = ICartLine;
+export interface ICartLine {
+    product: IProduct,
+    amount: number
+};
 
 export interface IDeliveryOption {
     id: number;
     name: string;
     description: string;
     price: number;
-}
+};
 
 export interface ICart {
     lines: ICartLine[];
@@ -31,12 +35,7 @@ export interface ICart {
     freeShipping: boolean;
     itemCount: number;
     cartPrice: number;
-}
-
-export interface ICartLine {
-    product: IProduct,
-    amount: number
-}
+};
 
 export interface IConfig {
     apiPrefix: string,
@@ -55,18 +54,17 @@ export interface IConfig {
     storageExpiration: string;
 }
 
-
 export interface IMocks {
-    products: ProductRowDto[];
-    product: ProductRowDto;
+    products: TProductRowDto[];
+    product: IProduct;
     orders: IOrder[];
     deletedProducts: IProduct[];
-}
+};
 
 export interface IPageOption {
     text: string;
     value: string;
-}
+};
 
 export enum ConfigKeys {
     PROTOCOL = 'protocol',
@@ -80,7 +78,7 @@ export enum ConfigKeys {
     PAGE_OPTIONS = 'pageOptions',
     COUNTRIES = 'countries',
     STORAGE_EXPIRATION = 'storageExpiration',
-}
+};
 
 export enum MocksKeys {
     PRODUCTS = 'products',
@@ -88,4 +86,4 @@ export enum MocksKeys {
     ORDERS = 'orders',
     DELETED_PRODUCTS = 'deletedProducts',
     MOCK_SEND_ORDER = 'mockSendOrder',
-}
+};

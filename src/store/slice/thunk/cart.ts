@@ -3,6 +3,7 @@ import { AxiosError } from "axios";
 import { handleHttpError } from "../../../common/error";
 import http from "../../../common/http";
 import { API_PREFIX } from "../../../common/rest";
+import { TCartRecalculateDto } from "../../../model/config";
 import { ActionTypes } from "../../constant/action";
 import { RootState, store, UNDOABLE } from "../../store";
 import { action } from "../../util";
@@ -27,8 +28,8 @@ export const recalculateCart = createAsyncThunk<TRecalculateCartResult | TRecalc
             calculatedCartPrice = recalculateCartPrice(lines);
         } else {
             try {
-                const recalculationFromServer = await http.post(`${API_PREFIX}/cart/recalculate`, lines);
-                calculatedCartPrice = recalculationFromServer.data;
+                const recalculationFromApi = await http.post(`${API_PREFIX}/cart/recalculate`, lines as TCartRecalculateDto[]);
+                calculatedCartPrice = recalculationFromApi.data;
             } catch (error: unknown) {
                 handleHttpError(error as AxiosError<unknown>);
                 store.dispatch(action(UNDOABLE.cart.undo));

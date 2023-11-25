@@ -1,3 +1,3 @@
-import { IProduct } from "../../../model/config";
+import { TProductRow } from "../../../model/config";
 
-export type TProductProps = { product: IProduct };
+export type TProductProps = { product: TProductRow };

@@ -11,7 +11,7 @@ import { useHttpGetBlobPostponedExecution } from '../../../common/hook/http-get'
 import { API, ENDPOINTS } from '../../../common/rest';
 import { CURRENCY } from '../../../core/constant';
 import { copyToClipboard } from '../../../core/util';
-import { IProduct } from '../../../model/config';
+import { ICartLine, IProduct } from '../../../model/config';
 import { ActionTypes } from '../../../store/constant/action';
 import { useAppDispatch } from '../../../store/hook/hook';
 import { selectConfig, selectDoMock } from '../../../store/selector/config';
@@ -33,6 +33,7 @@ const Product = (): ReactElement => {
     const [activatedProduct, setActivatedProduct] = useState<IProduct | null>(null);
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [copied, setCopied] = useState(false);
+
     const { response: imageFromApi, error: imageError, loading: loadingImage, fetchDataBlob: fetchImage, cleanUpBlob: cleanImage } = useHttpGetBlobPostponedExecution();
 
     useEffect((): void => { setProducts(products_rdx); }, [products_rdx]);
@@ -53,7 +54,7 @@ const Product = (): ReactElement => {
 
     const addProductToCart = (): void => {
         const product = products!.find((product: IProduct) => product.id === activatedProduct!.id);
-        product && dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1 }));
+        product && dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1 } as ICartLine));
         dispatch(recalculateCart({}) as unknown as Action);
     };
 
