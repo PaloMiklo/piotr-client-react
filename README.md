@@ -6,6 +6,14 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `yarn`
+Installs all dependencies. If you encounter:   
+```text 
+hint: The '.husky/pre-commit' hook was ignored because it's not set as executable.
+hint: You can disable this warning with 'git config advice.ignoredHook false'.
+```     
+From the project's root run `chmod +x .husky/pre-commit` to make the script executable.
+
 ### `yarn start`
 
 Runs the app in the development mode.\
