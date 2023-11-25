@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Action } from 'redux';
 import { handleOtherError } from '../../../common/error';
+import { useHttpGetBlobPostponedExecution } from '../../../common/hook/http-get';
 import { CURRENCY } from '../../../core/constant';
 import { copyToClipboard } from '../../../core/util';
 import { IProduct } from '../../../model/config';
@@ -29,6 +30,7 @@ const Product = (): ReactElement => {
     const [activatedProduct, setActivatedProduct] = useState<IProduct | null>(null);
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [copied, setCopied] = useState(false);
+    const { response: imageFromApi, error: imageError, loading: loadingImage, fetchDataBlob: fetchImage, cleanUpBlob: cleanImage } = useHttpGetBlobPostponedExecution();
 
     useEffect((): void => { setProducts(products_rdx); }, [products_rdx]);
 
@@ -38,6 +40,11 @@ const Product = (): ReactElement => {
             foundProduct ? setActivatedProduct(foundProduct) : handleOtherError<string>(`Product with id ${id} not found!`, navigate);
         }
     }, [id, products]);
+
+    useEffect((): () => void => {
+        activatedProduct && fetchImage(`/api/product/${activatedProduct!.id}/image`);
+        return () => activatedProduct && cleanImage();
+    }, [activatedProduct]);
 
     const onOpenModal = (): void => setOpenModal(!openModal);
 
@@ -88,11 +95,13 @@ const Product = (): ReactElement => {
 
                 <div className="col-lg-8 col-md-12">
                     <div className="product-detail-content-image">
-                        <img className="img-fluid product-img" src={`/images/${activatedProduct.imagePath}`}
-                            onClick={onOpenModal}
-                            data-toggle="modal"
-                            alt="Product"
-                            loading="lazy" />
+                        {imageFromApi && (
+                            <img className="img-fluid product-img" src={imageFromApi}
+                                onClick={onOpenModal}
+                                data-toggle="modal"
+                                alt="Product"
+                                loading="lazy" />
+                        )}
                     </div>
                 </div>
 
