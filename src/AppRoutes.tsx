@@ -1,5 +1,6 @@
 import { ComponentType, lazy, ReactElement, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
+import { ROUTE } from "./common/route";
 import { TProductProps } from "./components/products/product/Product.config";
 import { IProduct } from "./model/config";
 
@@ -14,43 +15,43 @@ const NotFound = lazy((): Promise<{ default: ComponentType<{}>; }> => import('./
 
 const AppRoutes = (): ReactElement => (
     <Routes>
-        <Route path="/" element={
+        <Route path={ROUTE.ROOT} element={
             <Suspense fallback={<Loading />}>
                 <Products />
             </Suspense>
         } />
 
-        <Route path="/products/:id" element={
+        <Route path={ROUTE.PRODUCT_DETAIL} element={
             <Suspense fallback={<Loading />}>
                 <Product product={{} as IProduct}></Product>
             </Suspense>
         } />
 
-        <Route path="/about" element={
+        <Route path={ROUTE.ABOUT} element={
             <Suspense fallback={<Loading />}>
                 <About />
             </Suspense>
         } />
 
-        <Route path="/contact" element={
+        <Route path={ROUTE.CONTACT} element={
             <Suspense fallback={<Loading />}>
                 <Contact />
             </Suspense>
         } />
 
-        <Route path="/cart" element={
+        <Route path={ROUTE.CART} element={
             <Suspense fallback={<Loading />}>
                 <Cart />
             </Suspense>
         } />
 
-        <Route path="/cart/checkout" element={
+        <Route path={ROUTE.CHECKOUT} element={
             <Suspense fallback={<Loading />}>
                 <Checkout />
             </Suspense>
         } />
 
-        <Route path="/*" element={
+        <Route path={ROUTE.WILDCART} element={
             <Suspense fallback={<Loading />}>
                 <NotFound />
             </Suspense>
