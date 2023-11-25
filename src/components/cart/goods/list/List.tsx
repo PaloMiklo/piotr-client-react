@@ -1,6 +1,7 @@
 import { faMinus, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ReactElement } from 'react';
+import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 import { Action } from 'redux';
 import { ActionTypes } from '../../../../store/constant/action';
@@ -33,7 +34,9 @@ const List = ({ line }: TListProps): ReactElement => {
                     <FontAwesomeIcon icon={faXmark} />
                 </a>
                 <Link to={`/products/${product.id}`}>
-                    <img className="hoverable" src={`/images/${product.imagePath}`} alt="Product" loading='lazy' />
+                    <LazyLoad>
+                        <img className="hoverable" src={`/images/${product.imagePath}`} alt="Product" loading='lazy' />
+                    </LazyLoad>
                 </Link>
             </div>
 

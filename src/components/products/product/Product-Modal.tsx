@@ -2,6 +2,7 @@ import { faMagnifyingGlassMinus, faMagnifyingGlassPlus, faXmark } from '@fortawe
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ReactElement, useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
+import LazyLoad from 'react-lazyload';
 import { useHttpGetBlob } from '../../../common/hook/http-get';
 import { API, ENDPOINTS } from '../../../common/rest';
 import { TProductModalProps } from './Product-Modal.config';
@@ -38,16 +39,18 @@ const ModalDialog = ({ doShow, activatedProduct }: TProductModalProps): ReactEle
                     <button className='btn' onClick={handleZoomIn}><FontAwesomeIcon icon={faMagnifyingGlassPlus} /></button>
                 </div>
                 <Modal.Body className='d-flex flex-column align-items-center pt-0'>
-                    {imageSrc && (
-                        <img
-                            className="product-img"
-                            src={imageSrc}
-                            alt="Product"
-                            style={{ width: `${zoomLevel}%` }}
-                            loading="lazy"
-                        />
-                    )
-                    }
+                    <LazyLoad>
+                        {imageSrc && (
+                            <img
+                                className="product-img"
+                                src={imageSrc}
+                                alt="Product"
+                                style={{ width: `${zoomLevel}%` }}
+                                loading="lazy"
+                            />
+                        )
+                        }
+                    </LazyLoad>
                 </Modal.Body>
                 <Modal.Footer></Modal.Footer>
             </Modal>

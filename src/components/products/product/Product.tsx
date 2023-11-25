@@ -2,6 +2,7 @@ import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ReactElement, useEffect, useState } from 'react';
+import LazyLoad from 'react-lazyload';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Action } from 'redux';
@@ -96,13 +97,15 @@ const Product = (): ReactElement => {
 
                 <div className="col-lg-8 col-md-12">
                     <div className="product-detail-content-image">
-                        {imageFromApi && (
-                            <img className="img-fluid product-img" src={imageFromApi}
-                                onClick={onOpenModal}
-                                data-toggle="modal"
-                                alt="Product"
-                                loading="lazy" />
-                        )}
+                        <LazyLoad>
+                            {imageFromApi && (
+                                <img className="img-fluid product-img" src={imageFromApi}
+                                    onClick={onOpenModal}
+                                    data-toggle="modal"
+                                    alt="Product"
+                                    loading="lazy" />
+                            )}
+                        </LazyLoad>
                     </div>
                 </div>
 
