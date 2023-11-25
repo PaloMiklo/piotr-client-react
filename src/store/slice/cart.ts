@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICart, ICartLine, IDeliveryOption } from "../../model/config";
+import { LOCAL_STORAGE, LOCAL_STORAGE_OPERATION } from "../../storage/local-storage";
 import { SLICE_NAMES } from "../constant/slice";
 import { cartInitial } from "../initial/cart";
 import { recalculateCartReducer } from "./thunk/cart";
@@ -32,6 +33,8 @@ export const cartSlice = createSlice({
         },
         reset: (state: ICartStateWrapper): void => {
             state.value = initialState.value;
+            // TODO: Test and implement for other scenarios
+            LOCAL_STORAGE[LOCAL_STORAGE_OPERATION.CLEAR]();
         }
     },
     extraReducers: recalculateCartReducer
