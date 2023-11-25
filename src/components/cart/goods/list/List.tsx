@@ -2,10 +2,14 @@ import { faMinus, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ReactElement } from 'react';
 import LazyLoad from 'react-lazyload';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Action } from 'redux';
+import { useHttpGetBlob } from '../../../../common/hook/http-get';
+import { API, ENDPOINTS } from '../../../../common/rest';
 import { ActionTypes } from '../../../../store/constant/action';
 import { useAppDispatch } from '../../../../store/hook/hook';
+import { selectDoMock } from '../../../../store/selector/config';
 import { recalculateCart } from '../../../../store/slice/thunk/cart';
 import { action } from '../../../../store/util';
 import { TListProps } from './List.config';
@@ -14,6 +18,10 @@ import './List.scss';
 const List = ({ line }: TListProps): ReactElement => {
     const { product } = line;
     const dispatch = useAppDispatch();
+
+    const doMock_rdx = useSelector(selectDoMock);
+
+    const { response: imageSrc, error: imageError, loading: imageLoading } = useHttpGetBlob(ENDPOINTS[API.PRODUCT_IMAGE](product.id), { doMock: doMock_rdx });
 
     const removeViaX = (): void => { dispatch(action(ActionTypes.CART_REMOVE_LINE, { line })); };
 
@@ -35,7 +43,20 @@ const List = ({ line }: TListProps): ReactElement => {
                 </a>
                 <Link to={`/products/${product.id}`}>
                     <LazyLoad>
-                        <img className="hoverable" src={`/images/${product.imagePath}`} alt="Product" loading='lazy' />
+                        {doMock_rdx ?
+                            (
+                                <img className="hoverable"
+                                    src={`/images/product${product.id}.jpg`}
+                                    alt="Product" loading='lazy' />
+                            ) : (
+                                imageSrc && (
+                                    <img className="hoverable"
+                                        src={imageSrc}
+                                        alt="Product"
+                                        loading='lazy' />
+                                )
+                            )
+                        }
                     </LazyLoad>
                 </Link>
             </div>

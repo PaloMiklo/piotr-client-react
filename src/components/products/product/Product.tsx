@@ -14,7 +14,7 @@ import { copyToClipboard } from '../../../core/util';
 import { IProduct } from '../../../model/config';
 import { ActionTypes } from '../../../store/constant/action';
 import { useAppDispatch } from '../../../store/hook/hook';
-import { selectConfig } from '../../../store/selector/config';
+import { selectConfig, selectDoMock } from '../../../store/selector/config';
 import { selectProducts } from '../../../store/selector/products';
 import { recalculateCart } from '../../../store/slice/thunk/cart';
 import { action } from '../../../store/util';
@@ -27,6 +27,7 @@ const Product = (): ReactElement => {
     const dispatch = useAppDispatch();
     const products_rdx = useSelector(selectProducts);
     const config_rdx = useSelector(selectConfig);
+    const doMock_rdx = useSelector(selectDoMock);
 
     const [products, setProducts] = useState<IProduct[]>();
     const [activatedProduct, setActivatedProduct] = useState<IProduct | null>(null);
@@ -98,13 +99,25 @@ const Product = (): ReactElement => {
                 <div className="col-lg-8 col-md-12">
                     <div className="product-detail-content-image">
                         <LazyLoad>
-                            {imageFromApi && (
-                                <img className="img-fluid product-img" src={imageFromApi}
-                                    onClick={onOpenModal}
-                                    data-toggle="modal"
-                                    alt="Product"
-                                    loading="lazy" />
-                            )}
+                            {doMock_rdx ?
+                                (
+                                    <img className="img-fluid product-img"
+                                        src={`/images/product${activatedProduct.id}.jpg`}
+                                        onClick={onOpenModal}
+                                        data-toggle="modal"
+                                        alt="Product"
+                                        loading="lazy" />
+                                ) : (
+                                    imageFromApi && (
+                                        <img className="img-fluid product-img"
+                                            src={imageFromApi}
+                                            onClick={onOpenModal}
+                                            data-toggle="modal"
+                                            alt="Product"
+                                            loading="lazy" />
+                                    )
+                                )
+                            }
                         </LazyLoad>
                     </div>
                 </div>

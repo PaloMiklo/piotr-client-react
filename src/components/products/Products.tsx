@@ -11,15 +11,17 @@ const Products = (): ReactElement => {
 
     const [products, setProducts] = useState<IProduct[]>([]);
 
-    useEffect((): void => setProducts(products_rdx), [products_rdx]);
+    useEffect((): void => {
+        products_rdx.length && setProducts(products_rdx)
+    }, [products_rdx]);
 
     return products.length ? (
         <ul>
             <li>
                 <div className="products">
-                    {products.map((product: IProduct) => (
+                    {products.map((product: IProduct) =>
                         <Tile key={product.id} product={product} />
-                    ))}
+                    )}
                 </div>
             </li>
         </ul>

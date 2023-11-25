@@ -3,8 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ReactElement, useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import LazyLoad from 'react-lazyload';
+import { useSelector } from 'react-redux';
 import { useHttpGetBlob } from '../../../common/hook/http-get';
 import { API, ENDPOINTS } from '../../../common/rest';
+import { selectDoMock } from '../../../store/selector/config';
 import { TProductModalProps } from './Product-Modal.config';
 import './Product-Modal.scss';
 
@@ -13,7 +15,9 @@ const ModalDialog = ({ doShow, activatedProduct }: TProductModalProps): ReactEle
     const [product, setProduct] = useState<boolean | null>(null);
     const [zoomLevel, setZoomLevel] = useState<number>(100);
 
-    const { response: imageSrc, error: imageError, loading: imageLoading } = useHttpGetBlob(ENDPOINTS[API.PRODUCT_IMAGE](activatedProduct.id));
+    const doMock_rdx = useSelector(selectDoMock);
+
+    const { response: imageSrc, error: imageError, loading: imageLoading } = useHttpGetBlob(ENDPOINTS[API.PRODUCT_IMAGE](activatedProduct.id), { doMock: doMock_rdx });
 
     const initModal = (): void => setIsShow(!isShow);
 
@@ -40,15 +44,26 @@ const ModalDialog = ({ doShow, activatedProduct }: TProductModalProps): ReactEle
                 </div>
                 <Modal.Body className='d-flex flex-column align-items-center pt-0'>
                     <LazyLoad>
-                        {imageSrc && (
-                            <img
-                                className="product-img"
-                                src={imageSrc}
-                                alt="Product"
-                                style={{ width: `${zoomLevel}%` }}
-                                loading="lazy"
-                            />
-                        )
+                        {doMock_rdx ?
+                            (
+                                <img
+                                    className="product-img"
+                                    src={`/images/product${activatedProduct.id}.jpg`}
+                                    alt="Product"
+                                    style={{ width: `${zoomLevel}%` }}
+                                    loading="lazy"
+                                />
+                            ) : (
+                                imageSrc && (
+                                    <img
+                                        className="product-img"
+                                        src={imageSrc}
+                                        alt="Product"
+                                        style={{ width: `${zoomLevel}%` }}
+                                        loading="lazy"
+                                    />
+                                )
+                            )
                         }
                     </LazyLoad>
                 </Modal.Body>

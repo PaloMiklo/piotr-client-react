@@ -1,4 +1,4 @@
-import { IConfig, IProduct } from "../../model/config";
+import { IConfig, ProductRowDto } from "../../model/config";
 
 export const configInitial: IConfig = {
     apiPrefix: "",
@@ -12,7 +12,7 @@ export const configInitial: IConfig = {
     mocks: {
         products: [],
         deletedProducts: [],
-        product: {} as IProduct,
+        product: {} as ProductRowDto,
         orders: []
     },
     mockSendOrder: {},

@@ -1,9 +1,17 @@
 export interface IOrder { }
 
+export interface ProductRowDto {
+    id: number,
+    name: string,
+    price: number,
+    valid: boolean
+}
+
+
+
 export interface IProduct {
     id: number,
     name: string,
-    imagePath: string,
     quantity: number,
     price: number,
     description: string
@@ -49,8 +57,8 @@ export interface IConfig {
 
 
 export interface IMocks {
-    products: IProduct[];
-    product: IProduct;
+    products: ProductRowDto[];
+    product: ProductRowDto;
     orders: IOrder[];
     deletedProducts: IProduct[];
 }
