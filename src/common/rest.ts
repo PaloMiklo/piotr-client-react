@@ -4,8 +4,10 @@ export const enum API {
     PRODUCT_IMAGE = 2
 }
 
+export const API_PREFIX = '/api';
+
 export const ENDPOINTS: Record<API, <A = string>(arg?: A) => string> = {
     [API.CONFIG]: (): string => '/config.json',
-    [API.PRODUCTS]: (): string => '/api/product/list',
-    [API.PRODUCT_IMAGE]: <A = string>(productId: A): string => `/api/product/${productId}/image`,
+    [API.PRODUCTS]: (): string => `${API_PREFIX}/product/list`,
+    [API.PRODUCT_IMAGE]: <A = string>(productId: A): string => `${API_PREFIX}/product/${productId}/image`,
 };
