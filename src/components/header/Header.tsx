@@ -3,6 +3,7 @@ import { Provider, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { handleHttpError } from "../../common/error";
 import { useHttpGet, useHttpGetPostponedExecution } from "../../common/hook/http-get";
+import { API, ENDPOINTS } from "../../common/rest";
 import { ICart, IConfig, IProduct } from "../../model/config";
 import { ActionTypes } from "../../store/constant/action";
 import ConfigContext from "../../store/context/config-ctx";
@@ -20,8 +21,8 @@ const Header = (): ReactElement => {
 
     const doMock_rdx = useSelector(selectDoMock);
 
-    const { response: configuration, error: configurationError, loading: loadingConfiguration } = useHttpGet<IConfig>('/config.json');
-    const { response: productsFromApi, error: productsError, loading: loadingProducts, fetchData: fetchProducts } = useHttpGetPostponedExecution<IProduct[]>('/api/product/list');
+    const { response: configuration, error: configurationError, loading: loadingConfiguration } = useHttpGet<IConfig>(ENDPOINTS[API.CONFIG]());
+    const { response: productsFromApi, error: productsError, loading: loadingProducts, fetchData: fetchProducts } = useHttpGetPostponedExecution<IProduct[]>(ENDPOINTS[API.PRODUCTS]());
 
     const [config, setConfig] = useState<IConfig>(configInitial);
     const [products, setProducts] = useState<IProduct[]>([]);

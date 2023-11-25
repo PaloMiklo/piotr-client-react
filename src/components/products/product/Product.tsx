@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Action } from 'redux';
 import { handleOtherError } from '../../../common/error';
 import { useHttpGetBlobPostponedExecution } from '../../../common/hook/http-get';
+import { API, ENDPOINTS } from '../../../common/rest';
 import { CURRENCY } from '../../../core/constant';
 import { copyToClipboard } from '../../../core/util';
 import { IProduct } from '../../../model/config';
@@ -42,7 +43,7 @@ const Product = (): ReactElement => {
     }, [id, products]);
 
     useEffect((): () => void => {
-        activatedProduct && fetchImage(`/api/product/${activatedProduct!.id}/image`);
+        activatedProduct && fetchImage(ENDPOINTS[API.PRODUCT_IMAGE](activatedProduct!.id));
         return () => activatedProduct && cleanImage();
     }, [activatedProduct]);
 

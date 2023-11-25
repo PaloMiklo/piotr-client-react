@@ -1,12 +1,13 @@
 import { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import { useHttpGetBlob } from '../../../common/hook/http-get';
+import { API, ENDPOINTS } from '../../../common/rest';
 import { TProductProps } from '../product/Product.config';
 import './Tile.scss';
 
 const Tile = ({ product }: TProductProps): ReactElement => {
 
-    const { response: imageSrc, error: imageError, loading: imageLoading } = useHttpGetBlob(`/api/product/${product.id}/image`);
+    const { response: imageSrc, error: imageError, loading: imageLoading } = useHttpGetBlob(ENDPOINTS[API.PRODUCT_IMAGE](product.id));
 
     return (
         <div className="col-sm-12 col-lg-3 product-tile">

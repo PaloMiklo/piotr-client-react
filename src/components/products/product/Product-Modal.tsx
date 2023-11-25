@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ReactElement, useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { useHttpGetBlob } from '../../../common/hook/http-get';
+import { API, ENDPOINTS } from '../../../common/rest';
 import { TProductModalProps } from './Product-Modal.config';
 import './Product-Modal.scss';
 
@@ -11,7 +12,7 @@ const ModalDialog = ({ doShow, activatedProduct }: TProductModalProps): ReactEle
     const [product, setProduct] = useState<boolean | null>(null);
     const [zoomLevel, setZoomLevel] = useState<number>(100);
 
-    const { response: imageSrc, error: imageError, loading: imageLoading } = useHttpGetBlob(`/api/product/${activatedProduct.id}/image`);
+    const { response: imageSrc, error: imageError, loading: imageLoading } = useHttpGetBlob(ENDPOINTS[API.PRODUCT_IMAGE](activatedProduct.id));
 
     const initModal = (): void => setIsShow(!isShow);
 

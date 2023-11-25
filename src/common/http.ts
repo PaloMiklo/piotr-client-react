@@ -1,6 +1,5 @@
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 
-
 const http = axios.create({
   baseURL: window.location.origin,
   timeout: 5000
