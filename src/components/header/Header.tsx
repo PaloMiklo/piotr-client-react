@@ -5,6 +5,7 @@ import { handleHttpError } from "../../common/error";
 import { useHttpGet, useHttpGetPostponedExecution } from "../../common/hook/http-get";
 import { API, ENDPOINTS } from "../../common/rest";
 import { ICart, IConfig, TProductRowDto } from "../../model/config";
+import { LOCAL_STORAGE, LOCAL_STORAGE_KEY, LOCAL_STORAGE_OPERATION } from "../../storage/local-storage";
 import { ActionTypes } from "../../store/constant/action";
 import ConfigContext from "../../store/context/config-ctx";
 import { useAppDispatch } from "../../store/hook/hook";
@@ -38,7 +39,12 @@ const Header = (): ReactElement => {
             };
         }
     }
-    const initCart = (): void => { config && dispatch(action<ICart>(ActionTypes.CART_INITIALIZE, cartInitial)); }
+    const initCart = (): void => {
+        let initial = LOCAL_STORAGE[LOCAL_STORAGE_OPERATION.RETRIEVE](LOCAL_STORAGE_KEY.CART) as ICart;
+        initial ||= cartInitial;
+        config && dispatch(action<ICart>(ActionTypes.CART_INITIALIZE, initial));
+    }
+
     const initProduct = (): void => { products && dispatch(action<TProductRowDto[]>(ActionTypes.PRODUCTS_INITIALIZE, products)); }
 
     useEffect((): void => {
