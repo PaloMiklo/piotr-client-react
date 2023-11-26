@@ -27,7 +27,7 @@ export const useHttpGet = <R = unknown, E = unknown, C = unknown>(
     return { response, error, loading };
 };
 
-export const useHttpGetPostponedExecution = <R = unknown, E = unknown, C = unknown>(
+export const useHttpGet__ = <R = unknown, E = unknown, C = unknown>(
     url: string,
     config?: AxiosRequestConfig<C>
 ): IHttpResponse<R | null, AxiosError<E> | null> & TGetExecutable<void> => {
@@ -37,7 +37,6 @@ export const useHttpGetPostponedExecution = <R = unknown, E = unknown, C = unkno
 
     const fetchData = async (): Promise<void> => {
         setLoading(true);
-
         try {
             const { data } = await http.get<IHttpResponseWrapper<R>>(url, config);
             setResponse(data.content);
@@ -91,7 +90,7 @@ export const useHttpGetBlob = <T = Blob, E = unknown, D = unknown>(
     return { response, error, loading };
 };
 
-export const useHttpGetBlobPostponedExecution = <T = Blob, E = unknown, D = unknown>(
+export const useHttpGetBlob__ = <T = Blob, E = unknown, D = unknown>(
     config?: AxiosRequestConfig<D> & { doMock?: boolean }
 ): IHttpResponse<string | null, AxiosError<E> | null> & TGetBlobExecutables<void> => {
     const [response, setResponse] = useState<string | null>(null);

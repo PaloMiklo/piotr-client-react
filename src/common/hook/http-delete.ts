@@ -27,7 +27,7 @@ export const useHttpDelete = <R = unknown, E = unknown, C = unknown>(
     return { response, error, loading };
 };
 
-export const useHttpDeletePostponedExecution = <R = unknown, E = unknown, C = unknown>(
+export const useHttpDelete__ = <R = unknown, E = unknown, C = unknown>(
     url: string,
     config?: AxiosRequestConfig<C>
 ): IHttpResponse<R | null, AxiosError<E> | null> & TDeleteExecutable<void> => {

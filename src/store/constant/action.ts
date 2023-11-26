@@ -15,6 +15,11 @@ type ActionTypes = {
     CART_UPDATE_DELIVERY: `${typeof SLICE_NAMES.CART}/updateDelivery`,
     CART_REMOVE_LINE: `${typeof SLICE_NAMES.CART}/removeLine`,
     CART_RESET: `${typeof SLICE_NAMES.CART}/reset`,
+
+    DELIVERIES_INITIALIZE: `${typeof SLICE_NAMES.DELIVERY}/initialize`,
+    DELIVERIES_DELIVERY_RESET: `${typeof SLICE_NAMES.DELIVERY}/reset`,
+    DELIVERIES_ADD: `${typeof SLICE_NAMES.DELIVERY}/add`,
+    DELIVERIES_REMOVE: `${typeof SLICE_NAMES.DELIVERY}/remove`
 };
 
 export const ActionTypes: ActionTypes = {
@@ -32,4 +37,9 @@ export const ActionTypes: ActionTypes = {
     CART_UPDATE_DELIVERY: `${SLICE_NAMES.CART}/updateDelivery`,
     CART_REMOVE_LINE: `${SLICE_NAMES.CART}/removeLine`,
     CART_RESET: `${SLICE_NAMES.CART}/reset`,
+
+    DELIVERIES_INITIALIZE: `${SLICE_NAMES.DELIVERY}/initialize`,
+    DELIVERIES_DELIVERY_RESET: `${SLICE_NAMES.DELIVERY}/reset`,
+    DELIVERIES_ADD: `${SLICE_NAMES.DELIVERY}/add`,
+    DELIVERIES_REMOVE: `${SLICE_NAMES.DELIVERY}/remove`
 };

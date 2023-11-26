@@ -27,7 +27,7 @@ export const useHttpPut = <P = unknown, R = unknown, E = unknown, C = unknown>(
     return { response, error, loading };
 };
 
-export const useHttpPutPostponedExecution = <P = unknown, R = unknown, E = unknown, C = unknown>(
+export const useHttpPut__ = <P = unknown, R = unknown, E = unknown, C = unknown>(
     url: string,
     payload: P,
     config?: AxiosRequestConfig<C>

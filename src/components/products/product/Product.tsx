@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Action } from 'redux';
 import { handleOtherError } from '../../../common/error';
-import { useHttpGetBlobPostponedExecution } from '../../../common/hook/http-get';
+import { useHttpGetBlob__ } from '../../../common/hook/http-get';
 import { API, ENDPOINTS } from '../../../common/rest';
 import { CURRENCY } from '../../../core/constant';
 import { copyToClipboard } from '../../../core/util';
@@ -33,7 +33,7 @@ const Product = (): ReactElement => {
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [copied, setCopied] = useState(false);
 
-    const { response: imageFromApi, error: imageError, loading: loadingImage, fetchDataBlob: fetchImage, cleanUpBlob: cleanImage } = useHttpGetBlobPostponedExecution({ doMock: config_rdx.doMock });
+    const { response: imageFromApi, error: imageError, loading: loadingImage, fetchDataBlob: fetchImage, cleanUpBlob: cleanImage } = useHttpGetBlob__({ doMock: config_rdx.doMock });
 
     useEffect((): void => { setProducts(products_rdx); }, [products_rdx]);
 

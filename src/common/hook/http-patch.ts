@@ -28,7 +28,7 @@ export const useHttpPatch = <P = unknown, R = unknown, E = unknown, C = unknown>
     return { response, error, loading };
 };
 
-export const useHttpPatchPostponedExecution = <P = unknown, R = unknown, E = unknown, C = unknown>(
+export const useHttpPatch__ = <P = unknown, R = unknown, E = unknown, C = unknown>(
     url: string,
     payload: P,
     config?: AxiosRequestConfig<C>

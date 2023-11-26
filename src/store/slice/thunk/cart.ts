@@ -60,7 +60,6 @@ export const recalculateCartReducer = (builder: ActionReducerMapBuilder<ICartSta
                 cartPrice: result.calculatedCartPrice,
             };
             LOCAL_STORAGE[LOCAL_STORAGE_OPERATION.STORE](LOCAL_STORAGE_KEY.CART, state.value, ttl);
-            console.log('CURRENT STATE OF CART -> ', state.value)
         })
         .addCase(recalculateCart.rejected, (state: ICartStateWrapper, action: PayloadAction<unknown>) => {
             console.log('REJECTED: ', JSON.stringify(state.value));

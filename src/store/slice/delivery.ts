@@ -20,8 +20,8 @@ export const deliverySlice = createSlice({
         add: (state: IDeliveryStateWrapper, action: PayloadAction<IDeliveryOption>): void => {
             state.value.push(action.payload);
         },
-        remove: (state: IDeliveryStateWrapper, action: PayloadAction<number>): void => {
-            state.value = state.value.filter((delivery: IDeliveryOption) => delivery.id !== action.payload);
+        remove: (state: IDeliveryStateWrapper, action: PayloadAction<string>): void => {
+            state.value = state.value.filter((delivery: IDeliveryOption) => delivery.code !== action.payload);
         }
     }
 });
