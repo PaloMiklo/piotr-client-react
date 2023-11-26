@@ -33,7 +33,7 @@ const Product = (): ReactElement => {
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [copied, setCopied] = useState(false);
 
-    const { response: imageFromApi, error: imageError, loading: loadingImage, fetchDataBlob: fetchImage, cleanUpBlob: cleanImage } = useHttpGetBlobPostponedExecution();
+    const { response: imageFromApi, error: imageError, loading: loadingImage, fetchDataBlob: fetchImage, cleanUpBlob: cleanImage } = useHttpGetBlobPostponedExecution({ doMock: config_rdx.doMock });
 
     useEffect((): void => { setProducts(products_rdx); }, [products_rdx]);
 

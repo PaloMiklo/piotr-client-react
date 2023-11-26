@@ -22,8 +22,8 @@ export const productsSlice = createSlice({
         },
         remove: (state: IProductsStateWrapper, action: PayloadAction<number>): void => {
             state.value = state.value.filter((product: IProduct) => product.id !== action.payload);
-        },
-    },
+        }
+    }
 });
 
 const { actions, reducer } = productsSlice;
