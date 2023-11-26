@@ -1,8 +1,7 @@
 import { ICart, IDeliveryOption } from "../model/config";
 
 export enum LOCAL_STORAGE_KEY {
-    CART = 'CART',
-    DELIVERY = 'DELIVERY'
+    CART = 'CART'
 }
 
 type TStorables = ICart | IDeliveryOption;

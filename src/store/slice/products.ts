@@ -27,6 +27,6 @@ export const productsSlice = createSlice({
 });
 
 const { actions, reducer } = productsSlice;
-export const { initialize, reset } = actions;
+export const { initialize, reset, add, remove } = actions;
 
 export default reducer;

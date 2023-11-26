@@ -29,7 +29,7 @@ export const cartSlice = createSlice({
             const ttl = action.payload.config?.storageExpiration;
             state.value.deliveryOption = action.payload;
             state.value.deliveryPrice = action.payload.price;
-            LOCAL_STORAGE[LOCAL_STORAGE_OPERATION.STORE](LOCAL_STORAGE_KEY.DELIVERY, state.value, ttl);
+            LOCAL_STORAGE[LOCAL_STORAGE_OPERATION.STORE](LOCAL_STORAGE_KEY.CART, state.value, ttl);
         },
         removeLine: (state: ICartStateWrapper, action: PayloadAction<{ line: ICartLine }>): void => {
             const { lines } = state.value;

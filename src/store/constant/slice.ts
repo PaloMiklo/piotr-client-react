@@ -1,1 +1,1 @@
-export const SLICE_NAMES = { CONFIG: 'configuration', PRODUCTS: 'products', CART: 'cart' }
+export const SLICE_NAMES = { CONFIG: 'configuration', PRODUCTS: 'products', CART: 'cart', DELIVERY: 'delivery' }
