@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICart, ICartLine, IConfig, IDeliveryOption } from "../../model/config";
-import { LOCAL_STORAGE, LOCAL_STORAGE_KEY, LOCAL_STORAGE_OPERATION } from "../../storage/local-storage";
+import { LOCAL_STORAGE, LOCAL_STORAGE_KEY, LOCAL_STORAGE_OPERATION } from "../../storage/local";
 import { SLICE_NAMES } from "../constant/slice";
 import { cartInitial } from "../initial/cart";
 import { recalculateCartReducer } from "./thunk/cart";

@@ -1,8 +1,6 @@
 import { ICart, IDeliveryOption } from "../model/config";
 
-export enum LOCAL_STORAGE_KEY {
-    CART = 'CART'
-}
+export enum LOCAL_STORAGE_KEY { CART = 'CART' }
 
 type TStorables = ICart | IDeliveryOption;
 
@@ -44,7 +42,7 @@ export const LOCAL_STORAGE: ILocalStorageMap = {
             const serializedValue = localStorage.getItem(key);
             const current = (serializedValue === null) ? null : JSON.parse(serializedValue) as TStorables & { expiration: number };
             const now = new Date();
-            if (current && current!.expiration && now.getTime() > +current!.expiration) {
+            if (current && current.expiration && now.getTime() > +current.expiration) {
                 LOCAL_STORAGE[LOCAL_STORAGE_OPERATION.REMOVE](key);
                 return null;
             }
@@ -59,4 +57,4 @@ export const LOCAL_STORAGE: ILocalStorageMap = {
 
     [LOCAL_STORAGE_OPERATION.CLEAR]: (): void => localStorage.clear()
 
-}
+};

@@ -5,7 +5,7 @@ import { handleHttpError } from "../../common/error";
 import { useHttpGet, useHttpGet__ } from "../../common/hook/http-get";
 import { API, ENDPOINTS, PAYED_OPTIONS_CODE } from "../../common/rest";
 import { ICart, IConfig, IDeliveryOption, TProductRowDto } from "../../model/config";
-import { LOCAL_STORAGE, LOCAL_STORAGE_KEY, LOCAL_STORAGE_OPERATION } from "../../storage/local-storage";
+import { LOCAL_STORAGE, LOCAL_STORAGE_KEY, LOCAL_STORAGE_OPERATION } from "../../storage/local";
 import { ActionTypes } from "../../store/constant/action";
 import ConfigContext from "../../store/context/config-ctx";
 import { useAppDispatch } from "../../store/hook/hook";

@@ -54,7 +54,7 @@ const Product = (): ReactElement => {
     const addProductToCart = (): void => {
         const product = products!.find((product: IProduct) => product.id === activatedProduct!.id);
         product && dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1, config: config_rdx } as ICartLine));
-        dispatch(recalculateCart({ config: config_rdx }) as unknown as Action);
+        dispatch(recalculateCart({}) as unknown as Action);
     };
 
     const onCopyToClipboard = (): void => copyToClipboard(document.URL, setCopied);

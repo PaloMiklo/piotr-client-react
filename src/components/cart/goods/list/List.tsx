@@ -27,12 +27,12 @@ const List = ({ line }: TListProps): ReactElement => {
 
     const decrement = (): void => {
         line.amount === 1 ? dispatch(action(ActionTypes.CART_RESET)) : dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: -1, config: config_rdx }));
-        dispatch(recalculateCart({ config: config_rdx }) as unknown as Action);
+        dispatch(recalculateCart({}) as unknown as Action);
     };
 
     const increment = (): void => {
         dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1, config: config_rdx }));
-        dispatch(recalculateCart({ config: config_rdx }) as unknown as Action);
+        dispatch(recalculateCart({}) as unknown as Action);
     };
 
     return (
