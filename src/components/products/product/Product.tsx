@@ -14,7 +14,7 @@ import { copyToClipboard } from '../../../core/util';
 import { ICartLine, IProduct } from '../../../model/config';
 import { ActionTypes } from '../../../store/constant/action';
 import { useAppDispatch } from '../../../store/hook/hook';
-import { selectConfig, selectDoMock } from '../../../store/selector/config';
+import { selectConfig } from '../../../store/selector/config';
 import { selectProducts } from '../../../store/selector/products';
 import { recalculateCart } from '../../../store/slice/thunk/cart';
 import { action } from '../../../store/util';
@@ -27,7 +27,6 @@ const Product = (): ReactElement => {
     const dispatch = useAppDispatch();
     const products_rdx = useSelector(selectProducts);
     const config_rdx = useSelector(selectConfig);
-    const doMock_rdx = useSelector(selectDoMock);
 
     const [products, setProducts] = useState<IProduct[]>();
     const [activatedProduct, setActivatedProduct] = useState<IProduct | null>(null);
@@ -54,8 +53,8 @@ const Product = (): ReactElement => {
 
     const addProductToCart = (): void => {
         const product = products!.find((product: IProduct) => product.id === activatedProduct!.id);
-        product && dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1 } as ICartLine));
-        dispatch(recalculateCart({}) as unknown as Action);
+        product && dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1, config: config_rdx } as ICartLine));
+        dispatch(recalculateCart({ config: config_rdx }) as unknown as Action);
     };
 
     const onCopyToClipboard = (): void => copyToClipboard(document.URL, setCopied);
@@ -100,7 +99,7 @@ const Product = (): ReactElement => {
                 <div className="col-lg-8 col-md-12">
                     <div className="product-detail-content-image">
                         <LazyLoad>
-                            {doMock_rdx ?
+                            {config_rdx.doMock ?
                                 (
                                     <img className="img-fluid product-img"
                                         src={`/images/product${activatedProduct.id}.jpg`}

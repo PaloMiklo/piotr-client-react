@@ -9,7 +9,7 @@ import { useHttpGetBlob } from '../../../../common/hook/http-get';
 import { API, ENDPOINTS } from '../../../../common/rest';
 import { ActionTypes } from '../../../../store/constant/action';
 import { useAppDispatch } from '../../../../store/hook/hook';
-import { selectDoMock } from '../../../../store/selector/config';
+import { selectConfig } from '../../../../store/selector/config';
 import { recalculateCart } from '../../../../store/slice/thunk/cart';
 import { action } from '../../../../store/util';
 import { TListProps } from './List.config';
@@ -19,20 +19,20 @@ const List = ({ line }: TListProps): ReactElement => {
     const { product } = line;
     const dispatch = useAppDispatch();
 
-    const doMock_rdx = useSelector(selectDoMock);
+    const config_rdx = useSelector(selectConfig);
 
-    const { response: imageSrc, error: imageError, loading: imageLoading } = useHttpGetBlob(ENDPOINTS[API.PRODUCT_IMAGE](product.id), { doMock: doMock_rdx });
+    const { response: imageSrc, error: imageError, loading: imageLoading } = useHttpGetBlob(ENDPOINTS[API.PRODUCT_IMAGE](product.id), { doMock: config_rdx.doMock });
 
     const removeViaX = (): void => { dispatch(action(ActionTypes.CART_REMOVE_LINE, { line })); };
 
     const decrement = (): void => {
-        line.amount === 1 ? dispatch(action(ActionTypes.CART_RESET)) : dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: -1 }));
-        dispatch(recalculateCart({}) as unknown as Action);
+        line.amount === 1 ? dispatch(action(ActionTypes.CART_RESET)) : dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: -1, config: config_rdx }));
+        dispatch(recalculateCart({ config: config_rdx }) as unknown as Action);
     };
 
     const increment = (): void => {
-        dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1 }));
-        dispatch(recalculateCart({}) as unknown as Action);
+        dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1, config: config_rdx }));
+        dispatch(recalculateCart({ config: config_rdx }) as unknown as Action);
     };
 
     return (
@@ -43,7 +43,7 @@ const List = ({ line }: TListProps): ReactElement => {
                 </a>
                 <Link to={`/products/${product.id}`}>
                     <LazyLoad>
-                        {doMock_rdx ?
+                        {config_rdx.doMock ?
                             (
                                 <img className="hoverable"
                                     src={`/images/product${product.id}.jpg`}
