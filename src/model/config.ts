@@ -13,11 +13,19 @@ export interface IProduct {
 };
 
 // CartRecalculateDto
-export type TCartRecalculateDto = ICartLine;
+export interface ICartRecalculateDto {
+    cartLines: ICartLine[];
+    deliveryPrice: number
+}
+
+// CartRecalculateResultDto
+export interface ICartRecalculateResultDto { cartPrice: number, cartPriceTotal: number }
+
 export interface ICartLine {
     product: IProduct,
     amount: number
 };
+
 
 export interface IDeliveryOption {
     code: string;
@@ -32,6 +40,7 @@ export interface ICart {
     freeShipping: boolean;
     itemCount: number;
     cartPrice: number;
+    cartPriceTotal: number;
 };
 
 export interface IConfig {

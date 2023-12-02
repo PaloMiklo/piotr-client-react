@@ -3,6 +3,7 @@ import LazyLoad from 'react-lazyload';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Action } from 'redux';
+import { StateWithHistory } from 'redux-undo';
 import { handleHttpError } from '../../../common/error';
 import { useHttpGetBlob } from '../../../common/hook/http-get';
 import { API, ENDPOINTS } from '../../../common/rest';
@@ -10,8 +11,10 @@ import { ROUTE, ROUTE_DYNAMIC } from '../../../common/route';
 import { ICartLine } from '../../../model/config';
 import { ActionTypes } from '../../../store/constant/action';
 import { useAppDispatch } from '../../../store/hook/hook';
+import { selectCart } from '../../../store/selector/cart';
 import { selectConfig } from '../../../store/selector/config';
-import { recalculateCart } from '../../../store/slice/thunk/cart';
+import { ICartStateWrapper } from '../../../store/slice/cart';
+import { TRecalculateCartArgs, recalculateCart } from '../../../store/slice/thunk/cart';
 import { action } from '../../../store/util';
 import { TProductProps } from '../product/Product.config';
 import './Tile.scss';
@@ -20,13 +23,14 @@ const Tile = ({ product }: TProductProps): ReactElement => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const config_rdx = useSelector(selectConfig);
+    const cart_rdx: StateWithHistory<ICartStateWrapper> = useSelector(selectCart);
 
     const { response: imageSrc, error: imageError, loading: loadingImage } = useHttpGetBlob(ENDPOINTS[API.PRODUCT_IMAGE](product.id), { doMock: config_rdx.doMock });
     (!loadingImage && imageError) && handleHttpError(imageError, navigate);
 
     const addProductToCart = (): void => {
         product && dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1, config: config_rdx } as ICartLine));
-        dispatch(recalculateCart({}) as unknown as Action);
+        dispatch(recalculateCart({ deliveryPrice: cart_rdx.present.value.deliveryPrice }) as unknown as Action<TRecalculateCartArgs>);
         navigate(`../${ROUTE.CART}`);
     };
 

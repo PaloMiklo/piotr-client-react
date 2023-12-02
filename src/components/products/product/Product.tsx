@@ -6,6 +6,7 @@ import LazyLoad from 'react-lazyload';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Action } from 'redux';
+import { StateWithHistory } from 'redux-undo';
 import { handleHttpError, handleOtherError } from '../../../common/error';
 import { useHttpGetBlob__ } from '../../../common/hook/http-get';
 import { API, ENDPOINTS } from '../../../common/rest';
@@ -15,9 +16,11 @@ import { copyToClipboard } from '../../../core/util';
 import { ICartLine, IProduct } from '../../../model/config';
 import { ActionTypes } from '../../../store/constant/action';
 import { useAppDispatch } from '../../../store/hook/hook';
+import { selectCart } from '../../../store/selector/cart';
 import { selectConfig } from '../../../store/selector/config';
 import { selectProducts } from '../../../store/selector/products';
-import { recalculateCart } from '../../../store/slice/thunk/cart';
+import { ICartStateWrapper } from '../../../store/slice/cart';
+import { TRecalculateCartArgs, recalculateCart } from '../../../store/slice/thunk/cart';
 import { action } from '../../../store/util';
 import ProductModal from './Product-Modal';
 import './Product.scss';
@@ -28,6 +31,7 @@ const Product = (): ReactElement => {
     const dispatch = useAppDispatch();
     const products_rdx = useSelector(selectProducts);
     const config_rdx = useSelector(selectConfig);
+    const cart_rdx: StateWithHistory<ICartStateWrapper> = useSelector(selectCart);
 
     const [products, setProducts] = useState<IProduct[]>();
     const [activatedProduct, setActivatedProduct] = useState<IProduct | null>(null);
@@ -56,7 +60,7 @@ const Product = (): ReactElement => {
     const addProductToCart = (): void => {
         const product = products!.find((product: IProduct) => product.id === activatedProduct!.id);
         product && dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1, config: config_rdx } as ICartLine));
-        dispatch(recalculateCart({}) as unknown as Action);
+        dispatch(recalculateCart({ deliveryPrice: cart_rdx.present.value.deliveryPrice }) as unknown as Action<TRecalculateCartArgs>);
         navigate(`../${ROUTE.CART}`);
     };
 

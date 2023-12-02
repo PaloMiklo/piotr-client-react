@@ -22,7 +22,7 @@ const Counter = (): ReactElement => {
                     <li className="shopping-cart-summary-wrapper-list">
                         Items ({cart.itemCount})
                         <span className="shopping-cart-summary-price">
-                            <span className="price">{cart.cartPrice - cart.deliveryPrice} {CURRENCY.EURO}</span>
+                            <span className="price">{cart.cartPrice} {CURRENCY.EURO}</span>
                         </span>
                     </li>
 
@@ -37,7 +37,7 @@ const Counter = (): ReactElement => {
                         <b>Total</b>
                         <div className="shopping-cart-summary-price-total">
                             <span className="currency">
-                                <b>{cart.cartPrice} {CURRENCY.EURO}</b>
+                                <b>{cart.cartPriceTotal} {CURRENCY.EURO}</b>
                             </span>
                         </div>
                     </li>

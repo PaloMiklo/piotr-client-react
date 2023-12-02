@@ -14,7 +14,7 @@ import { useAppDispatch } from '../../../../store/hook/hook';
 import { selectCart } from '../../../../store/selector/cart';
 import { selectConfig } from '../../../../store/selector/config';
 import { ICartStateWrapper } from '../../../../store/slice/cart';
-import { recalculateCart } from '../../../../store/slice/thunk/cart';
+import { TRecalculateCartArgs, recalculateCart } from '../../../../store/slice/thunk/cart';
 import { action } from '../../../../store/util';
 import { TRowProps } from './Row.config';
 import './Row.scss';
@@ -38,7 +38,7 @@ const Row = ({ line }: TRowProps): ReactElement => {
     const removeViaX = (): void => {
         if (cart_rdx.present.value.itemCount > 1) {
             dispatch(action(ActionTypes.CART_REMOVE_LINE, { line }))
-            dispatch(recalculateCart({}) as unknown as Action);
+            dispatch(recalculateCart({ deliveryPrice: cart_rdx.present.value.deliveryPrice }) as unknown as Action<TRecalculateCartArgs>);
         } else {
             dispatch(action(ActionTypes.CART_RESET));
         }
@@ -47,7 +47,7 @@ const Row = ({ line }: TRowProps): ReactElement => {
     const decrement = (): void => {
         if (cart_rdx.present.value.itemCount > 1) {
             dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: -1, config: config_rdx }));
-            dispatch(recalculateCart({}) as unknown as Action);
+            dispatch(recalculateCart({ deliveryPrice: cart_rdx.present.value.deliveryPrice }) as unknown as Action<TRecalculateCartArgs>);
         } else {
             dispatch(action(ActionTypes.CART_RESET));
         }
@@ -55,7 +55,7 @@ const Row = ({ line }: TRowProps): ReactElement => {
 
     const increment = (): void => {
         dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1, config: config_rdx }));
-        dispatch(recalculateCart({}) as unknown as Action);
+        dispatch(recalculateCart({ deliveryPrice: cart_rdx.present.value.deliveryPrice }) as unknown as Action<TRecalculateCartArgs>);
     };
 
     return (

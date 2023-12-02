@@ -6,5 +6,6 @@ export const cartInitial: ICart = {
     deliveryPrice: 5.99,
     freeShipping: false,
     itemCount: 0,
-    cartPrice: 0
+    cartPrice: 0,
+    cartPriceTotal: 0
 }

@@ -3,7 +3,7 @@ import { AxiosError } from "axios";
 import { handleHttpError } from "../../../common/error";
 import http from "../../../common/http";
 import { API_PREFIX } from "../../../common/rest";
-import { IConfig, TCartRecalculateDto } from "../../../model/config";
+import { ICartRecalculateDto, ICartRecalculateResultDto, IConfig } from "../../../model/config";
 import { LOCAL_STORAGE, LOCAL_STORAGE_KEY, LOCAL_STORAGE_OPERATION } from "../../../storage/local";
 import { ActionTypes } from "../../constant/action";
 import { RootState, store, UNDOABLE } from "../../store";
@@ -11,27 +11,31 @@ import { action } from "../../util";
 import { ICartStateWrapper } from "../cart";
 import { hasFreeShippingClaim, recalculateCartPrice } from "../util/cart";
 
-type TRecalculateCartArgs = { config?: IConfig };
-type TRecalculateCartPayload = { calculatedCartPrice: number; freeShipping: number, doMock: boolean, config?: IConfig };
+export type TRecalculateCartArgs = { deliveryPrice: number };
+type TRecalculateCartPayload = { calculatedCartPrice: number; calculatedCartPriceTotal: number, freeShipping: number, doMock: boolean, config?: IConfig };
 type TRecalculateError = AxiosError<unknown>;
 type TRecalculateCartResult = TRecalculateCartPayload | TRecalculateError;
 
 export const recalculateCart = createAsyncThunk<TRecalculateCartResult | TRecalculateError, TRecalculateCartArgs, { rejectValue: TRecalculateError }>(
     ActionTypes.CART_RECALCULATE,
-    async (_, { getState, rejectWithValue }): Promise<TRecalculateCartResult | TRecalculateError> => {
+    async (args: TRecalculateCartArgs, { getState, rejectWithValue }): Promise<TRecalculateCartResult | TRecalculateError> => {
         let calculatedCartPrice = 0;
+        let calculatedCartPriceTotal = 0;
         const state = getState() as RootState;
         const config = state.config.value;
+        const deliveryPrice = args.deliveryPrice;
         const { lines } = state.cart.present.value;
         const { freeShipping } = state.config.value;
         const { doMock } = config;
 
         if (config.doMock) {
             calculatedCartPrice = recalculateCartPrice(lines);
+            calculatedCartPriceTotal = calculatedCartPrice + deliveryPrice;
         } else {
             try {
-                const recalculationFromApi = await http.post(`${API_PREFIX}/cart/recalculate`, lines as TCartRecalculateDto[]);
-                calculatedCartPrice = recalculationFromApi.data;
+                const recalculationFromApi = await http.post<ICartRecalculateResultDto>(`${API_PREFIX}/cart/recalculate`, { cartLines: lines, deliveryPrice: deliveryPrice } as ICartRecalculateDto);
+                calculatedCartPrice = recalculationFromApi.data.cartPrice;
+                calculatedCartPriceTotal = recalculationFromApi.data.cartPriceTotal;
             } catch (error: unknown) {
                 handleHttpError(error as AxiosError<unknown>);
                 store.dispatch(action(UNDOABLE.cart.undo));
@@ -39,7 +43,7 @@ export const recalculateCart = createAsyncThunk<TRecalculateCartResult | TRecalc
             }
         }
 
-        return { calculatedCartPrice, freeShipping, doMock, config };
+        return { calculatedCartPrice, calculatedCartPriceTotal, freeShipping, doMock, config };
     }
 );
 
@@ -58,6 +62,7 @@ export const recalculateCartReducer = (builder: ActionReducerMapBuilder<ICartSta
                 freeShipping: result.doMock ? hasFreeShippingClaim(lines, result.freeShipping) : result.calculatedCartPrice > result.freeShipping,
                 itemCount: lines.length,
                 cartPrice: result.calculatedCartPrice,
+                cartPriceTotal: result.calculatedCartPriceTotal,
             };
             LOCAL_STORAGE[LOCAL_STORAGE_OPERATION.STORE](LOCAL_STORAGE_KEY.CART, state.value, ttl);
         })
