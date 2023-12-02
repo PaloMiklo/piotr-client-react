@@ -6,7 +6,7 @@ import LazyLoad from 'react-lazyload';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Action } from 'redux';
-import { handleOtherError } from '../../../common/error';
+import { handleHttpError, handleOtherError } from '../../../common/error';
 import { useHttpGetBlob__ } from '../../../common/hook/http-get';
 import { API, ENDPOINTS } from '../../../common/rest';
 import { ROUTE } from '../../../common/route';
@@ -47,6 +47,7 @@ const Product = (): ReactElement => {
 
     useEffect((): () => void => {
         activatedProduct && fetchImage(ENDPOINTS[API.PRODUCT_IMAGE](activatedProduct!.id));
+        (!loadingImage && imageError) && handleHttpError(imageError, navigate);
         return () => activatedProduct && cleanImage();
     }, [activatedProduct]);
 

@@ -3,8 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ReactElement } from 'react';
 import LazyLoad from 'react-lazyload';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Action } from 'redux';
+import { handleHttpError } from '../../../../common/error';
 import { useHttpGetBlob } from '../../../../common/hook/http-get';
 import { API, ENDPOINTS } from '../../../../common/rest';
 import { ActionTypes } from '../../../../store/constant/action';
@@ -17,11 +18,13 @@ import './List.scss';
 
 const List = ({ line }: TListProps): ReactElement => {
     const { product } = line;
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
     const config_rdx = useSelector(selectConfig);
 
-    const { response: imageSrc, error: imageError, loading: imageLoading } = useHttpGetBlob(ENDPOINTS[API.PRODUCT_IMAGE](product.id), { doMock: config_rdx.doMock });
+    const { response: imageSrc, error: imageError, loading: loadingImage } = useHttpGetBlob(ENDPOINTS[API.PRODUCT_IMAGE](product.id), { doMock: config_rdx.doMock });
+    (!loadingImage && imageError) && handleHttpError(imageError, navigate);
 
     const removeViaX = (): void => { dispatch(action(ActionTypes.CART_REMOVE_LINE, { line })); };
 

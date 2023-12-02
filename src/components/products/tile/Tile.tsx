@@ -3,6 +3,7 @@ import LazyLoad from 'react-lazyload';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Action } from 'redux';
+import { handleHttpError } from '../../../common/error';
 import { useHttpGetBlob } from '../../../common/hook/http-get';
 import { API, ENDPOINTS } from '../../../common/rest';
 import { ROUTE, ROUTE_DYNAMIC } from '../../../common/route';
@@ -20,7 +21,8 @@ const Tile = ({ product }: TProductProps): ReactElement => {
     const dispatch = useAppDispatch();
     const config_rdx = useSelector(selectConfig);
 
-    const { response: imageSrc, error: imageError, loading: imageLoading } = useHttpGetBlob(ENDPOINTS[API.PRODUCT_IMAGE](product.id), { doMock: config_rdx.doMock });
+    const { response: imageSrc, error: imageError, loading: loadingImage } = useHttpGetBlob(ENDPOINTS[API.PRODUCT_IMAGE](product.id), { doMock: config_rdx.doMock });
+    (!loadingImage && imageError) && handleHttpError(imageError, navigate);
 
     const addProductToCart = (): void => {
         product && dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1, config: config_rdx } as ICartLine));

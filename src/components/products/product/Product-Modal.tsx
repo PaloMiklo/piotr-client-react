@@ -4,6 +4,7 @@ import { ReactElement, useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import LazyLoad from 'react-lazyload';
 import { useSelector } from 'react-redux';
+import { handleHttpError } from '../../../common/error';
 import { useHttpGetBlob } from '../../../common/hook/http-get';
 import { API, ENDPOINTS } from '../../../common/rest';
 import { selectDoMock } from '../../../store/selector/config';
@@ -17,7 +18,8 @@ const ModalDialog = ({ doShow, activatedProduct }: TProductModalProps): ReactEle
 
     const doMock_rdx = useSelector(selectDoMock);
 
-    const { response: imageSrc, error: imageError, loading: imageLoading } = useHttpGetBlob(ENDPOINTS[API.PRODUCT_IMAGE](activatedProduct.id), { doMock: doMock_rdx });
+    const { response: imageSrc, error: imageError, loading: loadingImage } = useHttpGetBlob(ENDPOINTS[API.PRODUCT_IMAGE](activatedProduct.id), { doMock: doMock_rdx });
+    (!loadingImage && imageError) && handleHttpError(imageError);
 
     const initModal = (): void => setIsShow(!isShow);
 
