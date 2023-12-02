@@ -25,7 +25,7 @@ const Cart = (): ReactElement => {
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12">
-                                <h3 className="display-4 d-flex justify-content-center">Cart{cart.lines.length}</h3>
+                                <h3 className="display-4 d-flex justify-content-center">Cart</h3>
                                 <span className="dash"></span>
                             </div>
                         </div>

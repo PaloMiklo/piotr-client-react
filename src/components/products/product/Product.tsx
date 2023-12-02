@@ -38,7 +38,7 @@ const Product = (): ReactElement => {
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [copied, setCopied] = useState(false);
 
-    const { response: imageFromApi, error: imageError, loading: loadingImage, fetchDataBlob: fetchImage, cleanUpBlob: cleanImage } = useHttpGetBlob__({ doMock: config_rdx.doMock });
+    const { response: imageFromApi, error: imageError, loading: imageLoading, fetchDataBlob: fetchImage, cleanUpBlob: cleanImage } = useHttpGetBlob__({ doMock: config_rdx.doMock });
 
     useEffect((): void => { setProducts(products_rdx); }, [products_rdx]);
 
@@ -51,9 +51,9 @@ const Product = (): ReactElement => {
 
     useEffect((): () => void => {
         activatedProduct && fetchImage(ENDPOINTS[API.PRODUCT_IMAGE](activatedProduct!.id));
-        (!loadingImage && imageError) && handleHttpError(imageError, navigate);
-        return () => !loadingImage && cleanImage();
-    }, [activatedProduct, loadingImage]);
+        (!imageLoading && imageError) && handleHttpError(imageError, navigate);
+        return () => !imageLoading && cleanImage();
+    }, [activatedProduct, imageLoading]);
 
     const onOpenModal = (): void => setOpenModal(!openModal);
 

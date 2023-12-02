@@ -26,36 +26,39 @@ const Row = ({ line }: TRowProps): ReactElement => {
 
     const config_rdx = useSelector(selectConfig);
     const cart_rdx: StateWithHistory<ICartStateWrapper> = useSelector(selectCart);
+    const cart_rdx_current = cart_rdx.present.value;
 
-    const { response: imageSrc, error: imageError, loading: loadingImage, fetchDataBlob: fetchImage, cleanUpBlob: cleanImage } = useHttpGetBlob__({ doMock: config_rdx.doMock });
+    const isLastItem = (): boolean => (cart_rdx_current.itemCount === 1 && cart_rdx_current.lines.length === 1 && cart_rdx_current.lines[0].amount === 1);
+
+    const { response: image, error: imageError, loading: imageLoading, fetchDataBlob: fetchImage, cleanUpBlob: cleanImage } = useHttpGetBlob__({ doMock: config_rdx.doMock });
 
     useEffect((): () => void => {
         fetchImage(ENDPOINTS[API.PRODUCT_IMAGE](product.id));
-        (!loadingImage && imageError) && handleHttpError(imageError, navigate);
-        return () => !loadingImage && cleanImage();
-    }, [product, loadingImage]);
+        (!imageLoading && imageError) && handleHttpError(imageError, navigate);
+        return () => !imageLoading && cleanImage();
+    }, [product, imageLoading]);
 
     const removeViaX = (): void => {
-        if (cart_rdx.present.value.itemCount > 1) {
-            dispatch(action(ActionTypes.CART_REMOVE_LINE, { line }))
-            dispatch(recalculateCart({ deliveryPrice: cart_rdx.present.value.deliveryPrice }) as unknown as Action<TRecalculateCartArgs>);
-        } else {
+        if (isLastItem()) {
             dispatch(action(ActionTypes.CART_RESET));
+        } else {
+            dispatch(action(ActionTypes.CART_REMOVE_LINE, { line }))
+            dispatch(recalculateCart({ deliveryPrice: cart_rdx_current.deliveryPrice }) as unknown as Action<TRecalculateCartArgs>);
         }
     };
 
     const decrement = (): void => {
-        if (cart_rdx.present.value.itemCount > 1) {
-            dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: -1, config: config_rdx }));
-            dispatch(recalculateCart({ deliveryPrice: cart_rdx.present.value.deliveryPrice }) as unknown as Action<TRecalculateCartArgs>);
-        } else {
+        if (isLastItem()) {
             dispatch(action(ActionTypes.CART_RESET));
+        } else {
+            dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: -1, config: config_rdx }));
+            dispatch(recalculateCart({ deliveryPrice: cart_rdx_current.deliveryPrice }) as unknown as Action<TRecalculateCartArgs>);
         }
     };
 
     const increment = (): void => {
         dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1, config: config_rdx }));
-        dispatch(recalculateCart({ deliveryPrice: cart_rdx.present.value.deliveryPrice }) as unknown as Action<TRecalculateCartArgs>);
+        dispatch(recalculateCart({ deliveryPrice: cart_rdx_current.deliveryPrice }) as unknown as Action<TRecalculateCartArgs>);
     };
 
     return (
@@ -72,9 +75,9 @@ const Row = ({ line }: TRowProps): ReactElement => {
                                     src={`/images/product${product.id}.jpg`}
                                     alt="Product" loading='lazy' />
                             ) : (
-                                imageSrc && (
+                                image && (
                                     <img className="hoverable"
-                                        src={imageSrc}
+                                        src={image}
                                         alt="Product"
                                         loading='lazy' />
                                 )

@@ -18,8 +18,8 @@ const ModalDialog = ({ doShow, activatedProduct }: TProductModalProps): ReactEle
 
     const doMock_rdx = useSelector(selectDoMock);
 
-    const { response: imageSrc, error: imageError, loading: loadingImage } = useHttpGetBlob(ENDPOINTS[API.PRODUCT_IMAGE](activatedProduct.id), { doMock: doMock_rdx });
-    (!loadingImage && imageError) && handleHttpError(imageError);
+    const { response: image, error: imageError, loading: imageLoading } = useHttpGetBlob(ENDPOINTS[API.PRODUCT_IMAGE](activatedProduct.id), { doMock: doMock_rdx });
+    (!imageLoading && imageError) && handleHttpError(imageError);
 
     const initModal = (): void => setIsShow(!isShow);
 
@@ -56,10 +56,10 @@ const ModalDialog = ({ doShow, activatedProduct }: TProductModalProps): ReactEle
                                     loading="lazy"
                                 />
                             ) : (
-                                imageSrc && (
+                                image && (
                                     <img
                                         className="product-img"
-                                        src={imageSrc}
+                                        src={image}
                                         alt="Product"
                                         style={{ width: `${zoomLevel}%` }}
                                         loading="lazy"

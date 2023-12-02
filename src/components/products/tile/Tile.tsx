@@ -25,8 +25,8 @@ const Tile = ({ product }: TProductProps): ReactElement => {
     const config_rdx = useSelector(selectConfig);
     const cart_rdx: StateWithHistory<ICartStateWrapper> = useSelector(selectCart);
 
-    const { response: imageSrc, error: imageError, loading: loadingImage } = useHttpGetBlob(ENDPOINTS[API.PRODUCT_IMAGE](product.id), { doMock: config_rdx.doMock });
-    (!loadingImage && imageError) && handleHttpError(imageError, navigate);
+    const { response: image, error: imageError, loading: imageLoading } = useHttpGetBlob(ENDPOINTS[API.PRODUCT_IMAGE](product.id), { doMock: config_rdx.doMock });
+    (!imageLoading && imageError) && handleHttpError(imageError, navigate);
 
     const addProductToCart = (): void => {
         product && dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1, config: config_rdx } as ICartLine));
@@ -46,10 +46,10 @@ const Tile = ({ product }: TProductProps): ReactElement => {
                             loading="lazy"
                         />
                     ) : (
-                        imageSrc && (
+                        image && (
                             <img
                                 className="img-fluid mx-auto"
-                                src={imageSrc}
+                                src={image}
                                 alt="Image of a product"
                                 loading="lazy"
                             />
