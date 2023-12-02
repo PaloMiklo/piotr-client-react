@@ -48,8 +48,8 @@ const Product = (): ReactElement => {
     useEffect((): () => void => {
         activatedProduct && fetchImage(ENDPOINTS[API.PRODUCT_IMAGE](activatedProduct!.id));
         (!loadingImage && imageError) && handleHttpError(imageError, navigate);
-        return () => activatedProduct && cleanImage();
-    }, [activatedProduct]);
+        return () => !loadingImage && cleanImage();
+    }, [activatedProduct, loadingImage]);
 
     const onOpenModal = (): void => setOpenModal(!openModal);
 

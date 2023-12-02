@@ -23,6 +23,9 @@ export const cartSlice = createSlice({
             state.value.lines = lines.some((line: ICartLine) => line.product.id === product.id) ?
                 lines.map((line: ICartLine) => line.product.id === product.id ? { ...line, amount: line.amount + amount } : line) :
                 [...lines, { product, amount }];
+
+            state.value.lines = [...state.value.lines.filter((line: ICartLine) => line.amount > 0)];
+
             LOCAL_STORAGE[LOCAL_STORAGE_OPERATION.STORE](LOCAL_STORAGE_KEY.CART, state.value, ttl);
         },
         updateDelivery: (state: ICartStateWrapper, action: PayloadAction<IDeliveryOption & { config?: IConfig }>): void => {

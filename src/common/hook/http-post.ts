@@ -38,15 +38,11 @@ export const useHttpPost__ = <P = unknown, R = unknown, E = unknown, C = unknown
     const [loading, setLoading] = useState<boolean>(true);
 
     const postData = async (): Promise<void> => {
-        setLoading(true);
-
         try {
             const { data } = await http.post<R>(url, payload, config);
             setResponse(data);
-            setError(null);
         } catch (error: unknown) {
             setError(error as AxiosError<E>);
-            setResponse(null);
         } finally {
             setLoading(false);
         }

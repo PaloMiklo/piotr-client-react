@@ -38,15 +38,11 @@ export const useHttpPatch__ = <P = unknown, R = unknown, E = unknown, C = unknow
     const [loading, setLoading] = useState<boolean>(true);
 
     const patchData = async (): Promise<void> => {
-        setLoading(true);
-
         try {
             const { data } = await http.patch<R>(url, payload, config);
             setResponse(data);
-            setError(null);
         } catch (error: unknown) {
             setError(error as AxiosError<E>);
-            setResponse(null);
         } finally {
             setLoading(false);
         }

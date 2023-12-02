@@ -12,9 +12,10 @@ import Summary from './goods/summary/Summary';
 
 const Cart = (): ReactElement => {
     const cart_rdx: StateWithHistory<ICartStateWrapper> = useSelector(selectCart);
+
     const [cart, setCart] = useState<ICart | null>(null);
 
-    useEffect((): void => setCart(cart_rdx.present.value), [cart_rdx]);
+    useEffect((): void => setCart(cart_rdx.present.value), [cart_rdx.present.value]);
 
     return (
         <>

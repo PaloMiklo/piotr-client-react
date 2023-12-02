@@ -1,16 +1,19 @@
 import { faMinus, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 import LazyLoad from 'react-lazyload';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Action } from 'redux';
+import { StateWithHistory } from 'redux-undo';
 import { handleHttpError } from '../../../../common/error';
-import { useHttpGetBlob } from '../../../../common/hook/http-get';
+import { useHttpGetBlob__ } from '../../../../common/hook/http-get';
 import { API, ENDPOINTS } from '../../../../common/rest';
 import { ActionTypes } from '../../../../store/constant/action';
 import { useAppDispatch } from '../../../../store/hook/hook';
+import { selectCart } from '../../../../store/selector/cart';
 import { selectConfig } from '../../../../store/selector/config';
+import { ICartStateWrapper } from '../../../../store/slice/cart';
 import { recalculateCart } from '../../../../store/slice/thunk/cart';
 import { action } from '../../../../store/util';
 import { TRowProps } from './Row.config';
@@ -22,14 +25,20 @@ const Row = ({ line }: TRowProps): ReactElement => {
     const dispatch = useAppDispatch();
 
     const config_rdx = useSelector(selectConfig);
+    const cart_rdx: StateWithHistory<ICartStateWrapper> = useSelector(selectCart);
 
-    const { response: imageSrc, error: imageError, loading: loadingImage } = useHttpGetBlob(ENDPOINTS[API.PRODUCT_IMAGE](product.id), { doMock: config_rdx.doMock });
-    (!loadingImage && imageError) && handleHttpError(imageError, navigate);
+    const { response: imageSrc, error: imageError, loading: loadingImage, fetchDataBlob: fetchImage, cleanUpBlob: cleanImage } = useHttpGetBlob__({ doMock: config_rdx.doMock });
+
+    useEffect((): () => void => {
+        fetchImage(ENDPOINTS[API.PRODUCT_IMAGE](product.id));
+        (!loadingImage && imageError) && handleHttpError(imageError, navigate);
+        return () => !loadingImage && cleanImage();
+    }, [product, loadingImage]);
 
     const removeViaX = (): void => { dispatch(action(ActionTypes.CART_REMOVE_LINE, { line })); };
 
     const decrement = (): void => {
-        line.amount === 1 ? dispatch(action(ActionTypes.CART_RESET)) : dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: -1, config: config_rdx }));
+        dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: -1, config: config_rdx }));
         dispatch(recalculateCart({}) as unknown as Action);
     };
 
@@ -45,7 +54,7 @@ const Row = ({ line }: TRowProps): ReactElement => {
                     <FontAwesomeIcon icon={faXmark} />
                 </a>
                 <Link to={`/products/${product.id}`}>
-                    <LazyLoad once>
+                    <LazyLoad>
                         {config_rdx.doMock ?
                             (
                                 <img className="hoverable"

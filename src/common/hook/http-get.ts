@@ -36,14 +36,11 @@ export const useHttpGet__ = <R = unknown, E = unknown, C = unknown>(
     const [loading, setLoading] = useState<boolean>(true);
 
     const fetchData = async (): Promise<void> => {
-        setLoading(true);
         try {
             const { data } = await http.get<IHttpResponseWrapper<R>>(url, config);
             setResponse(data.content);
-            setError(null);
         } catch (error: unknown) {
             setError(error as AxiosError<E>);
-            setResponse(null);
         } finally {
             setLoading(false);
         }
@@ -79,7 +76,8 @@ export const useHttpGetBlob = <T = Blob, E = unknown, D = unknown>(
                     }
                 } catch (error: unknown) {
                     setError(error as AxiosError<E>);
-                } finally {
+                }
+                finally {
                     setLoading(false);
                 }
             }
@@ -102,8 +100,6 @@ export const useHttpGetBlob__ = <T = Blob, E = unknown, D = unknown>(
         if (config?.doMock) {
             setLoading(false);
         } else {
-            setLoading(true);
-
             try {
                 const { data } = await http.get<T>(url, { ...config, responseType: 'blob' });
                 if (data instanceof Blob) {

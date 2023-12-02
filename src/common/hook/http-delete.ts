@@ -36,15 +36,11 @@ export const useHttpDelete__ = <R = unknown, E = unknown, C = unknown>(
     const [loading, setLoading] = useState<boolean>(true);
 
     const deleteData = async (): Promise<void> => {
-        setLoading(true);
-
         try {
             const { data } = await http.delete<R>(url, config);
             setResponse(data);
-            setError(null);
         } catch (error: unknown) {
             setError(error as AxiosError<E>);
-            setResponse(null);
         } finally {
             setLoading(false);
         }
