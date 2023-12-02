@@ -7,7 +7,7 @@ import { ICart, ICartLine } from '../../model/config';
 import { selectCart } from '../../store/selector/cart';
 import { ICartStateWrapper } from '../../store/slice/cart';
 import './Cart.scss';
-import List from './goods/list/List';
+import Row from './goods/row/Row';
 import Summary from './goods/summary/Summary';
 
 const Cart = (): ReactElement => {
@@ -50,7 +50,7 @@ const Cart = (): ReactElement => {
                             <div className="col-md-12">
                                 <div className="shopping-cart-container-bought">
                                     {
-                                        cart.lines.map((line: ICartLine) => <List key={line.product.id} line={line} ></List>)
+                                        cart.lines.map((line: ICartLine) => <Row key={line.product.id} line={line} ></Row>)
                                     }
                                 </div>
                             </div>

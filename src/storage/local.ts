@@ -26,13 +26,14 @@ interface ILocalStorageMap {
 }
 
 export const LOCAL_STORAGE: ILocalStorageMap = {
+
     [LOCAL_STORAGE_OPERATION.STORE]: (key: string, value: TStorables, ttl?: string): void => {
         try {
             const now = new Date().getTime();
             const evalTtl = (() => +`${ttl ?? TTL_DEFAULT}`)();
             const serializedValue = JSON.stringify({ ...value, expiration: now + evalTtl });
             localStorage.setItem(key, serializedValue);
-        } catch (error) {
+        } catch (error: unknown) {
             console.error(`Error saving ${key} to localStorage:`, error);
         }
     },
@@ -40,14 +41,14 @@ export const LOCAL_STORAGE: ILocalStorageMap = {
     [LOCAL_STORAGE_OPERATION.RETRIEVE]: (key: string): TStorables | null => {
         try {
             const serializedValue = localStorage.getItem(key);
-            const current = (serializedValue === null) ? null : JSON.parse(serializedValue) as TStorables & { expiration: number };
-            const now = new Date();
-            if (current && current.expiration && now.getTime() > +current.expiration) {
+            const current = (serializedValue == null) ? null : JSON.parse(serializedValue) as TStorables & { expiration: number };
+
+            if (current?.expiration && new Date().getTime() > +current.expiration) {
                 LOCAL_STORAGE[LOCAL_STORAGE_OPERATION.REMOVE](key);
                 return null;
             }
             return current;
-        } catch (error) {
+        } catch (error: unknown) {
             console.error(`Error retrieving ${key} from localStorage:`, error);
             return null;
         }

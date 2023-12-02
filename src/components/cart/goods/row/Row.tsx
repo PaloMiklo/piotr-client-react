@@ -13,10 +13,10 @@ import { useAppDispatch } from '../../../../store/hook/hook';
 import { selectConfig } from '../../../../store/selector/config';
 import { recalculateCart } from '../../../../store/slice/thunk/cart';
 import { action } from '../../../../store/util';
-import { TListProps } from './List.config';
-import './List.scss';
+import { TRowProps } from './Row.config';
+import './Row.scss';
 
-const List = ({ line }: TListProps): ReactElement => {
+const Row = ({ line }: TRowProps): ReactElement => {
     const { product } = line;
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -45,7 +45,7 @@ const List = ({ line }: TListProps): ReactElement => {
                     <FontAwesomeIcon icon={faXmark} />
                 </a>
                 <Link to={`/products/${product.id}`}>
-                    <LazyLoad>
+                    <LazyLoad once>
                         {config_rdx.doMock ?
                             (
                                 <img className="hoverable"
@@ -81,4 +81,4 @@ const List = ({ line }: TListProps): ReactElement => {
     );
 };
 
-export default List;
+export default Row;

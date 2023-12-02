@@ -32,7 +32,7 @@ const Tile = ({ product }: TProductProps): ReactElement => {
 
     return (
         <div className="col-sm-12 col-lg-3 product-tile">
-            <LazyLoad>
+            <LazyLoad once>
                 {config_rdx.doMock ?
                     (
                         <img

@@ -1,3 +1,3 @@
 import { ICartLine } from "../../../../model/config";
 
-export type TListProps = { line: ICartLine }
+export type TRowProps = { line: ICartLine }

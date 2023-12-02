@@ -39,7 +39,7 @@ const Product = (): ReactElement => {
     useEffect((): void => { setProducts(products_rdx); }, [products_rdx]);
 
     useEffect((): void => {
-        if (products && products.length) {
+        if (products?.length) {
             const foundProduct = id ? products.find((product: IProduct) => product.id === +id) : null;
             foundProduct ? setActivatedProduct(foundProduct) : handleOtherError<string>(`Product with id ${id} not found!`, navigate);
         }
@@ -101,7 +101,7 @@ const Product = (): ReactElement => {
 
                 <div className="col-lg-8 col-md-12">
                     <div className="product-detail-content-image">
-                        <LazyLoad>
+                        <LazyLoad once>
                             {config_rdx.doMock ?
                                 (
                                     <img className="img-fluid product-img"

@@ -45,7 +45,7 @@ const ModalDialog = ({ doShow, activatedProduct }: TProductModalProps): ReactEle
                     <button className='btn' onClick={handleZoomIn}><FontAwesomeIcon icon={faMagnifyingGlassPlus} /></button>
                 </div>
                 <Modal.Body className='d-flex flex-column align-items-center pt-0'>
-                    <LazyLoad>
+                    <LazyLoad once>
                         {doMock_rdx ?
                             (
                                 <img

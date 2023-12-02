@@ -7,7 +7,7 @@ const Brand = (): ReactElement => {
     return (
         <div className="container">
             <Link to="/">
-                <LazyLoad>
+                <LazyLoad once>
                     <img className="img-fluid" src="/images/logo.png" loading="lazy" />
                 </LazyLoad>
             </Link>
