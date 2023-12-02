@@ -57,7 +57,7 @@ const Product = (): ReactElement => {
         const product = products!.find((product: IProduct) => product.id === activatedProduct!.id);
         product && dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1, config: config_rdx } as ICartLine));
         dispatch(recalculateCart({}) as unknown as Action);
-        navigate(`../${ROUTE.CHECKOUT}`);
+        navigate(`../${ROUTE.CART}`);
     };
 
     const onCopyToClipboard = (): void => copyToClipboard(document.URL, setCopied);

@@ -1,6 +1,7 @@
 import { faFaceFrown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
+import LazyLoad from 'react-lazyload';
 import { useSelector } from 'react-redux';
 import { StateWithHistory } from 'redux-undo';
 import { ICart, ICartLine } from '../../model/config';
@@ -24,7 +25,7 @@ const Cart = (): ReactElement => {
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12">
-                                <h3 className="display-4 d-flex justify-content-center">Cart</h3>
+                                <h3 className="display-4 d-flex justify-content-center">Cart{cart.lines.length}</h3>
                                 <span className="dash"></span>
                             </div>
                         </div>
@@ -51,7 +52,13 @@ const Cart = (): ReactElement => {
                             <div className="col-md-12">
                                 <div className="shopping-cart-container-bought">
                                     {
-                                        cart.lines.map((line: ICartLine) => <Row key={line.product.id} line={line} ></Row>)
+                                        cart.lines?.map((line: ICartLine, index: number) => (
+                                            <LazyLoad key={index} once>
+                                                <React.Fragment>
+                                                    <Row key={line.product.id} line={line} />
+                                                </React.Fragment>
+                                            </LazyLoad>
+                                        ))
                                     }
                                 </div>
                             </div>
