@@ -36,8 +36,12 @@ const Row = ({ line }: TRowProps): ReactElement => {
     }, [product, loadingImage]);
 
     const removeViaX = (): void => {
-        dispatch(action(ActionTypes.CART_REMOVE_LINE, { line }));
-        dispatch(recalculateCart({}) as unknown as Action);
+        if (cart_rdx.present.value.itemCount > 1) {
+            dispatch(action(ActionTypes.CART_REMOVE_LINE, { line }))
+            dispatch(recalculateCart({}) as unknown as Action);
+        } else {
+            dispatch(action(ActionTypes.CART_RESET));
+        }
     };
 
     const decrement = (): void => {
