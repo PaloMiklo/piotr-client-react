@@ -10,6 +10,7 @@ import { handleHttpError } from '../../../../common/error';
 import { useHttpGetBlob__ } from '../../../../common/hook/http-get';
 import { API, ENDPOINTS } from '../../../../common/rest';
 import { ActionTypes } from '../../../../store/constant/action';
+import { WRAPPER_KEY } from '../../../../store/constant/slice';
 import { useAppDispatch } from '../../../../store/hook/hook';
 import { selectCart } from '../../../../store/selector/cart';
 import { selectConfig } from '../../../../store/selector/config';
@@ -26,9 +27,9 @@ const Row = ({ line }: TRowProps): ReactElement => {
 
     const config_rdx = useSelector(selectConfig);
     const cart_rdx: StateWithHistory<ICartStateWrapper> = useSelector(selectCart);
-    const cart_rdx_current = cart_rdx.present.value;
+    const cart_rdx_curr = cart_rdx.present[WRAPPER_KEY];
 
-    const isLastItem = (): boolean => (cart_rdx_current.itemCount === 1 && cart_rdx_current.lines.length === 1 && cart_rdx_current.lines[0].amount === 1);
+    const isLastItem = (): boolean => (cart_rdx_curr.itemCount === 1 && cart_rdx_curr.lines.length === 1 && cart_rdx_curr.lines[0].amount === 1);
 
     const { response: image, error: imageError, loading: imageLoading, fetchDataBlob: fetchImage, cleanUpBlob: cleanImage } = useHttpGetBlob__({ doMock: config_rdx.doMock });
 
@@ -43,7 +44,7 @@ const Row = ({ line }: TRowProps): ReactElement => {
             dispatch(action(ActionTypes.CART_RESET));
         } else {
             dispatch(action(ActionTypes.CART_REMOVE_LINE, { line }))
-            dispatch(recalculateCart({ deliveryPrice: cart_rdx_current.deliveryPrice }) as unknown as Action<TRecalculateCartArgs>);
+            dispatch(recalculateCart({ deliveryPrice: cart_rdx_curr.deliveryPrice }) as unknown as Action<TRecalculateCartArgs>);
         }
     };
 
@@ -52,13 +53,13 @@ const Row = ({ line }: TRowProps): ReactElement => {
             dispatch(action(ActionTypes.CART_RESET));
         } else {
             dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: -1, config: config_rdx }));
-            dispatch(recalculateCart({ deliveryPrice: cart_rdx_current.deliveryPrice }) as unknown as Action<TRecalculateCartArgs>);
+            dispatch(recalculateCart({ deliveryPrice: cart_rdx_curr.deliveryPrice }) as unknown as Action<TRecalculateCartArgs>);
         }
     };
 
     const increment = (): void => {
         dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1, config: config_rdx }));
-        dispatch(recalculateCart({ deliveryPrice: cart_rdx_current.deliveryPrice }) as unknown as Action<TRecalculateCartArgs>);
+        dispatch(recalculateCart({ deliveryPrice: cart_rdx_curr.deliveryPrice }) as unknown as Action<TRecalculateCartArgs>);
     };
 
     return (

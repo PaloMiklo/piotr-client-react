@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { StateWithHistory } from "redux-undo";
 import { CURRENCY } from "../../../../../core/constant";
 import { ICart, IConfig } from "../../../../../model/config";
+import { WRAPPER_KEY } from "../../../../../store/constant/slice";
 import { selectCart } from "../../../../../store/selector/cart";
 import { selectConfig } from "../../../../../store/selector/config";
 import { ICartStateWrapper } from "../../../../../store/slice/cart";
@@ -13,7 +14,7 @@ const Counter = (): ReactElement => {
 
     const [cart, setCart] = useState<ICart | null>(null);
 
-    useEffect((): void => setCart(cart_rdx.present.value), [cart_rdx]);
+    useEffect((): void => setCart(cart_rdx.present[WRAPPER_KEY]), [cart_rdx]);
 
     return (
         <>

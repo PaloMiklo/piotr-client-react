@@ -1,27 +1,27 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { IProduct } from '../../model/config';
-import { SLICE_NAMES } from '../constant/slice';
+import { SLICE_NAMES, WRAPPER_KEY } from '../constant/slice';
 import { productsInitial } from '../initial/products';
 
-export interface IProductsStateWrapper { value: IProduct[] };
-const initialState: IProductsStateWrapper = { value: productsInitial };
+export interface IProductsStateWrapper { [WRAPPER_KEY]: IProduct[] };
+const initialState: IProductsStateWrapper = { [WRAPPER_KEY]: productsInitial };
 
 export const productsSlice = createSlice({
     name: SLICE_NAMES.PRODUCTS,
     initialState,
     reducers: {
         initialize: (state: IProductsStateWrapper, action: PayloadAction<IProduct[]>): void => {
-            state.value = action.payload;
+            state[WRAPPER_KEY] = action.payload;
         },
         reset: (state: IProductsStateWrapper): void => {
-            state.value = initialState.value;
+            state[WRAPPER_KEY] = initialState[WRAPPER_KEY];
         },
         add: (state: IProductsStateWrapper, action: PayloadAction<IProduct>): void => {
-            state.value.push(action.payload);
+            state[WRAPPER_KEY].push(action.payload);
         },
         remove: (state: IProductsStateWrapper, action: PayloadAction<number>): void => {
-            state.value = state.value.filter((product: IProduct) => product.id !== action.payload);
+            state[WRAPPER_KEY] = state[WRAPPER_KEY].filter((product: IProduct) => product.id !== action.payload);
         }
     }
 });

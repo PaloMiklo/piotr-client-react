@@ -27,11 +27,11 @@ interface ILocalStorageMap {
 
 export const LOCAL_STORAGE: ILocalStorageMap = {
 
-    [LOCAL_STORAGE_OPERATION.STORE]: (key: string, value: TStorables, ttl?: string): void => {
+    [LOCAL_STORAGE_OPERATION.STORE]: (key: string, storable: TStorables, ttl?: string): void => {
         try {
             const now = new Date().getTime();
             const evalTtl = (() => +`${ttl ?? TTL_DEFAULT}`)();
-            const serializedValue = JSON.stringify({ ...value, expiration: now + evalTtl });
+            const serializedValue = JSON.stringify({ ...storable, expiration: now + evalTtl });
             localStorage.setItem(key, serializedValue);
         } catch (error: unknown) {
             console.error(`Error saving ${key} to localStorage:`, error);

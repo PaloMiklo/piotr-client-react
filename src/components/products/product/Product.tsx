@@ -15,6 +15,7 @@ import { CURRENCY } from '../../../core/constant';
 import { copyToClipboard } from '../../../core/util';
 import { ICartLine, IProduct } from '../../../model/config';
 import { ActionTypes } from '../../../store/constant/action';
+import { WRAPPER_KEY } from '../../../store/constant/slice';
 import { useAppDispatch } from '../../../store/hook/hook';
 import { selectCart } from '../../../store/selector/cart';
 import { selectConfig } from '../../../store/selector/config';
@@ -29,8 +30,8 @@ const Product = (): ReactElement => {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const products_rdx = useSelector(selectProducts);
     const config_rdx = useSelector(selectConfig);
+    const products_rdx = useSelector(selectProducts);
     const cart_rdx: StateWithHistory<ICartStateWrapper> = useSelector(selectCart);
 
     const [products, setProducts] = useState<IProduct[]>();
@@ -38,7 +39,7 @@ const Product = (): ReactElement => {
     const [openModal, setOpenModal] = useState<boolean>(false);
     const [copied, setCopied] = useState(false);
 
-    const { response: imageFromApi, error: imageError, loading: imageLoading, fetchDataBlob: fetchImage, cleanUpBlob: cleanImage } = useHttpGetBlob__({ doMock: config_rdx.doMock });
+    const { response: image, error: imageError, loading: imageLoading, fetchDataBlob: fetchImage, cleanUpBlob: cleanImage } = useHttpGetBlob__({ doMock: config_rdx.doMock });
 
     useEffect((): void => { setProducts(products_rdx); }, [products_rdx]);
 
@@ -60,7 +61,7 @@ const Product = (): ReactElement => {
     const addProductToCart = (): void => {
         const product = products!.find((product: IProduct) => product.id === activatedProduct!.id);
         product && dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1, config: config_rdx } as ICartLine));
-        dispatch(recalculateCart({ deliveryPrice: cart_rdx.present.value.deliveryPrice }) as unknown as Action<TRecalculateCartArgs>);
+        dispatch(recalculateCart({ deliveryPrice: cart_rdx.present[WRAPPER_KEY].deliveryPrice }) as unknown as Action<TRecalculateCartArgs>);
         navigate(`../${ROUTE.CART}`);
     };
 
@@ -115,9 +116,9 @@ const Product = (): ReactElement => {
                                         alt="Product"
                                         loading="lazy" />
                                 ) : (
-                                    imageFromApi && (
+                                    image && (
                                         <img className="img-fluid product-img"
-                                            src={imageFromApi}
+                                            src={image}
                                             onClick={onOpenModal}
                                             data-toggle="modal"
                                             alt="Product"

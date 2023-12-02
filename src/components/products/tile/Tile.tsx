@@ -10,6 +10,7 @@ import { API, ENDPOINTS } from '../../../common/rest';
 import { ROUTE, ROUTE_DYNAMIC } from '../../../common/route';
 import { ICartLine } from '../../../model/config';
 import { ActionTypes } from '../../../store/constant/action';
+import { WRAPPER_KEY } from '../../../store/constant/slice';
 import { useAppDispatch } from '../../../store/hook/hook';
 import { selectCart } from '../../../store/selector/cart';
 import { selectConfig } from '../../../store/selector/config';
@@ -30,7 +31,7 @@ const Tile = ({ product }: TProductProps): ReactElement => {
 
     const addProductToCart = (): void => {
         product && dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1, config: config_rdx } as ICartLine));
-        dispatch(recalculateCart({ deliveryPrice: cart_rdx.present.value.deliveryPrice }) as unknown as Action<TRecalculateCartArgs>);
+        dispatch(recalculateCart({ deliveryPrice: cart_rdx.present[WRAPPER_KEY].deliveryPrice }) as unknown as Action<TRecalculateCartArgs>);
         navigate(`../${ROUTE.CART}`);
     };
 

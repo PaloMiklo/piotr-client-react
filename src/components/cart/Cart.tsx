@@ -1,10 +1,11 @@
 import { faFaceFrown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { ReactElement, useEffect, useState } from 'react';
+import { Fragment, ReactElement, useEffect, useState } from 'react';
 import LazyLoad from 'react-lazyload';
 import { useSelector } from 'react-redux';
 import { StateWithHistory } from 'redux-undo';
 import { ICart, ICartLine } from '../../model/config';
+import { WRAPPER_KEY } from '../../store/constant/slice';
 import { selectCart } from '../../store/selector/cart';
 import { ICartStateWrapper } from '../../store/slice/cart';
 import './Cart.scss';
@@ -16,7 +17,7 @@ const Cart = (): ReactElement => {
 
     const [cart, setCart] = useState<ICart | null>(null);
 
-    useEffect((): void => setCart(cart_rdx.present.value), [cart_rdx.present.value]);
+    useEffect((): void => setCart(cart_rdx.present[WRAPPER_KEY]), [cart_rdx.present[WRAPPER_KEY]]);
 
     return (
         <>
@@ -54,9 +55,9 @@ const Cart = (): ReactElement => {
                                     {
                                         cart.lines?.map((line: ICartLine, index: number) => (
                                             <LazyLoad key={index} once>
-                                                <React.Fragment>
+                                                <Fragment>
                                                     <Row key={line.product.id} line={line} />
-                                                </React.Fragment>
+                                                </Fragment>
                                             </LazyLoad>
                                         ))
                                     }

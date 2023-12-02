@@ -1,4 +1,6 @@
-export const copyToClipboard = (target: string, stateRef: React.Dispatch<React.SetStateAction<boolean>>): void => {
+import { Dispatch, SetStateAction } from "react";
+
+export const copyToClipboard = (target: string, stateRef: Dispatch<SetStateAction<boolean>>): void => {
     const textField = document.createElement('textarea');
     textField.innerText = target;
     document.body.appendChild(textField);

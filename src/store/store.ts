@@ -7,7 +7,7 @@ import configReducer from './slice/config';
 import deliveryReducer from './slice/delivery';
 import productsReducer from './slice/products';
 
-export const UNDOABLE = { cart: { undo: 'CART_UNDO', redo: 'CART_REDO' } }
+export const UNDOABLE = { cart: { undo: 'CART_UNDO', redo: 'CART_REDO' } };
 
 const undoableCartReducer = undoable(cartReducer, {
     limit: 3,

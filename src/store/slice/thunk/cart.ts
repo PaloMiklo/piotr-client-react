@@ -6,6 +6,7 @@ import { API_PREFIX } from "../../../common/rest";
 import { ICartRecalculateDto, ICartRecalculateResultDto, IConfig } from "../../../model/config";
 import { LOCAL_STORAGE, LOCAL_STORAGE_KEY, LOCAL_STORAGE_OPERATION } from "../../../storage/local";
 import { ActionTypes } from "../../constant/action";
+import { WRAPPER_KEY } from "../../constant/slice";
 import { RootState, store, UNDOABLE } from "../../store";
 import { action } from "../../util";
 import { ICartStateWrapper } from "../cart";
@@ -22,10 +23,10 @@ export const recalculateCart = createAsyncThunk<TRecalculateCartResult | TRecalc
         let calculatedCartPrice = 0;
         let calculatedCartPriceTotal = 0;
         const state = getState() as RootState;
-        const config = state.config.value;
+        const config = state.config[WRAPPER_KEY];
         const deliveryPrice = args.deliveryPrice;
-        const { lines } = state.cart.present.value;
-        const { freeShipping } = state.config.value;
+        const { lines } = state.cart.present[WRAPPER_KEY];
+        const { freeShipping } = state.config[WRAPPER_KEY];
         const { doMock } = config;
 
         if (config.doMock) {
@@ -52,21 +53,21 @@ export const recalculateCartReducer = (builder: ActionReducerMapBuilder<ICartSta
         .addCase(recalculateCart.pending, (state: ICartStateWrapper, action: PayloadAction<unknown>) => { })
         .addCase(recalculateCart.fulfilled, (state: ICartStateWrapper, action: PayloadAction<TRecalculateCartResult>) => {
             const result = action.payload as TRecalculateCartPayload;
-            const { lines } = state.value;
+            const { lines } = state[WRAPPER_KEY];
 
             const { config } = result;
             const ttl = config?.storageExpiration;
 
-            state.value = {
-                ...state.value,
+            state[WRAPPER_KEY] = {
+                ...state[WRAPPER_KEY],
                 freeShipping: result.doMock ? hasFreeShippingClaim(lines, result.freeShipping) : result.calculatedCartPrice > result.freeShipping,
                 itemCount: lines.length,
                 cartPrice: result.calculatedCartPrice,
                 cartPriceTotal: result.calculatedCartPriceTotal,
             };
-            LOCAL_STORAGE[LOCAL_STORAGE_OPERATION.STORE](LOCAL_STORAGE_KEY.CART, state.value, ttl);
+            LOCAL_STORAGE[LOCAL_STORAGE_OPERATION.STORE](LOCAL_STORAGE_KEY.CART, state[WRAPPER_KEY], ttl);
         })
         .addCase(recalculateCart.rejected, (state: ICartStateWrapper, action: PayloadAction<unknown>) => {
-            console.log('REJECTED: ', JSON.stringify(state.value));
+            console.log('REJECTED: ', JSON.stringify(state[WRAPPER_KEY]));
         });
 }

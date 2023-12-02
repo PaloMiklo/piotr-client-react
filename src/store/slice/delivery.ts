@@ -1,27 +1,27 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { IDeliveryOption } from '../../model/config';
-import { SLICE_NAMES } from '../constant/slice';
+import { SLICE_NAMES, WRAPPER_KEY } from '../constant/slice';
 import { deliveryInitial } from '../initial/delivery';
 
-export interface IDeliveryStateWrapper { value: IDeliveryOption[] };
-const initialState: IDeliveryStateWrapper = { value: deliveryInitial };
+export interface IDeliveryStateWrapper { [WRAPPER_KEY]: IDeliveryOption[] };
+const initialState: IDeliveryStateWrapper = { [WRAPPER_KEY]: deliveryInitial };
 
 export const deliverySlice = createSlice({
     name: SLICE_NAMES.DELIVERY,
     initialState,
     reducers: {
         initialize: (state: IDeliveryStateWrapper, action: PayloadAction<IDeliveryOption[]>): void => {
-            state.value = action.payload;
+            state[WRAPPER_KEY] = action.payload;
         },
         reset: (state: IDeliveryStateWrapper): void => {
-            state.value = initialState.value;
+            state[WRAPPER_KEY] = initialState[WRAPPER_KEY];
         },
         add: (state: IDeliveryStateWrapper, action: PayloadAction<IDeliveryOption>): void => {
-            state.value.push(action.payload);
+            state[WRAPPER_KEY].push(action.payload);
         },
         remove: (state: IDeliveryStateWrapper, action: PayloadAction<string>): void => {
-            state.value = state.value.filter((delivery: IDeliveryOption) => delivery.code !== action.payload);
+            state[WRAPPER_KEY] = state[WRAPPER_KEY].filter((delivery: IDeliveryOption) => delivery.code !== action.payload);
         }
     }
 });
