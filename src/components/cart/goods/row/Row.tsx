@@ -35,7 +35,10 @@ const Row = ({ line }: TRowProps): ReactElement => {
         return () => !loadingImage && cleanImage();
     }, [product, loadingImage]);
 
-    const removeViaX = (): void => { dispatch(action(ActionTypes.CART_REMOVE_LINE, { line })); };
+    const removeViaX = (): void => {
+        dispatch(action(ActionTypes.CART_REMOVE_LINE, { line }));
+        dispatch(recalculateCart({}) as unknown as Action);
+    };
 
     const decrement = (): void => {
         dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: -1, config: config_rdx }));
