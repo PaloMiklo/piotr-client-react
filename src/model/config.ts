@@ -1,9 +1,7 @@
 export interface IOrder { };
 
-// ProductRowDto
-export type TProductRow = TProductRowDto;
-export type TProductRowDto = Omit<IProduct, 'quantity' | 'description'> & { valid: boolean };
 
+// ProductRowDto
 // ProductDetDto
 export interface IProduct {
     id: number,
@@ -54,7 +52,7 @@ export interface IConfig {
 }
 
 export interface IMocks {
-    products: TProductRowDto[];
+    products: IProduct[];
     product: IProduct;
     orders: IOrder[];
     deletedProducts: IProduct[];

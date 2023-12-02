@@ -9,6 +9,7 @@ import { Action } from 'redux';
 import { handleOtherError } from '../../../common/error';
 import { useHttpGetBlob__ } from '../../../common/hook/http-get';
 import { API, ENDPOINTS } from '../../../common/rest';
+import { ROUTE } from '../../../common/route';
 import { CURRENCY } from '../../../core/constant';
 import { copyToClipboard } from '../../../core/util';
 import { ICartLine, IProduct } from '../../../model/config';
@@ -55,6 +56,7 @@ const Product = (): ReactElement => {
         const product = products!.find((product: IProduct) => product.id === activatedProduct!.id);
         product && dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1, config: config_rdx } as ICartLine));
         dispatch(recalculateCart({}) as unknown as Action);
+        navigate(`../${ROUTE.CHECKOUT}`);
     };
 
     const onCopyToClipboard = (): void => copyToClipboard(document.URL, setCopied);

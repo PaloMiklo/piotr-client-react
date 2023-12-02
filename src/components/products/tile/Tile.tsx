@@ -1,23 +1,37 @@
 import { ReactElement } from 'react';
 import LazyLoad from 'react-lazyload';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Action } from 'redux';
 import { useHttpGetBlob } from '../../../common/hook/http-get';
 import { API, ENDPOINTS } from '../../../common/rest';
 import { ROUTE, ROUTE_DYNAMIC } from '../../../common/route';
-import { selectDoMock } from '../../../store/selector/config';
+import { ICartLine } from '../../../model/config';
+import { ActionTypes } from '../../../store/constant/action';
+import { useAppDispatch } from '../../../store/hook/hook';
+import { selectConfig } from '../../../store/selector/config';
+import { recalculateCart } from '../../../store/slice/thunk/cart';
+import { action } from '../../../store/util';
 import { TProductProps } from '../product/Product.config';
 import './Tile.scss';
 
 const Tile = ({ product }: TProductProps): ReactElement => {
-    const doMock_rdx = useSelector(selectDoMock);
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const config_rdx = useSelector(selectConfig);
 
-    const { response: imageSrc, error: imageError, loading: imageLoading } = useHttpGetBlob(ENDPOINTS[API.PRODUCT_IMAGE](product.id), { doMock: doMock_rdx });
+    const { response: imageSrc, error: imageError, loading: imageLoading } = useHttpGetBlob(ENDPOINTS[API.PRODUCT_IMAGE](product.id), { doMock: config_rdx.doMock });
+
+    const addProductToCart = (): void => {
+        product && dispatch(action(ActionTypes.CART_UPDATE_LINES, { product: product, amount: 1, config: config_rdx } as ICartLine));
+        dispatch(recalculateCart({}) as unknown as Action);
+        navigate(`../${ROUTE.CHECKOUT}`);
+    };
 
     return (
         <div className="col-sm-12 col-lg-3 product-tile">
             <LazyLoad>
-                {doMock_rdx ?
+                {config_rdx.doMock ?
                     (
                         <img
                             className="img-fluid mx-auto"
@@ -48,7 +62,7 @@ const Tile = ({ product }: TProductProps): ReactElement => {
                     </div>
                 </Link>
                 <div className="buttons">
-                    <button className="btn mw-100">
+                    <button className="btn mw-100" onClick={addProductToCart}>
                         <i className="fa fa-shopping-basket" aria-hidden="true"></i>
                         <span> buy now</span>
                     </button>
