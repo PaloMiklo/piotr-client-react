@@ -1,5 +1,23 @@
-export interface IOrder { };
+export interface IOrder {
+    cart: ICart,
+    customer: ICustomer,
+    shipping: IShippingAddress,
+    billing: IBillingAddress,
+    createdUi: string,
+    comment: string,
+    id?: number
+};
 
+export interface ICustomer {
+    firstname: string;
+    lastname: string;
+    email: string;
+    deliveryOption: IDeliveryOption;
+    billingOption: IBillingOption;
+    message: string;
+    shippingAddress: IShippingAddress;
+    billingAddress: IBillingAddress;
+}
 
 // ProductRowDto
 // ProductDetDto
@@ -26,12 +44,32 @@ export interface ICartLine {
     amount: number
 };
 
-
+// IPaidOptionItem
+export interface IBillingOption {
+    code: string;
+    name: string;
+    price: number;
+};
 export interface IDeliveryOption {
     code: string;
     name: string;
     price: number;
 };
+
+export interface IShippingAddress {
+    street: string;
+    houseNumber: string;
+    zipCode: string;
+    city: string;
+    country: string;
+}
+export interface IBillingAddress {
+    street: string;
+    houseNumber: string;
+    zipCode: string;
+    city: string;
+    country: string;
+}
 
 export interface ICart {
     lines: ICartLine[];

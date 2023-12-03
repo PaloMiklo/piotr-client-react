@@ -1,4 +1,4 @@
-import { IConfig, IProduct } from "../../model/config";
+import { IConfig, IOrder, IProduct } from "../../model/config";
 
 export const configInitial: IConfig = {
     apiPrefix: "",
@@ -15,7 +15,7 @@ export const configInitial: IConfig = {
         product: {} as IProduct,
         orders: []
     },
-    mockSendOrder: {},
+    mockSendOrder: {} as IOrder,
     perPageDefault: 0,
     pageOptions: [],
     storageExpiration: "",
