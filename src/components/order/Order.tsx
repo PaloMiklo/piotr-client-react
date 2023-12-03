@@ -5,6 +5,7 @@ import { IBillingOption, IDeliveryOption, IOrder } from '../../model/config';
 import { selectBillings } from '../../store/selector/billings';
 import { selectDeliveries } from '../../store/selector/deliveries';
 import { IOrderFormProps } from './Order.config';
+import { CURRENCY } from '../../core/constant';
 import './Order.scss';
 
 const OrderForm: FC<IOrderFormProps> = ({ onSubmit }): ReactElement => {
@@ -77,7 +78,7 @@ const OrderForm: FC<IOrderFormProps> = ({ onSubmit }): ReactElement => {
                                         <option value="" disabled>Select a billing option</option>
                                         {billings_rdx.map((billing: IBillingOption) => (
                                             <option key={billing.code} value={'' + billing}>
-                                                {billing.name} | {billing.price} €
+                                                {billing.name} | {billing.price} {CURRENCY.EURO}
                                             </option>
                                         ))}
                                     </select>
