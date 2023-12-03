@@ -1,8 +1,8 @@
-import { ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import LazyLoad from 'react-lazyload';
 import { Link } from 'react-router-dom';
 
-const Brand = (): ReactElement => {
+const Brand: FC = (): ReactElement => {
 
     return (
         <div className="container">

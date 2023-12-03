@@ -1,6 +1,6 @@
 import { faMinus, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ReactElement, useEffect } from 'react';
+import { FC, ReactElement, useEffect } from 'react';
 import LazyLoad from 'react-lazyload';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -20,7 +20,7 @@ import { action } from '../../../../store/util';
 import { TRowProps } from './Row.config';
 import './Row.scss';
 
-const Row = ({ line }: TRowProps): ReactElement => {
+const Row: FC<TRowProps> = ({ line }: TRowProps): ReactElement => {
     const { product } = line;
     const navigate = useNavigate();
     const dispatch = useAppDispatch();

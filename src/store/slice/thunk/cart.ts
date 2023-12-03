@@ -34,9 +34,9 @@ export const recalculateCart = createAsyncThunk<TRecalculateCartResult | TRecalc
             calculatedCartPriceTotal = calculatedCartPrice + deliveryPrice;
         } else {
             try {
-                const recalculationFromApi = await http.post<ICartRecalculateResultDto>(`${API_PREFIX}/cart/recalculate`, { cartLines: lines, deliveryPrice: deliveryPrice } as ICartRecalculateDto);
-                calculatedCartPrice = recalculationFromApi.data.cartPrice;
-                calculatedCartPriceTotal = recalculationFromApi.data.cartPriceTotal;
+                const recalculation$ = await http.post<ICartRecalculateResultDto>(`${API_PREFIX}/cart/recalculate`, { cartLines: lines, deliveryPrice: deliveryPrice } as ICartRecalculateDto);
+                calculatedCartPrice = recalculation$.data.cartPrice;
+                calculatedCartPriceTotal = recalculation$.data.cartPriceTotal;
             } catch (error: unknown) {
                 handleHttpError(error as AxiosError<unknown>);
                 store.dispatch(action(UNDOABLE.cart.undo));

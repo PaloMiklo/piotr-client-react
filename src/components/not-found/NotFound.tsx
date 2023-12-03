@@ -1,7 +1,7 @@
-import { ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import './NotFound.scss';
 
-const NotFound = (): ReactElement => {
+const NotFound: FC = (): ReactElement => {
 
     return (
         <div className="container not-found-wrapper">

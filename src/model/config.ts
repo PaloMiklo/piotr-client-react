@@ -1,20 +1,18 @@
 export interface IOrder {
-    cart: ICart,
     customer: ICustomer,
-    shipping: IShippingAddress,
-    billing: IBillingAddress,
+    deliveryOption: string; // IDeliveryOption | string; // TODO: should be chosen in in the summary, since the cost is a part of the counter, so probably redundant here afterwards
+    billingOption: string; // IBillingOption | string;
+    cart: ICart,
     createdUi: string,
-    comment: string,
+    comment?: string,
     id?: number
 };
 
 export interface ICustomer {
     firstname: string;
     lastname: string;
+    message?: string;
     email: string;
-    deliveryOption: IDeliveryOption;
-    billingOption: IBillingOption;
-    message: string;
     shippingAddress: IShippingAddress;
     billingAddress: IBillingAddress;
 }
@@ -89,6 +87,7 @@ export interface IConfig {
     port: number;
     apiVersion: string;
     delivery: IDeliveryOption[];
+    billing: IBillingOption[];
     doMock: boolean;
     mocks: IMocks;
     mockSendOrder: IOrder;

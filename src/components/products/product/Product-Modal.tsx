@@ -1,6 +1,6 @@
 import { faMagnifyingGlassMinus, faMagnifyingGlassPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ReactElement, useEffect, useState } from 'react';
+import { FC, ReactElement, useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import LazyLoad from 'react-lazyload';
 import { useSelector } from 'react-redux';
@@ -11,7 +11,7 @@ import { selectDoMock } from '../../../store/selector/config';
 import { TProductModalProps } from './Product-Modal.config';
 import './Product-Modal.scss';
 
-const ModalDialog = ({ doShow, activatedProduct }: TProductModalProps): ReactElement => {
+const ModalDialog: FC<TProductModalProps> = ({ doShow, activatedProduct }: TProductModalProps): ReactElement => {
     const [isShow, setIsShow] = useState<boolean>(false);
     const [product, setProduct] = useState<boolean | null>(null);
     const [zoomLevel, setZoomLevel] = useState<number>(100);

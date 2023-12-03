@@ -1,8 +1,8 @@
-import { ReactElement } from "react";
+import { FC, ReactElement } from "react";
 import { Link } from "react-router-dom";
 import './Navbar.scss';
 
-const Navbar = (): ReactElement => {
+const Navbar: FC = (): ReactElement => {
     return (
         <nav className="navbar navbar-expand-md navbar-light bg-white">
             <button

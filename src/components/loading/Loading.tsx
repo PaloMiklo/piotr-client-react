@@ -1,8 +1,8 @@
-import { ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import { CircleLoader } from 'react-spinners';
 import './Loading.scss';
 
-const Loading = (): ReactElement => {
+const Loading: FC = (): ReactElement => {
 
     return (
         <div className="loading-container">

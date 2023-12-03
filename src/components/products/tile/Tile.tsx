@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import LazyLoad from 'react-lazyload';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -17,10 +17,10 @@ import { selectConfig } from '../../../store/selector/config';
 import { ICartStateWrapper } from '../../../store/slice/cart';
 import { TRecalculateCartArgs, recalculateCart } from '../../../store/slice/thunk/cart';
 import { action } from '../../../store/util';
-import { TProductProps } from '../product/Product.config';
+import { TTileProps } from './Tile.config';
 import './Tile.scss';
 
-const Tile = ({ product }: TProductProps): ReactElement => {
+const Tile: FC<TTileProps> = ({ product }: TTileProps): ReactElement => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const config_rdx = useSelector(selectConfig);

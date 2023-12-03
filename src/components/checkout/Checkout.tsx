@@ -1,25 +1,34 @@
-import { BaseSyntheticEvent, ReactElement } from "react";
+import { FC, Fragment, ReactElement } from "react";
 import { useSelector } from "react-redux";
-import { StateWithHistory } from "redux-undo";
-import Order from "../../form/Order";
-import { IDeliveryOption, IOrder } from "../../model/config";
+import { IOrder } from "../../model/config";
+import { WRAPPER_KEY } from "../../store/constant/slice";
 import { selectCart } from "../../store/selector/cart";
-import { selectDeliveries } from "../../store/selector/deliveries";
-import { ICartStateWrapper } from "../../store/slice/cart";
+import Order from "../order/Order";
+import './Checkout.scss';
 
-const Checkout = (): ReactElement => {
-    const cart_rdx: StateWithHistory<ICartStateWrapper> = useSelector(selectCart);
-    const deliveries_rdx: IDeliveryOption[] = useSelector(selectDeliveries);
+const Checkout: FC = (): ReactElement => {
+    const cart_rdx = useSelector(selectCart);
 
+    const createOrder = (data: IOrder) => {
+        const order = {
+            ...data,
+            ...{ cart: cart_rdx.present[WRAPPER_KEY], createdUi: new Date().toISOString(), comment: 'v1' }
+        }
+        console.log(order);
+    }
 
     return (
-        <div className="container">
-            <h1>CHECKOUT PAGE</h1>
-            <Order onSubmit={function (data: IOrder, event?: BaseSyntheticEvent<object, any, any> | undefined): unknown {
-                console.log(data)
-                throw new Error("Function not implemented.");
-            }}></Order>
-        </div>
+        <Fragment>
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-12">
+                        <h3 className="display-4 d-flex justify-content-center">checkout</h3>
+                        <span className="dash"></span>
+                    </div>
+                </div>
+                <Order onSubmit={createOrder}></Order>
+            </div>
+        </Fragment>
     );
 }
 

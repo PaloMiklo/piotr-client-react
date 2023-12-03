@@ -1,7 +1,7 @@
 import { faFacebook, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ReactElement, useEffect, useState } from 'react';
+import { FC, Fragment, ReactElement, useEffect, useState } from 'react';
 import LazyLoad from 'react-lazyload';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -26,7 +26,7 @@ import { action } from '../../../store/util';
 import ProductModal from './Product-Modal';
 import './Product.scss';
 
-const Product = (): ReactElement => {
+const Product: FC = (): ReactElement => {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -132,7 +132,7 @@ const Product = (): ReactElement => {
 
             </div>
         </div >
-    ) : <></>
+    ) : <Fragment></Fragment>
 }
 
 export default Product;

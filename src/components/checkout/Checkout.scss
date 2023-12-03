@@ -1,0 +1,15 @@
+$color-product-detail-link-social: rgb(182, 182, 182);
+
+.dash {
+    width: 5rem;
+    padding: 0.2rem;
+    margin: 1.1rem auto;
+    display: table;
+    background-color: $color-product-detail-link-social;
+}
+
+h3 {
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 0.2rem;
+}

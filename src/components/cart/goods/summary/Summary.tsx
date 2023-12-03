@@ -1,6 +1,6 @@
 import { faBasketShopping, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ReactElement } from "react";
+import { FC, ReactElement } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ActionTypes } from "../../../../store/constant/action";
 import { useAppDispatch } from "../../../../store/hook/hook";
@@ -8,7 +8,7 @@ import { action } from "../../../../store/util";
 import './Summary.scss';
 import Counter from "./counter/Counter";
 
-const Summary = (): ReactElement => {
+const Summary: FC = (): ReactElement => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 

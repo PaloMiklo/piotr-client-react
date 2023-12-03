@@ -1,6 +1,6 @@
 import { faFaceFrown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Fragment, ReactElement, useEffect, useState } from 'react';
+import { FC, Fragment, ReactElement, useEffect, useState } from 'react';
 import LazyLoad from 'react-lazyload';
 import { useSelector } from 'react-redux';
 import { StateWithHistory } from 'redux-undo';
@@ -12,7 +12,7 @@ import './Cart.scss';
 import Row from './goods/row/Row';
 import Summary from './goods/summary/Summary';
 
-const Cart = (): ReactElement => {
+const Cart: FC = (): ReactElement => {
     const cart_rdx: StateWithHistory<ICartStateWrapper> = useSelector(selectCart);
 
     const [cart, setCart] = useState<ICart | null>(null);
@@ -20,7 +20,7 @@ const Cart = (): ReactElement => {
     useEffect((): void => setCart(cart_rdx.present[WRAPPER_KEY]), [cart_rdx.present[WRAPPER_KEY]]);
 
     return (
-        <>
+        <Fragment>
             {cart && (
                 <div className="cart-content">
                     <div className="container">
@@ -79,7 +79,7 @@ const Cart = (): ReactElement => {
                     </div>
                 </div>
             )}
-        </>
+        </Fragment>
     );
 };
 

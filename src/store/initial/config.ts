@@ -6,9 +6,10 @@ export const configInitial: IConfig = {
     freeShipping: 0,
     protocol: "",
     port: 0,
-    doMock: true,
+    doMock: false,
     apiVersion: "",
     delivery: [],
+    billing: [],
     mocks: {
         products: [],
         deletedProducts: [],

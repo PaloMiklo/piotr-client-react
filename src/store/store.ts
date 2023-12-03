@@ -2,6 +2,7 @@ import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import undoable from 'redux-undo';
+import billingReducer from './slice/billing';
 import cartReducer, { ICartStateWrapper } from './slice/cart';
 import configReducer from './slice/config';
 import deliveryReducer from './slice/delivery';
@@ -18,6 +19,7 @@ const undoableCartReducer = undoable(cartReducer, {
 const rootReducer = combineReducers({
     config: configReducer,
     delivery: deliveryReducer,
+    billing: billingReducer,
     products: productsReducer,
     cart: undoableCartReducer,
 });
@@ -31,6 +33,7 @@ export type AppDispatch = typeof store.dispatch;
 export type RootState = {
     config: ReturnType<typeof configReducer>;
     delivery: ReturnType<typeof deliveryReducer>;
+    billing: ReturnType<typeof billingReducer>;
     products: ReturnType<typeof productsReducer>;
     cart: {
         past: ICartStateWrapper[];

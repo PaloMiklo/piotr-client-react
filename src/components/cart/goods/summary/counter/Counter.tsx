@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from "react";
+import { FC, Fragment, ReactElement, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { StateWithHistory } from "redux-undo";
 import { CURRENCY } from "../../../../../core/constant";
@@ -8,7 +8,7 @@ import { selectCart } from "../../../../../store/selector/cart";
 import { selectConfig } from "../../../../../store/selector/config";
 import { ICartStateWrapper } from "../../../../../store/slice/cart";
 
-const Counter = (): ReactElement => {
+const Counter: FC = (): ReactElement => {
     const config_rdx: IConfig = useSelector(selectConfig);
     const cart_rdx: StateWithHistory<ICartStateWrapper> = useSelector(selectCart);
 
@@ -17,7 +17,7 @@ const Counter = (): ReactElement => {
     useEffect((): void => setCart(cart_rdx.present[WRAPPER_KEY]), [cart_rdx]);
 
     return (
-        <>
+        <Fragment>
             {cart && config_rdx && (
                 <div className="counter-container">
                     <li className="shopping-cart-summary-wrapper-list">
@@ -50,7 +50,7 @@ const Counter = (): ReactElement => {
                     </div>
                 </div>
             )}
-        </>
+        </Fragment>
     );
 };
 

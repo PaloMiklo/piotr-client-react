@@ -24,6 +24,28 @@
       "price": 0
     }
   ],
+  "billing": [
+    {
+      "code": "0",
+      "name": "Cash",
+      "price": 0
+    },
+    {
+      "code": "1",
+      "name": "Paypal",
+      "price": 0
+    },
+    {
+      "code": "2",
+      "name": "Bank transaction",
+      "price": 0
+    },
+    {
+      "code": "3",
+      "name": "Payment on Delivery",
+      "price": 2
+    }
+  ],
   "mocks": {
     "products": [
       {
