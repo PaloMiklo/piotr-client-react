@@ -2,7 +2,7 @@ import { ActionReducerMapBuilder, createAsyncThunk, PayloadAction } from "@redux
 import { AxiosError } from "axios";
 import { handleHttpError } from "../../../common/error";
 import http from "../../../common/http";
-import { API_PREFIX } from "../../../common/rest";
+import { API, ENDPOINTS } from "../../../common/rest";
 import { ICartRecalculateDto, ICartRecalculateResultDto, IConfig } from "../../../model/config";
 import { LOCAL_STORAGE, LOCAL_STORAGE_KEY, LOCAL_STORAGE_OPERATION } from "../../../storage/local";
 import { ActionTypes } from "../../constant/action";
@@ -34,7 +34,7 @@ export const recalculateCart = createAsyncThunk<TRecalculateCartResult | TRecalc
             calculatedCartPriceTotal = calculatedCartPrice + deliveryPrice;
         } else {
             try {
-                const recalculation$ = await http.post<ICartRecalculateResultDto>(`${API_PREFIX}/cart/recalculate`, { cartLines: lines, deliveryPrice: deliveryPrice } as ICartRecalculateDto);
+                const recalculation$ = await http.post<ICartRecalculateResultDto>(ENDPOINTS[API.CART_RECALCULATION](), { cartLines: lines, deliveryPrice: deliveryPrice } as ICartRecalculateDto);
                 calculatedCartPrice = recalculation$.data.cartPrice;
                 calculatedCartPriceTotal = recalculation$.data.cartPriceTotal;
             } catch (error: unknown) {

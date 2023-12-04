@@ -6,6 +6,7 @@ export const enum API {
     BILLING = 'billings',
     PRODUCTS = "products",
     PRODUCT_IMAGE = "product_name",
+    CART_RECALCULATION = 'cart_recalculation'
 }
 
 export const ENDPOINTS: Record<API, <A = string>(arg?: A) => string> = {
@@ -14,6 +15,7 @@ export const ENDPOINTS: Record<API, <A = string>(arg?: A) => string> = {
     [API.BILLING]: (): string => `${API_PREFIX}/paid-option-item`,
     [API.PRODUCTS]: (): string => `${API_PREFIX}/product/list`,
     [API.PRODUCT_IMAGE]: <A = string>(productId: A): string => `${API_PREFIX}/product/${productId}/image`,
+    [API.CART_RECALCULATION]: (): string => `${API_PREFIX}/cart/recalculate`,
 };
 
 export type TPAID_OPTIONS_CODES = 'SHIPPING' | 'PAYMENT';
