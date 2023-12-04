@@ -5,7 +5,7 @@ export const handleHttpError = <T = unknown>(error: AxiosError<T>, navigate?: (t
     routeError && navigate && navigate(routeError);
 };
 
-export const handleOtherError = <T = unknown>(error: T, navigate: (to: string) => void, routeError = '/not-found') => {
+export const handleOtherError = <T = unknown>(error: T, navigate?: (to: string) => void, routeError = '/not-found') => {
     console.error('TODO -> alert other error', error);
-    navigate(routeError);
+    navigate && navigate(routeError);
 };
