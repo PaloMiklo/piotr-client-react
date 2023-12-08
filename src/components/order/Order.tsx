@@ -52,14 +52,14 @@ const OrderForm: FC<IOrderFormProps> = ({ onSubmit }): ReactElement => {
                         <div className='col-12 d-flex col-12 d-flex justify-content-between pt-2'>
                             <label htmlFor="customer.deliveryOption.code">Delivery option</label>
                             <Controller
-                                name="deliveryOption"
+                                name="deliveryOptionItemCode"
                                 control={control}
                                 defaultValue=""
                                 render={({ field }) => (
-                                    <select {...field as ControllerRenderProps<IOrder, "deliveryOption">}>
+                                    <select {...field as ControllerRenderProps<IOrder, "deliveryOptionItemCode">}>
                                         <option value="" disabled>Select a delivery option</option>
                                         {deliveries_rdx.map((delivery: IDeliveryOption) => (
-                                            <option key={delivery.code} value={'' + delivery}>
+                                            <option key={delivery.code} value={delivery.code}>
                                                 {delivery.name} | {delivery.price} €
                                             </option>
                                         ))}
@@ -70,14 +70,14 @@ const OrderForm: FC<IOrderFormProps> = ({ onSubmit }): ReactElement => {
                         <div className='col-12 d-flex col-12 d-flex justify-content-between pt-2'>
                             <label htmlFor="customer.billingOption.code">Billing Option</label>
                             <Controller
-                                name="billingOption"
+                                name="billingOptionItemCode"
                                 control={control}
                                 defaultValue=""
                                 render={({ field }) => (
-                                    <select {...field as ControllerRenderProps<IOrder, "billingOption">}>
+                                    <select {...field as ControllerRenderProps<IOrder, "billingOptionItemCode">}>
                                         <option value="" disabled>Select a billing option</option>
                                         {billings_rdx.map((billing: IBillingOption) => (
-                                            <option key={billing.code} value={'' + billing}>
+                                            <option key={billing.code} value={billing.code}>
                                                 {billing.name} | {billing.price} {CURRENCY.EURO}
                                             </option>
                                         ))}

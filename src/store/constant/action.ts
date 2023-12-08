@@ -24,7 +24,9 @@ type ActionTypes = {
     BILLINGS_INITIALIZE: `${typeof SLICE_NAMES.DELIVERY}/initialize`,
     BILLINGS_DELIVERY_RESET: `${typeof SLICE_NAMES.DELIVERY}/reset`,
     BILLINGS_ADD: `${typeof SLICE_NAMES.DELIVERY}/add`,
-    BILLINGS_REMOVE: `${typeof SLICE_NAMES.DELIVERY}/remove`
+    BILLINGS_REMOVE: `${typeof SLICE_NAMES.DELIVERY}/remove`,
+
+    SEND_ORDER: `${typeof SLICE_NAMES.ORDER}/sendOrder`
 };
 
 export const ActionTypes: ActionTypes = {
@@ -51,5 +53,7 @@ export const ActionTypes: ActionTypes = {
     BILLINGS_INITIALIZE: `${SLICE_NAMES.BILLING}/initialize`,
     BILLINGS_DELIVERY_RESET: `${SLICE_NAMES.BILLING}/reset`,
     BILLINGS_ADD: `${SLICE_NAMES.BILLING}/add`,
-    BILLINGS_REMOVE: `${SLICE_NAMES.BILLING}/remove`
+    BILLINGS_REMOVE: `${SLICE_NAMES.BILLING}/remove`,
+
+    SEND_ORDER: `${SLICE_NAMES.ORDER}/sendOrder`
 };

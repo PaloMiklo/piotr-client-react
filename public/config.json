@@ -144,13 +144,6 @@
           "firstname": "John",
           "lastname": "Doe",
           "email": "john.doe@example.com",
-          "deliveryOption": {
-            "id": 2,
-            "name": "GLS",
-            "description": "Standard shipping can take up to 4 days",
-            "price": 5.99
-          },
-          "billingOption": null,
           "message": "Please leave the package on the porch.",
           "shippingAddress": {
             "street": "123 Main St",

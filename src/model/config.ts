@@ -1,7 +1,7 @@
 export interface IOrder {
     customer: ICustomer,
-    deliveryOption: string; // IDeliveryOption | string; // TODO: should be chosen in in the summary, since the cost is a part of the counter, so probably redundant here afterwards
-    billingOption: string; // IBillingOption | string;
+    deliveryOptionItemCode: string; // IDeliveryOption | string; // TODO: should be chosen in in the summary, since the cost is a part of the counter, so probably redundant here afterwards
+    billingOptionItemCode: string; // IBillingOption | string;
     cart: ICart,
     createdUi: string,
     comment?: string,

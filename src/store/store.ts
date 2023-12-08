@@ -6,6 +6,7 @@ import billingReducer from './slice/billing';
 import cartReducer, { ICartStateWrapper } from './slice/cart';
 import configReducer from './slice/config';
 import deliveryReducer from './slice/delivery';
+import ordersReducer from './slice/order';
 import productsReducer from './slice/products';
 
 export const UNDOABLE = { cart: { undo: 'CART_UNDO', redo: 'CART_REDO' } };
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
     billing: billingReducer,
     products: productsReducer,
     cart: undoableCartReducer,
+    order: ordersReducer
 });
 
 export const store: EnhancedStore = configureStore({
@@ -40,4 +42,5 @@ export type RootState = {
         present: ICartStateWrapper;
         future: ICartStateWrapper[];
     };
+    sendOdrder: ReturnType<typeof ordersReducer>;
 };
