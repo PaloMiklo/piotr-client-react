@@ -2,8 +2,18 @@ form {
     width: 35rem;
 
     input,
-    textarea,
     select {
         width: 20rem;
+    }
+
+    textarea {
+        width: 30rem;
+    }
+
+    .btn {
+        &-dark {
+            width: 18rem;
+            text-transform: uppercase;
+        }
     }
 }

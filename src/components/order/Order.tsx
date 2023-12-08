@@ -1,11 +1,11 @@
 import { FC, Fragment, ReactElement } from 'react';
 import { Controller, ControllerRenderProps, SubmitHandler, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import { CURRENCY } from '../../core/constant';
 import { IBillingOption, IDeliveryOption, IOrder } from '../../model/config';
 import { selectBillings } from '../../store/selector/billings';
 import { selectDeliveries } from '../../store/selector/deliveries';
 import { IOrderFormProps } from './Order.config';
-import { CURRENCY } from '../../core/constant';
 import './Order.scss';
 
 const OrderForm: FC<IOrderFormProps> = ({ onSubmit }): ReactElement => {
@@ -18,7 +18,7 @@ const OrderForm: FC<IOrderFormProps> = ({ onSubmit }): ReactElement => {
 
     return (
         <Fragment>
-            {deliveries_rdx.length && billings_rdx ? (
+            {deliveries_rdx.length && billings_rdx.length ? (
                 <div className='container d-flex justify-content-center'>
                     <form onSubmit={handleFormSubmit(onSubmitHandler)}>
                         <h4 className='mt-3'>Customer info</h4>
@@ -185,15 +185,15 @@ const OrderForm: FC<IOrderFormProps> = ({ onSubmit }): ReactElement => {
                                 render={({ field }) => <textarea {...field as ControllerRenderProps<IOrder, "customer.message">} placeholder="Note" />}
                             />
                         </div>
-                        <div>
-                            <button type="submit" > Submit </button>
+                        <div className='mt-3'>
+                            <button className="btn btn-dark btn-lg w-100" type="submit" > Submit </button>
                         </div>
                     </form>
-                </div>
+                </div >
             ) :
                 <p>Loading...</p>
             }
-        </Fragment>
+        </Fragment >
     )
 };
 
