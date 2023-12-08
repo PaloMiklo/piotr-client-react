@@ -2,14 +2,11 @@ import { FC, Fragment, ReactElement } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Action } from "redux";
-import { ROUTE } from "../../common/route";
 import { IOrder } from "../../model/config";
-import { ActionTypes } from "../../store/constant/action";
 import { WRAPPER_KEY } from "../../store/constant/slice";
 import { useAppDispatch } from "../../store/hook/hook";
 import { selectCart } from "../../store/selector/cart";
 import { TSendOrderArgs, sendOrder } from "../../store/slice/thunk/order";
-import { action } from "../../store/util";
 import Order from "../order/Order";
 import './Checkout.scss';
 
@@ -26,8 +23,7 @@ const Checkout: FC = (): ReactElement => {
         console.log(order);
 
         dispatch(sendOrder({ order }) as unknown as Action<TSendOrderArgs>);
-        dispatch(action(ActionTypes.CART_RESET));
-        navigate(ROUTE.ROOT);
+        // navigate(ROUTE.ROOT);
     }
 
     return (

@@ -90,7 +90,6 @@ export interface IConfig {
     billing: IBillingOption[];
     doMock: boolean;
     mocks: IMocks;
-    mockSendOrder: IOrder;
     perPageDefault: number;
     pageOptions: IPageOption[];
     countries: string[];
@@ -102,6 +101,7 @@ export interface IMocks {
     product: IProduct;
     orders: IOrder[];
     deletedProducts: IProduct[];
+    mockSendOrder: number;
 };
 
 export interface IPageOption {
