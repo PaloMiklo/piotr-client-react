@@ -182,8 +182,8 @@
           }
         ],
         "customer": {
-          "firstname": "John",
-          "lastname": "Doe",
+          "firstName": "John",
+          "lastName": "Doe",
           "email": "john.doe@example.com",
           "deliveryOption": {
             "id": 2,

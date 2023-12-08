@@ -23,21 +23,21 @@ const OrderForm: FC<IOrderFormProps> = ({ onSubmit }): ReactElement => {
                     <form onSubmit={handleFormSubmit(onSubmitHandler)}>
                         <h4 className='mt-3'>Customer info</h4>
                         <div className='col-12 d-flex col-12 d-flex justify-content-between'>
-                            <label htmlFor="customer.firstname">First Name</label>
+                            <label htmlFor="customer.firstName">First Name</label>
                             <Controller
-                                name="customer.firstname"
+                                name="customer.firstName"
                                 control={control}
                                 defaultValue=""
-                                render={({ field }) => <input {...field as ControllerRenderProps<IOrder, "customer.firstname">} placeholder="First Name" />}
+                                render={({ field }) => <input {...field as ControllerRenderProps<IOrder, "customer.firstName">} placeholder="First Name" />}
                             />
                         </div>
                         <div className='col-12 d-flex col-12 d-flex justify-content-between pt-2'>
                             <label htmlFor="customer.lastname">Last Name</label>
                             <Controller
-                                name="customer.lastname"
+                                name="customer.lastName"
                                 control={control}
                                 defaultValue=""
-                                render={({ field }) => <input {...field as ControllerRenderProps<IOrder, "customer.lastname">} placeholder="Last Name" />}
+                                render={({ field }) => <input {...field as ControllerRenderProps<IOrder, "customer.lastName">} placeholder="Last Name" />}
                             />
                         </div>
                         <div className='col-12 d-flex col-12 d-flex justify-content-between pt-2'>

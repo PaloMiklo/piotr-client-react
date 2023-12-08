@@ -9,8 +9,8 @@ export interface IOrder {
 };
 
 export interface ICustomer {
-    firstname: string;
-    lastname: string;
+    firstName: string;
+    lastName: string;
     message?: string;
     email: string;
     shippingAddress: IShippingAddress;

@@ -2,8 +2,8 @@ import { IOrder } from "../../model/config";
 
 export const orderInitial: IOrder = {
     customer: {
-        firstname: '',
-        lastname: '',
+        firstName: '',
+        lastName: '',
         message: '',
         email: '',
         shippingAddress: {
