@@ -2,11 +2,11 @@ import { FC, Fragment, ReactElement } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Action } from "redux";
-import { IOrder } from "../../model/config";
+import { ICartLine, IOrder, IOrderNew } from "../../model/config";
 import { WRAPPER_KEY } from "../../store/constant/slice";
 import { useAppDispatch } from "../../store/hook/hook";
 import { selectCart } from "../../store/selector/cart";
-import { TSendOrderArgs, sendOrder } from "../../store/slice/thunk/order";
+import { sendOrder } from "../../store/slice/thunk/order";
 import Order from "../order/Order";
 import './Checkout.scss';
 
@@ -16,13 +16,46 @@ const Checkout: FC = (): ReactElement => {
     const dispatch = useAppDispatch();
 
     const createOrder = (data: IOrder) => {
-        const order = {
-            ...data,
-            ...{ cart: cart_rdx.present[WRAPPER_KEY], createdUi: new Date().toISOString(), comment: 'v1' }
+        const cart = cart_rdx.present[WRAPPER_KEY];
+
+        const order: IOrderNew = {
+            customer: {
+                firstName: data.customer.firstName,
+                lastName: data.customer.lastName,
+                email: data.customer.email
+            },
+            deliveryOptionItemCode: data.deliveryOptionItemCode,
+            billingOptionItemCode: data.billingOptionItemCode,
+            createdUi: new Date().toISOString(),
+            note: data.note,
+            shippingAddress: {
+                street: data.customer.shippingAddress.street,
+                houseNumber: data.customer.shippingAddress.houseNumber,
+                zipCode: data.customer.shippingAddress.zipCode,
+                city: data.customer.shippingAddress.city,
+                country: data.customer.shippingAddress.country
+            },
+            billingAddress: {
+                street: data.customer.billingAddress.street,
+                houseNumber: data.customer.billingAddress.houseNumber,
+                zipCode: data.customer.billingAddress.zipCode,
+                city: data.customer.billingAddress.city,
+                country: data.customer.billingAddress.country
+            },
+            cart: {
+                freeShipping: cart.freeShipping,
+                itemCount: cart.itemCount,
+                cartPrice: cart.cartPrice,
+                lines: cart.lines.map((line: ICartLine) => ({
+                    productId: line.product.id,
+                    productPrice: line.product.price,
+                    amount: line.amount
+                }))
+            }
         }
         console.log(order);
 
-        dispatch(sendOrder({ order }) as unknown as Action<TSendOrderArgs>);
+        dispatch(sendOrder({ order: order }) as unknown as Action<IOrderNew>);
         // navigate(ROUTE.ROOT);
     }
 

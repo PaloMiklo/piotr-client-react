@@ -1,21 +1,51 @@
+// OrderNewDto
+export interface IOrderNew {
+    customer: {
+        firstName: string,
+        lastName: string,
+        email: string
+    };
+    deliveryOptionItemCode: string;
+    billingOptionItemCode: string;
+    createdUi: string;
+    note?: string | null;
+    shippingAddress: IShippingAddress;
+    billingAddress: IBillingAddress;
+    cart: ICartNew;
+}
+
+// ICartNewDto
+export interface ICartNew {
+    id?: number
+    freeShipping: boolean;
+    itemCount: number,
+    cartPrice: number,
+    lines: CartLineNewDto[]
+};
+
+export interface CartLineNewDto {
+    productId: number,
+    productPrice: number,
+    amount: number
+};
+
 export interface IOrder {
     customer: ICustomer,
     deliveryOptionItemCode: string; // IDeliveryOption | string; // TODO: should be chosen in in the summary, since the cost is a part of the counter, so probably redundant here afterwards
     billingOptionItemCode: string; // IBillingOption | string;
     cart: ICart,
     createdUi: string,
-    comment?: string,
+    note?: string,
     id?: number
 };
 
 export interface ICustomer {
     firstName: string;
     lastName: string;
-    message?: string;
     email: string;
     shippingAddress: IShippingAddress;
     billingAddress: IBillingAddress;
-}
+};
 
 // ProductRowDto
 // ProductDetDto
@@ -32,7 +62,7 @@ export interface IProduct {
 export interface ICartRecalculateDto {
     cartLines: ICartLine[];
     deliveryPrice: number
-}
+};
 
 // CartRecalculateResultDto
 export interface ICartRecalculateResultDto { cartPrice: number, cartPriceTotal: number }
@@ -60,14 +90,14 @@ export interface IShippingAddress {
     zipCode: string;
     city: string;
     country: string;
-}
+};
 export interface IBillingAddress {
     street: string;
     houseNumber: string;
     zipCode: string;
     city: string;
     country: string;
-}
+};
 
 export interface ICart {
     lines: ICartLine[];
@@ -94,7 +124,7 @@ export interface IConfig {
     pageOptions: IPageOption[];
     countries: string[];
     storageExpiration: string;
-}
+};
 
 export interface IMocks {
     products: IProduct[];

@@ -144,7 +144,7 @@
           "firstname": "John",
           "lastname": "Doe",
           "email": "john.doe@example.com",
-          "message": "Please leave the package on the porch.",
+          "note": "Please leave the package on the porch.",
           "shippingAddress": {
             "street": "123 Main St",
             "houseNumber": "Apt 2",
@@ -160,8 +160,8 @@
             "country": "USA"
           }
         },
-        "createdFE": "2023-03-24T21:17:37.640Z",
-        "comment": "Hello!"
+        "createdUi": "2023-03-24T21:17:37.640Z",
+        "note": "Hello!"
       },
       {
         "id": 2,
@@ -192,7 +192,7 @@
             "price": 5.99
           },
           "billingOption": null,
-          "message": "Please leave the package on the porch.",
+          "note": "Please leave the package on the porch.",
           "shippingAddress": {
             "street": "123 Main St",
             "houseNumber": "Apt 2",
@@ -208,8 +208,8 @@
             "country": "USA"
           }
         },
-        "createdFE": "2023-03-24T21:17:37.640Z",
-        "comment": "Hello!"
+        "createdUi": "2023-03-24T21:17:37.640Z",
+        "note": "Hello!"
       }
     ],
     "mockSendOrder": {

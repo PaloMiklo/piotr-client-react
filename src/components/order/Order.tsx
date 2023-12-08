@@ -179,10 +179,10 @@ const OrderForm: FC<IOrderFormProps> = ({ onSubmit }): ReactElement => {
                         <div className='col-12 d-flex col-12 d-flex justify-content-between pt-2'>
                             <label htmlFor="customer.message">Note</label>
                             <Controller
-                                name="customer.message"
+                                name="note"
                                 control={control}
                                 defaultValue=""
-                                render={({ field }) => <textarea {...field as ControllerRenderProps<IOrder, "customer.message">} placeholder="Note" />}
+                                render={({ field }) => <textarea {...field as ControllerRenderProps<IOrder, "note">} placeholder="Note" />}
                             />
                         </div>
                         <div className='mt-3'>

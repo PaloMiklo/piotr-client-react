@@ -4,7 +4,6 @@ export const orderInitial: IOrder = {
     customer: {
         firstName: '',
         lastName: '',
-        message: '',
         email: '',
         shippingAddress: {
             street: '',
@@ -47,6 +46,6 @@ export const orderInitial: IOrder = {
         cartPriceTotal: 0,
     },
     createdUi: '',
-    comment: '',
+    note: '',
     id: 0
 };

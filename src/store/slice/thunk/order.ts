@@ -3,7 +3,7 @@ import { AxiosError } from "axios";
 import { handleHttpError, handleOtherError } from "../../../common/error";
 import http from "../../../common/http";
 import { API, ENDPOINTS } from "../../../common/rest";
-import { IOrder } from "../../../model/config";
+import { IOrder, IOrderNew } from "../../../model/config";
 import { LOCAL_STORAGE, LOCAL_STORAGE_OPERATION } from "../../../storage/local";
 import { ActionTypes } from "../../constant/action";
 import { WRAPPER_KEY } from "../../constant/slice";
@@ -11,7 +11,7 @@ import { RootState } from "../../store";
 import { action } from "../../util";
 import { IOrderStateWrapper } from "../order";
 
-export type TSendOrderArgs = { order: IOrder };
+export type TSendOrderArgs = { order: IOrderNew };
 type TSendOrderPayload = { orderNumber: number };
 type TSendOrderError = string;
 type TSendOrderResult = TSendOrderPayload | TSendOrderError;
@@ -48,12 +48,12 @@ export const sendOrderReducer = (builder: ActionReducerMapBuilder<IOrderStateWra
     builder
         .addCase(sendOrder.pending, (_: IOrderStateWrapper, action: PayloadAction<unknown>) => { })
         .addCase(sendOrder.fulfilled, (_: IOrderStateWrapper, action: PayloadAction<TSendOrderResult>) => {
-            const result = action.payload;
+            const result = action.payload as TSendOrderPayload;
 
             LOCAL_STORAGE[LOCAL_STORAGE_OPERATION.CLEAR]();
 
-            // TODO: Implement as an alert when alerts exist
-            console.log(`Order with number ${result} was sucessfully created.`);
+            // TODO: Implement as an alert
+            console.log(`Order with number ${result.orderNumber} was sucessfully created.`);
         })
         .addCase(sendOrder.rejected, (state: any, action: PayloadAction<unknown>) => {
             const failure = action.payload;
