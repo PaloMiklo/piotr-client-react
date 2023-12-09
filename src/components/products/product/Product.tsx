@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Action } from 'redux';
 import { StateWithHistory } from 'redux-undo';
-import { handleHttpError, handleOtherError } from '../../../common/error';
+import { handleHttpError, handleOtherError } from '../../../common/error/error';
 import { useHttpGetBlob__ } from '../../../common/hook/http-get';
 import { API, ENDPOINTS } from '../../../common/rest';
 import { ROUTE } from '../../../common/route';
@@ -46,7 +46,7 @@ const Product: FC = (): ReactElement => {
     useEffect((): void => {
         if (products?.length) {
             const foundProduct = id ? products.find((product: IProduct) => product.id === +id) : null;
-            foundProduct ? setActivatedProduct(foundProduct) : handleOtherError<string>(`Product with id ${id} not found!`, navigate);
+            foundProduct ? setActivatedProduct(foundProduct) : handleOtherError<string>(`[Product.useEffect]: Product with id ${id} not found!`, navigate);
         }
     }, [id, products]);
 

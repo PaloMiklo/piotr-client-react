@@ -1,6 +1,6 @@
 import { ActionReducerMapBuilder, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
-import { handleHttpError, handleOtherError } from "../../../common/error";
+import { handleHttpError, handleOtherError } from "../../../common/error/error";
 import http from "../../../common/http";
 import { API, ENDPOINTS } from "../../../common/rest";
 import { ICartRecalculateDto, ICartRecalculateResultDto, IConfig } from "../../../model/config";
@@ -77,6 +77,6 @@ export const recalculateCartReducer = (builder: ActionReducerMapBuilder<ICartSta
         })
         .addCase(recalculateCart.rejected, (state: ICartStateWrapper, action: PayloadAction<TRecalculateCartResult>) => {
             const failure = action.payload;
-            handleOtherError<string>('REJECTED: ' + failure);
+            handleOtherError<string>('REJECTED [recalculateCartReducer]: ' + failure);
         });
 }

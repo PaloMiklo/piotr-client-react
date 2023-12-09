@@ -5,7 +5,8 @@ export enum ROUTE {
     CONTACT = "/contact",
     CART = "/cart",
     CHECKOUT = 'cart/checkout',
-    WILDCART = "/*"
+    WILDCART = "/*",
+    NOT_FOUND = "/not-found"
 }
 
 type TDynamicRoutes = ROUTE.PRODUCT_DETAIL;

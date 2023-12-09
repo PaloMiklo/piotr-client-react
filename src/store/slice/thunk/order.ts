@@ -1,6 +1,6 @@
 import { ActionReducerMapBuilder, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
-import { handleHttpError, handleOtherError } from "../../../common/error";
+import { handleHttpError, handleOtherError } from "../../../common/error/error";
 import http from "../../../common/http";
 import { API, ENDPOINTS } from "../../../common/rest";
 import { IOrder, IOrderNew } from "../../../model/config";
@@ -58,6 +58,6 @@ export const sendOrderReducer = (builder: ActionReducerMapBuilder<IOrderStateWra
         })
         .addCase(sendOrder.rejected, (state: IOrderStateWrapper, action: PayloadAction<TSendOrderResult>) => {
             const failure = action.payload;
-            handleOtherError<string>('REJECTED: ' + failure);
+            handleOtherError<string>('REJECTED [sendOrderReducer]: ' + failure);
         });
 }

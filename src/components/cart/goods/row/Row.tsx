@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Action } from 'redux';
 import { StateWithHistory } from 'redux-undo';
-import { handleHttpError } from '../../../../common/error';
+import { handleHttpError } from '../../../../common/error/error';
 import { useHttpGetBlob__ } from '../../../../common/hook/http-get';
 import { API, ENDPOINTS } from '../../../../common/rest';
 import { ActionTypes } from '../../../../store/constant/action';

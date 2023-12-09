@@ -4,7 +4,7 @@ import { FC, ReactElement, useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import LazyLoad from 'react-lazyload';
 import { useSelector } from 'react-redux';
-import { handleHttpError } from '../../../common/error';
+import { handleHttpError } from '../../../common/error/error';
 import { useHttpGetBlob } from '../../../common/hook/http-get';
 import { API, ENDPOINTS } from '../../../common/rest';
 import { selectDoMock } from '../../../store/selector/config';

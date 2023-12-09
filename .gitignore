@@ -25,3 +25,9 @@ yarn-error.log*
 .env
 
 .notes.md
+
+# Sentry Config File
+.env.sentry-build-plugin
+
+.env.production
+.env.development

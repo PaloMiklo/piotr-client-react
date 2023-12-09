@@ -1,4 +1,4 @@
-import { handleOtherError } from "../common/error";
+import { handleOtherError } from "../common/error/error";
 import { ICart, IDeliveryOption } from "../model/config";
 
 export enum LOCAL_STORAGE_KEY { CART = 'CART' }
@@ -35,7 +35,7 @@ export const LOCAL_STORAGE: ILocalStorageMap = {
             const serializedValue = JSON.stringify({ ...storable, expiration: now + evalTtl });
             localStorage.setItem(key, serializedValue);
         } catch (error: unknown) {
-            handleOtherError<string>(`Error saving ${key} to localStorage:  ${error}`);
+            handleOtherError<string>(`[LOCAL_STORAGE_OPERATION.STORE]: Error saving ${key} to localStorage:  ${error}`);
         }
     },
 
@@ -50,7 +50,7 @@ export const LOCAL_STORAGE: ILocalStorageMap = {
             }
             return current;
         } catch (error: unknown) {
-            handleOtherError<string>(`Error retrieving ${key} from localStorage:  ${error}`);
+            handleOtherError<string>(`[LOCAL_STORAGE_OPERATION.RETRIEVE]: Error retrieving ${key} from localStorage:  ${error}`);
             return null;
         }
     },

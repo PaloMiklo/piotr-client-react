@@ -1,7 +1,7 @@
 import { FC, ReactElement, useEffect, useState } from "react";
 import { Provider, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { handleHttpError } from "../../common/error";
+import { handleHttpError } from "../../common/error/error";
 import { useHttpGet, useHttpGet__ } from "../../common/hook/http-get";
 import { API, ENDPOINTS, PAID_OPTIONS_CODE } from "../../common/rest";
 import { IBillingOption, ICart, IConfig, IDeliveryOption, IProduct } from "../../model/config";
