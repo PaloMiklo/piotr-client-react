@@ -14,27 +14,29 @@ import { hasFreeShippingClaim, recalculateCartPrice } from "../util/cart";
 
 export type TRecalculateCartArgs = { deliveryPrice: number };
 type TRecalculateCartPayload = { calculatedCartPrice: number; calculatedCartPriceTotal: number, freeShipping: number, doMock: boolean, config?: IConfig };
-type TRecalculateError = string;
+type TRecalculateError = string | undefined;
 type TRecalculateCartResult = TRecalculateCartPayload | TRecalculateError;
 
 export const recalculateCart = createAsyncThunk<TRecalculateCartResult | TRecalculateError, TRecalculateCartArgs, { rejectValue: TRecalculateError }>(
     ActionTypes.CART_RECALCULATE,
     async (args: TRecalculateCartArgs, { dispatch, getState, rejectWithValue, fulfillWithValue }): Promise<TRecalculateCartResult | TRecalculateError> => {
-        let calculatedCartPrice = 0;
-        let calculatedCartPriceTotal = 0;
+
         const state = getState() as RootState;
         const config = state.config[WRAPPER_KEY];
-        const deliveryPrice = args.deliveryPrice;
-        const { lines } = state.cart.present[WRAPPER_KEY];
-        const { freeShipping } = state.config[WRAPPER_KEY];
-        const { doMock } = config;
 
         try {
+            const { lines } = state.cart.present[WRAPPER_KEY];
+            const { freeShipping } = state.config[WRAPPER_KEY];
+            const { doMock } = config;
+
+            let calculatedCartPrice = 0;
+            let calculatedCartPriceTotal = 0;
+
             if (doMock) {
                 calculatedCartPrice = recalculateCartPrice(lines);
-                calculatedCartPriceTotal = calculatedCartPrice + deliveryPrice;
+                calculatedCartPriceTotal = calculatedCartPrice + args.deliveryPrice;
             } else {
-                const recalculation$ = await http.post<ICartRecalculateResultDto>(ENDPOINTS[API.CART_RECALCULATION](), { cartLines: lines, deliveryPrice: deliveryPrice } as ICartRecalculateDto);
+                const recalculation$ = await http.post<ICartRecalculateResultDto>(ENDPOINTS[API.CART_RECALCULATION](), { cartLines: lines, deliveryPrice: args.deliveryPrice } as ICartRecalculateDto);
                 calculatedCartPrice = recalculation$.data.cartPrice;
                 calculatedCartPriceTotal = recalculation$.data.cartPriceTotal;
             }
@@ -43,16 +45,20 @@ export const recalculateCart = createAsyncThunk<TRecalculateCartResult | TRecalc
         } catch (error: unknown) {
             handleHttpError(error as AxiosError<unknown>);
             dispatch(action(UNDOABLE.cart.undo));
-            const metadata = JSON.stringify((error as AxiosError<ICartRecalculateDto>)?.response?.data);
-            const payload = (error as AxiosError<ICartRecalculateDto>)?.config?.data;
+
+            const { response, config } = error as AxiosError<ICartRecalculateDto>;
+            const metadata = JSON.stringify(response?.data);
+            const payload = config?.data;
+
             return rejectWithValue(`${metadata},\n${payload}`) as unknown as TRecalculateCartResult;
         }
+
     }
 );
 
 export const recalculateCartReducer = (builder: ActionReducerMapBuilder<ICartStateWrapper>) => {
     builder
-        .addCase(recalculateCart.pending, (state: ICartStateWrapper, action: PayloadAction<unknown>) => { })
+        .addCase(recalculateCart.pending, (state: ICartStateWrapper, action: PayloadAction<TRecalculateCartResult>) => { })
         .addCase(recalculateCart.fulfilled, (state: ICartStateWrapper, action: PayloadAction<TRecalculateCartResult>) => {
             const result = action.payload as TRecalculateCartPayload;
             const { lines } = state[WRAPPER_KEY];
@@ -69,7 +75,7 @@ export const recalculateCartReducer = (builder: ActionReducerMapBuilder<ICartSta
             };
             LOCAL_STORAGE[LOCAL_STORAGE_OPERATION.STORE](LOCAL_STORAGE_KEY.CART, state[WRAPPER_KEY], ttl);
         })
-        .addCase(recalculateCart.rejected, (state: ICartStateWrapper, action: PayloadAction<unknown>) => {
+        .addCase(recalculateCart.rejected, (state: ICartStateWrapper, action: PayloadAction<TRecalculateCartResult>) => {
             const failure = action.payload;
             handleOtherError<string>('REJECTED: ' + failure);
         });
