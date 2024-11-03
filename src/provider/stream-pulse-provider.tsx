@@ -1,26 +1,44 @@
 import { FC, ReactNode, useEffect, useState } from "react";
-import StreamPulseContext, { TStreamPulseMessages } from "../store/context/stream-pulse-ctx";
+import StreamPulseContext, { TStreamPulseMessage } from "../store/context/stream-pulse-ctx";
 import { API, ENDPOINTS } from "../common/rest";
+import { STREAM_PULSE } from "../core/constant";
 
 export const StreamPulseProvider: FC<{ children: ReactNode }> = ({ children }) => {
-    const [message, setMessage] = useState<TStreamPulseMessages>('');
+    const [message, setMessage] = useState<TStreamPulseMessage>(null);
+    const [shouldReconnect, setShouldReconnect] = useState(false);
 
-    useEffect((): () => void => {
-        const eventSource = new EventSource(ENDPOINTS[API.STREAM_PULSE_CONNECTION]());
+    const initializeEventSource = (): EventSource => {
+        console.log('Reconnecting stream!!!');
+        const connection = new EventSource(ENDPOINTS[API.STREAM_PULSE_CONNECTION]());
 
-        eventSource.onmessage = (event: MessageEvent<string>) => {
-            const { data: newMessage } = event;
-            setMessage(newMessage);
-            console.log("Stream pulse says -> ", newMessage);
+        connection.onmessage = (event: MessageEvent<string>) => {
+            const { id } = JSON.parse(event.data);
+            const { data: mssg } = JSON.parse(event.data);
+            setMessage(mssg);
+
+            console.log(`Stream pulse ${id} says -> ${mssg}`);
+
+            if (mssg === STREAM_PULSE.RECONNECT) {
+                console.log("Reconnecting...");
+                connection.close();
+                setShouldReconnect(true);
+            }
+        };
+        connection.onerror = (): void => {
+            console.log("Stream pulse encountered an error, closing...");
+            connection.close();
+            setShouldReconnect(true);
         };
 
-        eventSource.onerror = (): void => eventSource.close();
+        return connection;
+    };
 
-        return (): void => {
-            eventSource.close();
-            alert("KILLED STREAM PULSE!");
-        }
-    }, []);
+    useEffect((): () => void => {
+        const eventSource = initializeEventSource();
+        setShouldReconnect(false);
+
+        return () => eventSource.close();
+    }, [shouldReconnect]);
 
     return (
         <StreamPulseContext.Provider value={message}>
@@ -28,4 +46,3 @@ export const StreamPulseProvider: FC<{ children: ReactNode }> = ({ children }) =
         </StreamPulseContext.Provider>
     );
 };
-
