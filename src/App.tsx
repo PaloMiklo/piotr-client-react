@@ -5,6 +5,7 @@ import './App.scss';
 import AppRoutes from "./AppRoutes";
 import Brand from "./components/brand/Brand";
 import Header from "./components/header/Header";
+import { StreamPulseProvider } from "./provider/stream-pulse-provider";
 
 Sentry.init({
   dsn: import.meta.env.REACT_APP_DSN,
@@ -22,11 +23,13 @@ Sentry.init({
 
 const App: FC = (): ReactElement => {
   return (
+    <StreamPulseProvider>
     <Router>
       <Header />
       <Brand />
       <AppRoutes />
     </Router >
+    </StreamPulseProvider>
   );
 }
 
