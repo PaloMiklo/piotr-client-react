@@ -6,3 +6,7 @@ export const GENERAL_CONSTANTS = {
 export const CURRENCY = {
     EURO: '€'
 }
+
+export const STREAM_PULSE = {
+    RECONNECT: 'reconnect'
+}

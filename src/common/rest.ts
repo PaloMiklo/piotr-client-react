@@ -7,7 +7,8 @@ export const enum API {
     PRODUCTS = "products",
     PRODUCT_IMAGE = "product_name",
     CART_RECALCULATION = 'cart_recalculation',
-    SEND_ORDER = 'send_order'
+    SEND_ORDER = 'send_order',
+    STREAM_PULSE_CONNECTION = 'stream_pulse'
 }
 
 export const ENDPOINTS: Record<API, <A = string>(arg?: A) => string> = {
@@ -18,6 +19,7 @@ export const ENDPOINTS: Record<API, <A = string>(arg?: A) => string> = {
     [API.PRODUCT_IMAGE]: <A = string>(productId: A): string => `${API_PREFIX}/product/${productId}/image`,
     [API.CART_RECALCULATION]: (): string => `${API_PREFIX}/cart/recalculate`,
     [API.SEND_ORDER]: (): string => `${API_PREFIX}/order`,
+    [API.STREAM_PULSE_CONNECTION]: (): string => `${API_PREFIX}/stream-pulse/connect`,
 };
 
 export type TPAID_OPTIONS_CODES = 'SHIPPING' | 'PAYMENT';
